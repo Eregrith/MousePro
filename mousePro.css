@@ -1,0 +1,84 @@
+@font-face {
+    font-family: gameFont;
+    src: url(AldotheApache.ttf);
+}
+
+body {
+	font-family: gameFont;
+}
+
+ul {
+	list-style: none;
+	list-style-image: none;
+}
+
+.currency {
+	border: 1px solid black;
+	border-radius: 5px;
+	width: 200px;
+	margin: 3px;
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	-o-user-select: none;
+
+	"unselectable='on' onselectstart="return false;"
+	onmousedown="return false;
+}
+
+.currency-progressBar {
+	background-color: var(--currency-color);
+	height: 10px;
+}
+
+.currency-data {
+	display: inline-block;
+	padding: 5px;
+	font-size: 12px;
+}
+
+.currency-level {
+	display: inline;
+	margin-right: 5px;
+}
+
+.currency-xp {
+	display: inline;
+	float: right;
+}
+
+.boost {
+	border: 1px solid black;
+	border-radius: 2px;
+	width: 150px;
+}
+.boost-title {
+	font-weight: bold;
+    font-size: 13px;
+	padding: 3px;
+}
+.boost-desc {
+	padding: 5px;
+	font-size: 12px;
+}
+.boost-cost {
+	font-size: 10px;
+    padding: 5px;
+}
+.boost-cost ul {
+    padding-left: 10px;
+}
+.boost-buy-btn {
+	border: 1px solid black;
+    padding: 3px;
+    width: 29px;
+    margin: 7px;
+	cursor: pointer;
+}
+
+.notif {
+-webkit-transform: translate(-50%,0%);
+    -ms-transform: translate(-50%,0%);
+        transform: translate(-50%,0%);
+}
