@@ -61,6 +61,23 @@
 				}
 			},
 			buyable: false,
+			bought: false,
+			onBuy: function () {
+				Shop.unlock('friends');
+			}
+		},
+		{
+			name: 'Friends',
+			description: 'It\'s dangerous to go alone. Take this!',
+			shortName: 'friends',
+			cost: {
+				xp: { },
+				levels: {
+					MM: 10,
+					MC: 10
+				}
+			},
+			buyable: false,
 			bought: false
 		}
 	];
@@ -87,6 +104,9 @@
 		Game.spend(boost.cost);
 		boost.bought = true;
 		boost.buyable = false;
+
+		if (boost.onBuy !== undefined)
+			boost.onBuy();
 		
 		Shop.refreshShop();
 		return;
