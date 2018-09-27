@@ -98,7 +98,7 @@
 			if (Shop.has('dmblu') && currency.xp % 5 === 0) bonusXp = 1 * (Shop.has('addonenhancer') ? 2 : 1);
 		}
 		currency.xp += bonusXp;
-		if (currency.xp >= currency.xpRequiredForNextLevel) {
+		while (currency.xp >= currency.xpRequiredForNextLevel) {
 			currency.xp -= currency.xpRequiredForNextLevel;
 			currency.xpRequiredForNextLevel = Math.round(currency.xpRequiredForNextLevel * currency.xpIncreaseFactor);
 			currency.levelUp();
