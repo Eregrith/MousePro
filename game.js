@@ -15,7 +15,9 @@
 			shortName: 'MM',
 			xp: 0,
 			level: 0,
-			xpRequiredForNextLevel: 100,
+			xpRequiredForNextLevel: function () {
+				return 100 * Math.pow(this.xpIncreaseFactor, this.level);
+			},
 			xpIncreaseFactor: 1.2,
 			color: 'gray',
 			levelUp: function() {
@@ -42,7 +44,9 @@
 			shortName: 'MC',
 			xp: 0,
 			level: 0,
-			xpRequiredForNextLevel: 10,
+			xpRequiredForNextLevel: function () {
+				return 10 * Math.pow(this.xpIncreaseFactor, this.level);
+			},
 			xpIncreaseFactor: 1.2,
 			color: 'green',
 			levelUp: function() {
@@ -83,7 +87,7 @@
 	Game.currencyProgressPercent = function(currencyShortName) {
 		let currency = Game.currency(currencyShortName);
 		
-		let percent = (currency.xp / currency.xpRequiredForNextLevel) * 100.0;
+		let percent = (currency.xp / currency.xpRequiredForNextLevel()) * 100.0;
 		return percent;
 	}
 	
@@ -98,9 +102,8 @@
 			if (Shop.has('dmblu') && currency.xp % 5 === 0) bonusXp = 1 * (Shop.has('addonenhancer') ? 2 : 1);
 		}
 		currency.xp += bonusXp;
-		while (currency.xp >= currency.xpRequiredForNextLevel) {
-			currency.xp -= currency.xpRequiredForNextLevel;
-			currency.xpRequiredForNextLevel = Math.round(currency.xpRequiredForNextLevel * currency.xpIncreaseFactor);
+		while (currency.xp >= currency.xpRequiredForNextLevel()) {
+			currency.xp -= currency.xpRequiredForNextLevel();
 			currency.levelUp();
 			Game.triggerEvent('levelUp', { currency: currency });
 		}

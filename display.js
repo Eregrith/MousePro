@@ -41,7 +41,7 @@ Display = {};
 	
 	Display.updateCurrency = function(currency) {
 		let xpDiv = document.getElementById('currency-'+currency.shortName+'-xp');
-		xpDiv.innerHTML = currency.xp + ' / ' + currency.xpRequiredForNextLevel;
+		xpDiv.innerHTML = Display.beautify(currency.xp) + ' / ' + Display.beautify(currency.xpRequiredForNextLevel());
 		
 		let currencyLevel = document.getElementById('currency-'+currency.shortName+'-level');
 		currencyLevel.innerHTML = '<span>' + currency.shortName + ' (' + currency.level + ')</span>';
@@ -49,6 +49,40 @@ Display = {};
 		let progressBar = document.getElementById('currency-' + currency.shortName + '-bar');
 		let progressPercent = Game.currencyProgressPercent(currency.shortName);
 		progressBar.style = 'width: '+progressPercent+'%;--currency-color: ' + currency.color;
+	}
+	
+	Display.beautify = function(value) {
+		let negative = value < 0 ? '-' : '';
+
+		value = Math.round(Math.abs(value));
+		if (value <= 5000) return negative + value;
+		
+		let postFixedValue = value.toExponential(2).replace(/e\+/, ' e');
+		let postFixes = [
+			{ divisor: 1e3,  postFix: 'K'},
+			{ divisor: 1e6,  postFix: 'M'},
+			{ divisor: 1e9,  postFix: 'B'},
+			{ divisor: 1e10, postFix: 'T'},
+			{ divisor: 1e11, postFix: 'Qa'},
+			{ divisor: 1e12, postFix: 'Qi'},
+			{ divisor: 1e13, postFix: 'Sx'},
+			{ divisor: 1e14, postFix: 'Sp'},
+			{ divisor: 1e15, postFix: 'Oc'},
+			{ divisor: 1e16, postFix: 'No'},
+			{ divisor: 1e17, postFix: 'Dc'}
+		]
+		let postFixIndex = 0;
+		while (postFixIndex < (postFixes.length - 1)
+			&& postFixes[postFixIndex + 1].divisor <= value) {
+			 postFixIndex++;
+		}
+		if (postFixIndex != postFixes.length - 1)
+		{
+			let postFixData = postFixes[postFixIndex];
+			postFixedValue = Math.round(value / postFixData.divisor) + ' ' + postFixData.postFix;
+		}
+
+		return negative + postFixedValue;
 	}
 	
 	Display.tick = function() {
@@ -180,7 +214,7 @@ Display = {};
 		
 		let xpDiv = document.createElement('div');
 		xpDiv.id = 'currency-'+currency.shortName+'-xp';
-		xpDiv.innerHTML = currency.xp + ' / ' + currency.xpRequiredForNextLevel;
+		xpDiv.innerHTML = currency.xp + ' / ' + currency.xpRequiredForNextLevel();
 		xpDiv.className = 'currency-xp';
 		
 		currencyData.appendChild(xpDiv);
