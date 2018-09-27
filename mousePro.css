@@ -5,6 +5,11 @@
 
 body {
 	font-family: gameFont;
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	-o-user-select: none;
 }
 
 ul {
@@ -17,14 +22,6 @@ ul {
 	border-radius: 5px;
 	width: 200px;
 	margin: 3px;
-	-moz-user-select: none;
-	-webkit-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
-	-o-user-select: none;
-
-	"unselectable='on' onselectstart="return false;"
-	onmousedown="return false;
 }
 
 .currency-progressBar {
@@ -33,9 +30,10 @@ ul {
 }
 
 .currency-data {
+	width: 100%;
 	display: inline-block;
 	padding: 5px;
-	font-size: 12px;
+	font-size: 14px;
 }
 
 .currency-level {
@@ -44,7 +42,8 @@ ul {
 }
 
 .currency-xp {
-	display: inline;
+	position: relative;
+	left: -20px;
 	float: right;
 }
 
@@ -55,15 +54,15 @@ ul {
 }
 .boost-title {
 	font-weight: bold;
-    font-size: 13px;
+    font-size: 15px;
 	padding: 3px;
 }
 .boost-desc {
 	padding: 5px;
-	font-size: 12px;
+	font-size: 13px;
 }
 .boost-cost {
-	font-size: 10px;
+	font-size: 12px;
     padding: 5px;
 }
 .boost-cost ul {

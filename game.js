@@ -20,9 +20,16 @@
 			color: 'gray',
 			levelUp: function() {
 				this.level++;
+				if (Shop.has('zbglo')) {
+					Game.acquireXp('MC', 5);
+				}
 				if (this.level >= 1 && !Achievements.has('mover')) {
 					Shop.unlock('xtpro');
 					Achievements.gain('mover');
+				}
+				if (this.level >= 5 && Game.currency('MC').level >= 5 && !Achievements.has('together')) {
+					Shop.unlock('zbglo');
+					Achievements.gain('together');
 				}
 			}
 		},
@@ -33,7 +40,21 @@
 			level: 0,
 			xpRequiredForNextLevel: 10,
 			xpIncreaseFactor: 1.2,
-			color: 'green'
+			color: 'green',
+			levelUp: function() {
+				this.level++;
+				if (Shop.has('zbglo')) {
+					Game.acquireXp('MM', 5);
+				}
+				if (this.level >= 1 && !Achievements.has('clicker')) {
+					Shop.unlock('dmblu');
+					Achievements.gain('clicker');
+				}
+				if (this.level >= 5 && Game.currency('MM').level >= 5 && !Achievements.has('together')) {
+					Shop.unlock('zbglo');
+					Achievements.gain('together');
+				}
+			}
 		}
 	];
 	
@@ -64,6 +85,9 @@
 		if (currency.shortName === 'MM') {
 			if (Shop.has('xtpro') && currency.xp % 5 === 0) currency.xp++;
 		}
+		if (currency.shortName === 'MC') {
+			if (Shop.has('dmblu') && currency.xp % 5 === 0) currency.xp++;
+		}
 		if (currency.xp >= currency.xpRequiredForNextLevel) {
 			currency.xp -= currency.xpRequiredForNextLevel;
 			currency.xpRequiredForNextLevel = Math.round(currency.xpRequiredForNextLevel * currency.xpIncreaseFactor);
@@ -73,13 +97,22 @@
 	}
 	
 	Game.hasCurrency = function(costs) {
-		for (let currency in costs) {
-			if (costs.hasOwnProperty(currency)) {
-				let cost = costs[currency];
+		for (let currency in costs.xp) {
+			if (costs.xp.hasOwnProperty(currency)) {
+				let cost = costs.xp[currency];
 				if (Game.currency(currency).xp < cost) return false;
 			}
 		}
 		return true;
+	}
+	
+	Game.spend = function(costs) {
+		for (let currency in costs.xp) {
+			if (costs.xp.hasOwnProperty(currency)) {
+				let cost = costs.xp[currency];
+				Game.currency(currency).xp -= cost;
+			}
+		}
 	}
 	
 	Game.triggerEvent = function(eventCode, data) {

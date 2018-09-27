@@ -12,11 +12,39 @@
 	Shop.boosts = [
 		{
 			name: 'Mouse mover XT-PRO',
-			description: 'Gives you one MM XP every five points of MM XP',
+			description: 'This awesome mouse-addon gives you 1 MM XP every 5 points of MM XP',
 			shortName: 'xtpro',
 			cost: {
-				MM: 110,
-				MC: 11
+				xp: {
+					MM: 110,
+					MC: 11
+				}
+			},
+			buyable: false,
+			bought: false
+		},
+		{
+			name: 'Mouse clicker DM-BLU',
+			description: 'This awesome mouse-addon gives you 1 MC XP every 5 points of MC XP',
+			shortName: 'dmblu',
+			cost: {
+				xp: {
+					MM: 85,
+					MC: 14
+				}
+			},
+			buyable: false,
+			bought: false
+		},
+		{
+			name: 'Mouse XP transfer ZB-GLO',
+			description: 'This awesome mouse-addon gives you 5 XP in the other proficiency when you level up one',
+			shortName: 'zbglo',
+			cost: {
+				xp: {
+					MM: 299,
+					MC: 23
+				}
 			},
 			buyable: false,
 			bought: false
@@ -42,6 +70,7 @@
 		
 		if (!Game.hasCurrency(boost.cost)) return;
 		
+		Game.spend(boost.cost);
 		boost.bought = true;
 		boost.buyable = false;
 		

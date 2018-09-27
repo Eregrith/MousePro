@@ -17,6 +17,18 @@ Achievements = {};
 			shortName: 'mover',
 			description: 'Reach level 1 in Mouse Mover',
 			acquired: false
+		},
+		{
+			name: 'Clicker Noob',
+			shortName: 'clicker',
+			description: 'Reach level 1 in Mouse Clicker',
+			acquired: false
+		},
+		{
+			name: 'General Noob',
+			shortName: 'together',
+			description: 'Reach level 5 in both proficiencies',
+			acquired: false
 		}
 	];
 	

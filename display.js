@@ -138,10 +138,10 @@ Display = {};
 	Display.buildCostListForCost = function(cost) {
 		let ul = document.createElement('ul');
 		
-		for (let part in cost) {
-			if (cost.hasOwnProperty(part)) {
+		for (let part in cost.xp) {
+			if (cost.xp.hasOwnProperty(part)) {
 				let li = document.createElement('li');
-				li.innerHTML = part + ': ' + cost[part];
+				li.innerHTML = part + ': ' + cost.xp[part];
 				ul.appendChild(li);
 			}
 		}
