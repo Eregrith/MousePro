@@ -21,7 +21,7 @@
 			levelUp: function() {
 				this.level++;
 				if (Shop.has('zbglo')) {
-					Game.acquireXp('MC', 5);
+					Game.acquireXp('MC', 5 * (Shop.has('addonenhancer') ? 2 : 1));
 				}
 				if (this.level >= 1 && !Achievements.has('mover')) {
 					Shop.unlock('xtpro');
@@ -30,6 +30,10 @@
 				if (this.level >= 5 && Game.currency('MC').level >= 5 && !Achievements.has('together')) {
 					Shop.unlock('zbglo');
 					Achievements.gain('together');
+				}
+				if (this.level >= 10 && Game.currency('MC').level >= 10 && !Achievements.has('42')) {
+					Shop.unlock('addonenhancer');
+					Achievements.gain('42');
 				}
 			}
 		},
@@ -44,7 +48,7 @@
 			levelUp: function() {
 				this.level++;
 				if (Shop.has('zbglo')) {
-					Game.acquireXp('MM', 5);
+					Game.acquireXp('MM', 5 * (Shop.has('addonenhancer') ? 2 : 1));
 				}
 				if (this.level >= 1 && !Achievements.has('clicker')) {
 					Shop.unlock('dmblu');
@@ -53,6 +57,10 @@
 				if (this.level >= 5 && Game.currency('MM').level >= 5 && !Achievements.has('together')) {
 					Shop.unlock('zbglo');
 					Achievements.gain('together');
+				}
+				if (this.level >= 10 && Game.currency('MM').level >= 10 && !Achievements.has('42')) {
+					Shop.unlock('addonenhancer');
+					Achievements.gain('42');
 				}
 			}
 		}
@@ -82,12 +90,14 @@
 	Game.acquireXp = function(currencyShortName, xpAmount) {
 		let currency = Game.currency(currencyShortName);
 		currency.xp += xpAmount;
+		let bonusXp = 0;
 		if (currency.shortName === 'MM') {
-			if (Shop.has('xtpro') && currency.xp % 5 === 0) currency.xp++;
+			if (Shop.has('xtpro') && currency.xp % 5 === 0) bonusXp = 1* (Shop.has('addonenhancer') ? 2 : 1);
 		}
 		if (currency.shortName === 'MC') {
-			if (Shop.has('dmblu') && currency.xp % 5 === 0) currency.xp++;
+			if (Shop.has('dmblu') && currency.xp % 5 === 0) bonusXp = 1 * (Shop.has('addonenhancer') ? 2 : 1);
 		}
+		currency.xp += bonusXp;
 		if (currency.xp >= currency.xpRequiredForNextLevel) {
 			currency.xp -= currency.xpRequiredForNextLevel;
 			currency.xpRequiredForNextLevel = Math.round(currency.xpRequiredForNextLevel * currency.xpIncreaseFactor);
@@ -103,6 +113,12 @@
 				if (Game.currency(currency).xp < cost) return false;
 			}
 		}
+		for (let currency in costs.levels) {
+			if (costs.levels.hasOwnProperty(currency)) {
+				let cost = costs.levels[currency];
+				if (Game.currency(currency).level < cost) return false;
+			}
+		}
 		return true;
 	}
 	
@@ -111,6 +127,12 @@
 			if (costs.xp.hasOwnProperty(currency)) {
 				let cost = costs.xp[currency];
 				Game.currency(currency).xp -= cost;
+			}
+		}
+		for (let currency in costs.levels) {
+			if (costs.levels.hasOwnProperty(currency)) {
+				let cost = costs.levels[currency];
+				Game.currency(currency).level -= cost;
 			}
 		}
 	}

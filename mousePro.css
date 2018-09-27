@@ -17,6 +17,9 @@ ul {
 	list-style-image: none;
 }
 
+/*
+    CURRENCIES
+*/
 .currency {
 	border: 1px solid black;
 	border-radius: 5px;
@@ -47,10 +50,15 @@ ul {
 	float: right;
 }
 
+/*
+    BOOSTS
+*/
 .boost {
 	border: 1px solid black;
 	border-radius: 2px;
 	width: 150px;
+    display: inline-block;
+    margin: 2px;
 }
 .boost-title {
 	font-weight: bold;
@@ -76,6 +84,25 @@ ul {
 	cursor: pointer;
 }
 
+/*
+    SHOP
+*/
+.shop {
+	border: 1px solid black;
+	width: 50%;
+}
+.shop::before {
+	content: 'SHOP';
+	position: relative;
+	top: -10px;
+	left: 10px;
+	background: white;
+	padding: 5px;
+}
+
+/*
+    NOTIFS
+*/
 .notif {
 -webkit-transform: translate(-50%,0%);
     -ms-transform: translate(-50%,0%);

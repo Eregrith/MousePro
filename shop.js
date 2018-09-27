@@ -48,6 +48,20 @@
 			},
 			buyable: false,
 			bought: false
+		},
+		{
+			name: 'Addon Enhancer',
+			description: 'This little device will double the effects of XT-PRO, DM-BLU and ZB-GLO addons',
+			shortName: 'addonenhancer',
+			cost: {
+				xp: { },
+				levels: {
+					MM: 10,
+					MC: 10
+				}
+			},
+			buyable: false,
+			bought: false
 		}
 	];
 	

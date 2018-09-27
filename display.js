@@ -145,6 +145,13 @@ Display = {};
 				ul.appendChild(li);
 			}
 		}
+		for (let part in cost.levels) {
+			if (cost.levels.hasOwnProperty(part)) {
+				let li = document.createElement('li');
+				li.innerHTML = part + ': ' + cost.levels[part] + ' levels';
+				ul.appendChild(li);
+			}
+		}
 		
 		return ul;
 	}

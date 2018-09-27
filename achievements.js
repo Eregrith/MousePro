@@ -29,6 +29,12 @@ Achievements = {};
 			shortName: 'together',
 			description: 'Reach level 5 in both proficiencies',
 			acquired: false
+		},
+		{
+			name: '101010(b) = 42',
+			shortName: '42',
+			description: 'Reach level 10 in both proficiencies',
+			acquired: false
 		}
 	];
 	
