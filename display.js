@@ -149,7 +149,7 @@ Display = {};
 		
 		let descDiv = document.createElement('div');
 		descDiv.className = 'boost-desc';
-		descDiv.innerHTML = boost.description;
+		descDiv.innerHTML = boost.getDescription();
 		
 		let costDiv = document.createElement('div');
 		costDiv.className = 'boost-cost';

@@ -12,7 +12,7 @@
 	Shop.boosts = [
 		{
 			name: 'Mouse mover XT-PRO',
-			description: 'This awesome mouse-addon gives you 1 MM XP every 5 points of MM XP',
+			getDescription: function() { return 'This awesome mouse-addon gives you ' + this.bonusXp + ' MM XP every 5 points of MM XP' },
 			shortName: 'xtpro',
 			cost: {
 				xp: {
@@ -21,11 +21,12 @@
 				}
 			},
 			buyable: false,
-			bought: false
+			bought: false,
+			bonusXp: 3
 		},
 		{
 			name: 'Mouse clicker DM-BLU',
-			description: 'This awesome mouse-addon gives you 1 MC XP every 5 points of MC XP',
+			getDescription: function() { return 'This awesome mouse-addon gives you ' + this.bonusXp + ' MC XP every 5 points of MC XP'; },
 			shortName: 'dmblu',
 			cost: {
 				xp: {
@@ -34,11 +35,12 @@
 				}
 			},
 			buyable: false,
-			bought: false
+			bought: false,
+			bonusXp: 3
 		},
 		{
 			name: 'Mouse XP transfer ZB-GLO',
-			description: 'This awesome mouse-addon gives you 5 XP in the other proficiency when you level up one',
+			getDescription: function() { return 'This awesome mouse-addon gives you ' + this.bonusXp + ' XP in the other proficiency when you level up one'; },
 			shortName: 'zbglo',
 			cost: {
 				xp: {
@@ -47,11 +49,12 @@
 				}
 			},
 			buyable: false,
-			bought: false
+			bought: false,
+			bonusXp: 20
 		},
 		{
 			name: 'Addon Enhancer',
-			description: 'This little device will double the effects of XT-PRO, DM-BLU and ZB-GLO addons',
+			getDescription: function() { return  'This little device will double the effects of XT-PRO, DM-BLU and ZB-GLO addons'; },
 			shortName: 'addonenhancer',
 			cost: {
 				xp: { },
@@ -68,7 +71,7 @@
 		},
 		{
 			name: 'Friends',
-			description: 'It\'s dangerous to go alone. Take this!',
+			getDescription: function() { return 'It\'s dangerous to go alone. Take this!'; },
 			shortName: 'friends',
 			cost: {
 				xp: { },

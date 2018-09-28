@@ -16,7 +16,7 @@
 			xp: 0,
 			level: 0,
 			xpRequiredForNextLevel: function () {
-				return 100 * Math.pow(this.xpIncreaseFactor, this.level);
+				return Math.round(100 * Math.pow(this.xpIncreaseFactor, this.level));
 			},
 			xpIncreaseFactor: 1.2,
 			color: 'gray',
@@ -45,7 +45,7 @@
 			xp: 0,
 			level: 0,
 			xpRequiredForNextLevel: function () {
-				return 10 * Math.pow(this.xpIncreaseFactor, this.level);
+				return Math.round(10 * Math.pow(this.xpIncreaseFactor, this.level));
 			},
 			xpIncreaseFactor: 1.2,
 			color: 'green',
@@ -95,11 +95,12 @@
 		let currency = Game.currency(currencyShortName);
 		currency.xp += xpAmount;
 		let bonusXp = 0;
+		console.log('xp:', currency.xp, '%:', currency.xp % 5, '=0?', currency.xp % 5 === 0);
 		if (currency.shortName === 'MM') {
-			if (Shop.has('xtpro') && currency.xp % 5 === 0) bonusXp = 1* (Shop.has('addonenhancer') ? 2 : 1);
+			if (Shop.has('xtpro') && currency.xp % 5 === 0) bonusXp = Shop.boost('xtpro').bonusXp * (Shop.has('addonenhancer') ? 2 : 1);
 		}
 		if (currency.shortName === 'MC') {
-			if (Shop.has('dmblu') && currency.xp % 5 === 0) bonusXp = 1 * (Shop.has('addonenhancer') ? 2 : 1);
+			if (Shop.has('dmblu') && currency.xp % 5 === 0) bonusXp =  Shop.boost('dmblu').bonusXp * (Shop.has('addonenhancer') ? 2 : 1);
 		}
 		currency.xp += bonusXp;
 		while (currency.xp >= currency.xpRequiredForNextLevel()) {
