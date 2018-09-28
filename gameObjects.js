@@ -9,5 +9,6 @@ let gameObjects = {
 	Game: {},
 	Shop: {},
 	Achievements: {},
-	Display: {}
+	Display: {},
+	Friends: {}
 };

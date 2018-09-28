@@ -7,7 +7,7 @@
 
 Display = {};
 
-(function (Game, Achievements, Shop, Display) {
+(function (Game, Achievements, Shop, Friends, Display) {
 
 	EventNode = document.getElementById('eventNode');
 
@@ -137,7 +137,7 @@ Display = {};
 			}
 		}
 	}
-	
+
 	Display.buildDisplayItemForBoost = function(boost) {
 		let mainDiv = document.createElement('div');
 		mainDiv.className = 'boost';
@@ -167,6 +167,25 @@ Display = {};
 		mainDiv.appendChild(buyButton);
 		
 		return mainDiv;
+	}
+	
+	Display.refreshFriends = function() {
+		let ul = document.getElementById('friends');
+		while (ul.firstChild) {
+			ul.removeChild(ul.firstChild);
+		}
+		let friends = Friends.friends.filter(b => b.buyable);
+		
+		for (var f in friends) {
+			if (friends.hasOwnProperty(f)) {
+				let friendItem = Display.buildDisplayItemForFriend(friends[f]);
+				ul.appendChild(friendItem);
+			}
+		}
+	}
+
+	Display.buildDisplayItemForFriend = function(friend) {
+
 	}
 	
 	Display.buildCostListForCost = function(cost) {
@@ -299,4 +318,4 @@ Display = {};
 	
 	Display.startTicking();
 
-})(gameObjects.Game, gameObjects.Achievements, gameObjects.Shop, gameObjects.Display);
+})(gameObjects.Game, gameObjects.Achievements, gameObjects.Shop, gameObjects.Friends, gameObjects.Display);
