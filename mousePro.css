@@ -58,10 +58,11 @@ ul {
 	border-radius: 2px;
 	width: 150px;
     display: inline-block;
-    margin: 2px;
+	margin: 2px;
+	vertical-align: top;
 }
 .boost-title {
-	font-weight: bold;
+	text-decoration: underline;
     font-size: 15px;
 	padding: 3px;
 }

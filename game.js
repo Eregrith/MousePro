@@ -95,7 +95,6 @@
 		let currency = Game.currency(currencyShortName);
 		currency.xp += xpAmount;
 		let bonusXp = 0;
-		console.log('xp:', currency.xp, '%:', currency.xp % 5, '=0?', currency.xp % 5 === 0);
 		if (currency.shortName === 'MM') {
 			if (Shop.has('xtpro') && currency.xp % 5 === 0) bonusXp = Shop.boost('xtpro').bonusXp * (Shop.has('addonenhancer') ? 2 : 1);
 		}
@@ -103,6 +102,10 @@
 			if (Shop.has('dmblu') && currency.xp % 5 === 0) bonusXp =  Shop.boost('dmblu').bonusXp * (Shop.has('addonenhancer') ? 2 : 1);
 		}
 		currency.xp += bonusXp;
+		Game.checkLevelUps(currency);
+	}
+
+	Game.checkLevelUps = function(currency) {
 		while (currency.xp >= currency.xpRequiredForNextLevel()) {
 			currency.xp -= currency.xpRequiredForNextLevel();
 			currency.levelUp();
@@ -133,10 +136,12 @@
 				Game.currency(currency).xp -= cost;
 			}
 		}
-		for (let currency in costs.levels) {
-			if (costs.levels.hasOwnProperty(currency)) {
-				let cost = costs.levels[currency];
-				Game.currency(currency).level -= cost;
+		for (let currencyShortName in costs.levels) {
+			if (costs.levels.hasOwnProperty(currencyShortName)) {
+				let cost = costs.levels[currencyShortName];
+				let currency = Game.currency(currencyShortName);
+				currency.level -= cost;
+				Game.checkLevelUps(currency);
 			}
 		}
 	}
