@@ -90,7 +90,8 @@ ul {
 */
 .shop {
 	border: 1px solid black;
-	width: 50%;
+	width: 49%;
+	float: left;
 }
 .shop::before {
 	content: 'SHOP';
@@ -99,6 +100,58 @@ ul {
 	left: 10px;
 	background: white;
 	padding: 5px;
+}
+
+/*
+    FRIENDS
+*/
+.friends {
+	border: 1px solid black;
+	width: 49%;
+	float: right;
+}
+.friends::before {
+	content: 'FRIENDS';
+	position: relative;
+	top: -10px;
+	left: 10px;
+	background: white;
+	padding: 5px;
+}
+
+/*
+    BOOSTS
+*/
+.friend {
+	border: 1px solid black;
+	border-radius: 2px;
+	width: 150px;
+    display: inline-block;
+	margin: 2px;
+	vertical-align: top;
+}
+.friend-title {
+	text-decoration: underline;
+    font-size: 15px;
+	padding: 3px;
+}
+.friend-desc {
+	padding: 5px;
+	font-size: 13px;
+}
+.friend-cost {
+	font-size: 12px;
+    padding: 5px;
+}
+.friend-cost ul {
+    padding-left: 10px;
+}
+.friend-buy-btn {
+	border: 1px solid black;
+    padding: 3px;
+    width: 29px;
+    margin: 7px;
+	cursor: pointer;
 }
 
 /*

@@ -35,6 +35,12 @@ Achievements = {};
 			shortName: '42',
 			description: 'Reach level 10 in both proficiencies',
 			acquired: false
+		},
+		{
+			name: 'Battle of Marignan',
+			shortName: 'marignan',
+			description: 'Reach level 15 in both proficiencies',
+			acquired: false
 		}
 	];
 	

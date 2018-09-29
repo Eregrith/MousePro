@@ -5,7 +5,7 @@
 * Game.js
 */
 
-(function (Game, Achievements, Shop) {
+(function (Game, Achievements, Friends, Shop) {
 	
 	EventNode = document.getElementById('eventNode');
 
@@ -37,6 +37,10 @@
 					Shop.unlock('addonenhancer');
 					Achievements.gain('42');
 				}
+				if (this.level >= 15 && Game.currency('MC').level >= 15 && !Achievements.has('marignan')) {
+					Shop.unlock('addonenhancer');
+					Achievements.gain('marignan');
+				}
 			}
 		},
 		{
@@ -52,7 +56,7 @@
 			levelUp: function() {
 				this.level++;
 				if (Shop.has('zbglo')) {
-					Game.acquireXp('MM', 5 * (Shop.has('addonenhancer') ? 2 : 1));
+					Game.acquireXp('MM', 5 * (Shop.has('addonenhancer') ? Shop.boost('addonenhancer').power : 1));
 				}
 				if (this.level >= 1 && !Achievements.has('clicker')) {
 					Shop.unlock('dmblu');
@@ -66,6 +70,10 @@
 					Shop.unlock('addonenhancer');
 					Achievements.gain('42');
 				}
+				if (this.level >= 15 && Game.currency('MM').level >= 15 && !Achievements.has('marignan')) {
+					Shop.unlock('addonenhancer');
+					Achievements.gain('marignan');
+				}
 			}
 		}
 	];
@@ -76,6 +84,14 @@
 				let currency = Game.currencies[c];
 				
 				currency.levelUp = currency.levelUp || function() { this.level++ };
+			}
+		}
+	}
+
+	Game.tick = function() {
+		for (f in Friends.friends) {
+			if (Friends.friends.hasOwnProperty(f)) {
+				Friends.tick(Friends.friends[f]);
 			}
 		}
 	}
@@ -166,4 +182,4 @@
 	
 	Game.initialize();
 
-})(gameObjects.Game, gameObjects.Achievements, gameObjects.Shop);
+})(gameObjects.Game, gameObjects.Achievements, gameObjects.Friends, gameObjects.Shop);

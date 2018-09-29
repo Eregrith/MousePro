@@ -5,7 +5,7 @@
 * Shop.js
 */
 
-(function (Game, Shop) {
+(function (Game, Friends, Shop) {
 
 	EventNode = document.getElementById('eventNode');
 
@@ -65,8 +65,11 @@
 			},
 			buyable: false,
 			bought: false,
+			power: 1,
 			onBuy: function () {
-				Shop.unlock('friends');
+				this.power *= 2;
+				if (!Shop.has('friends'))
+					Shop.unlock('friends');
 			}
 		},
 		{
@@ -81,7 +84,10 @@
 				}
 			},
 			buyable: false,
-			bought: false
+			bought: false,
+			onBuy: function () {
+				Friends.refreshFriends();
+			}
 		}
 	];
 	
@@ -99,7 +105,6 @@
 	}
 	
 	Shop.buy = function(shortName) {
-		if (Shop.has(shortName)) return;
 		let boost = Shop.boost(shortName);
 		
 		if (!Game.hasCurrency(boost.cost)) return;
@@ -121,4 +126,4 @@
 		Shop.refreshShop();
 	}
 
-})(gameObjects.Game, gameObjects.Shop);
+})(gameObjects.Game, gameObjects.Friends, gameObjects.Shop);

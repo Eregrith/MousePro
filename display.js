@@ -88,6 +88,7 @@ Display = {};
 	Display.tick = function() {
 		Display.updateCurrencies();
 		Display.updateNotifs();
+		Game.tick();
 	}
 	
 	Display.startTicking = function() {
@@ -104,6 +105,7 @@ Display = {};
 		document.onmousemove = Game.onmousemove;
 		EventNode.addEventListener('achievementGained', Display.notifyAchievementGained, false);
 		EventNode.addEventListener('refreshShop', Display.refreshShop, false);
+		EventNode.addEventListener('refreshFriends', Display.refreshFriends, false);
 		EventNode.addEventListener('levelUp', Display.notifyLevelUp, false);
 	}
 	
@@ -125,6 +127,7 @@ Display = {};
 	
 	Display.refreshShop = function () {
 		let ul = document.getElementById('shop');
+		ul.parentElement.style.display = '';
 		while (ul.firstChild) {
 			ul.removeChild(ul.firstChild);
 		}
@@ -171,6 +174,7 @@ Display = {};
 	
 	Display.refreshFriends = function() {
 		let ul = document.getElementById('friends');
+		ul.parentElement.style.display = '';
 		while (ul.firstChild) {
 			ul.removeChild(ul.firstChild);
 		}
@@ -185,24 +189,55 @@ Display = {};
 	}
 
 	Display.buildDisplayItemForFriend = function(friend) {
+		let mainDiv = document.createElement('div');
+		mainDiv.className = 'friend';
+		mainDiv.id = 'friend-' + friend.shortName;
 
+		let titleDiv = document.createElement('div');
+		titleDiv.className = 'friend-title';
+		titleDiv.innerHTML = friend.name;
+		
+		let descDiv = document.createElement('div');
+		descDiv.className = 'friend-desc';
+		descDiv.innerHTML = friend.getDescription();
+		
+		let costDiv = document.createElement('div');
+		costDiv.className = 'friend-cost';
+		costDiv.innerHTML = 'Cost:';
+		costDiv.appendChild(Display.buildCostListForCost(friend.getCosts()));
+		
+		let buyButton = document.createElement('div');
+		buyButton.className = 'friend-buy-btn';
+		buyButton.innerHTML = 'Buy';
+		buyButton.onclick = function() { Friends.buy(friend.shortName) };
+		
+		mainDiv.appendChild(titleDiv);
+		mainDiv.appendChild(descDiv);
+		mainDiv.appendChild(costDiv);
+		mainDiv.appendChild(buyButton);
+		
+		return mainDiv;
 	}
 	
 	Display.buildCostListForCost = function(cost) {
 		let ul = document.createElement('ul');
 		
-		for (let part in cost.xp) {
-			if (cost.xp.hasOwnProperty(part)) {
-				let li = document.createElement('li');
-				li.innerHTML = part + ': ' + cost.xp[part];
-				ul.appendChild(li);
+		if (cost.xp) {
+			for (let part in cost.xp) {
+				if (cost.xp.hasOwnProperty(part)) {
+					let li = document.createElement('li');
+					li.innerHTML = part + ': ' + cost.xp[part];
+					ul.appendChild(li);
+				}
 			}
 		}
-		for (let part in cost.levels) {
-			if (cost.levels.hasOwnProperty(part)) {
-				let li = document.createElement('li');
-				li.innerHTML = part + ': ' + cost.levels[part] + ' levels';
-				ul.appendChild(li);
+		if (cost.levels) {
+			for (let part in cost.levels) {
+				if (cost.levels.hasOwnProperty(part)) {
+					let li = document.createElement('li');
+					li.innerHTML = part + ': ' + cost.levels[part] + ' levels';
+					ul.appendChild(li);
+				}
 			}
 		}
 		
@@ -276,8 +311,6 @@ Display = {};
 		notif.div.style.position = 'absolute';
 		
 		Display.queueNotif(notif);
-
-		console.log(msg);
 	}
 	
 	Display.notifQueue = [];
