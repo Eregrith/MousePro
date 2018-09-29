@@ -54,7 +54,9 @@
 		},
 		{
 			name: 'Addon Enhancer',
-			getDescription: function() { return  'This little device will double the effects of XT-PRO, DM-BLU and ZB-GLO addons'; },
+			getDescription: function() { return this.buyable ?
+				'This little device will double the effects of XT-PRO, DM-BLU and ZB-GLO addons'
+				: 'This little device multiplies the effects of XT-PRO, DM-BLU and ZB-GLO addons by ' + this.power; },
 			shortName: 'addonenhancer',
 			cost: {
 				xp: { },
@@ -74,7 +76,7 @@
 		},
 		{
 			name: 'Friends',
-			getDescription: function() { return 'It\'s dangerous to go alone. Take this!'; },
+			getDescription: function() { return this.bought ? 'Friends are AWESOOOME!!' : 'It\'s dangerous to go alone. Take this!'; },
 			shortName: 'friends',
 			cost: {
 				xp: { },
@@ -104,6 +106,11 @@
 		EventNode.dispatchEvent(event);
 	}
 	
+	Shop.refreshBoostsOwned = function() {
+		let event = new Event('refreshBoostsOwned');
+		EventNode.dispatchEvent(event);
+	}
+	
 	Shop.buy = function(shortName) {
 		let boost = Shop.boost(shortName);
 		
@@ -117,6 +124,7 @@
 			boost.onBuy();
 		
 		Shop.refreshShop();
+		Shop.refreshBoostsOwned();
 		return;
 	}
 	

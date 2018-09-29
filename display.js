@@ -105,6 +105,7 @@ Display = {};
 		document.onmousemove = Game.onmousemove;
 		EventNode.addEventListener('achievementGained', Display.notifyAchievementGained, false);
 		EventNode.addEventListener('refreshShop', Display.refreshShop, false);
+		EventNode.addEventListener('refreshBoostsOwned', Display.refreshBoostsOwned, false);
 		EventNode.addEventListener('refreshFriends', Display.refreshFriends, false);
 		EventNode.addEventListener('levelUp', Display.notifyLevelUp, false);
 	}
@@ -127,11 +128,27 @@ Display = {};
 	
 	Display.refreshShop = function () {
 		let ul = document.getElementById('shop');
-		ul.parentElement.style.display = '';
+		ul.parentElement.parentElement.style.display = '';
 		while (ul.firstChild) {
 			ul.removeChild(ul.firstChild);
 		}
 		let boosts = Shop.boosts.filter(b => b.buyable);
+		
+		for (var b in boosts) {
+			if (boosts.hasOwnProperty(b)) {
+				let boostItem = Display.buildDisplayItemForBoost(boosts[b]);
+				ul.appendChild(boostItem);
+			}
+		}
+	}
+	
+	Display.refreshBoostsOwned = function() {
+		let ul = document.getElementById('owned');
+		ul.parentElement.parentElement.style.display = '';
+		while (ul.firstChild) {
+			ul.removeChild(ul.firstChild);
+		}
+		let boosts = Shop.boosts.filter(b => b.bought);
 		
 		for (var b in boosts) {
 			if (boosts.hasOwnProperty(b)) {
@@ -154,20 +171,23 @@ Display = {};
 		descDiv.className = 'boost-desc';
 		descDiv.innerHTML = boost.getDescription();
 		
-		let costDiv = document.createElement('div');
-		costDiv.className = 'boost-cost';
-		costDiv.innerHTML = 'Cost:';
-		costDiv.appendChild(Display.buildCostListForCost(boost.cost));
-		
-		let buyButton = document.createElement('div');
-		buyButton.className = 'boost-buy-btn';
-		buyButton.innerHTML = 'Buy';
-		buyButton.onclick = function() { Shop.buy(boost.shortName) };
-		
 		mainDiv.appendChild(titleDiv);
 		mainDiv.appendChild(descDiv);
-		mainDiv.appendChild(costDiv);
-		mainDiv.appendChild(buyButton);
+
+		if (boost.buyable) {
+			let costDiv = document.createElement('div');
+			costDiv.className = 'boost-cost';
+			costDiv.innerHTML = 'Cost:';
+			costDiv.appendChild(Display.buildCostListForCost(boost.cost));
+			mainDiv.appendChild(costDiv);
+
+			let buyButton = document.createElement('div');
+			buyButton.className = 'boost-buy-btn';
+			buyButton.innerHTML = 'Buy';
+			buyButton.onclick = function() { Shop.buy(boost.shortName) };
+
+			mainDiv.appendChild(buyButton);
+		}
 		
 		return mainDiv;
 	}
