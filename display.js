@@ -44,7 +44,7 @@ Display = {};
 		xpDiv.innerHTML = Display.beautify(currency.xp) + ' / ' + Display.beautify(currency.xpRequiredForNextLevel());
 		
 		let currencyLevel = document.getElementById('currency-'+currency.shortName+'-level');
-		currencyLevel.innerHTML = '<span>' + currency.shortName + ' (' + currency.level + ')</span>';
+		currencyLevel.innerHTML = '<span>' + currency.shortName + ' (' + currency.level + ') XP:</span>';
 		
 		let progressBar = document.getElementById('currency-' + currency.shortName + '-bar');
 		let progressPercent = Game.currencyProgressPercent(currency.shortName);
