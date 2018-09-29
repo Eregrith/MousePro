@@ -246,7 +246,7 @@ Display = {};
 			for (let part in cost.xp) {
 				if (cost.xp.hasOwnProperty(part)) {
 					let li = document.createElement('li');
-					li.innerHTML = part + ': ' + cost.xp[part];
+					li.innerHTML = part + ': ' + cost.xp[part] + ' xp';
 					ul.appendChild(li);
 				}
 			}

@@ -39,6 +39,7 @@
 				}
 				if (this.level >= 15 && Game.currency('MC').level >= 15 && !Achievements.has('marignan')) {
 					Shop.unlock('addonenhancer');
+					Friends.unlock('barnabeus');
 					Achievements.gain('marignan');
 				}
 			}
@@ -72,6 +73,7 @@
 				}
 				if (this.level >= 15 && Game.currency('MM').level >= 15 && !Achievements.has('marignan')) {
 					Shop.unlock('addonenhancer');
+					Friends.unlock('barnabeus');
 					Achievements.gain('marignan');
 				}
 			}
