@@ -343,16 +343,17 @@ Display = {};
 	
 	Display.animateNotif = function(notif) {
 		
+		let xSway = 25;
+
 		if (notif.frame === 0) {
-			notif.moveVector = { x: 0, y: 0 };
-			notif.moveVector.x = (notif.targetX - notif.x) / notif.totalFrames;
+			notif.moveVector = { x: notif.x, y: 0, targetY: notif.y-notif.targetY };
 			notif.moveVector.y = (notif.targetY - notif.y) / notif.totalFrames;
 			notif.opacityVector = -notif.opacity / notif.totalFrames;
 			document.getElementsByTagName('body')[0].appendChild(notif.div);
 		}
 		
 		notif.frame++;
-		notif.x += notif.moveVector.x;
+		notif.x = notif.moveVector.x + (xSway * Math.sin((3*(notif.targetY - notif.y)*Math.PI)/notif.moveVector.targetY));
 		notif.y += notif.moveVector.y;
 		notif.opacity += notif.opacityVector;
 		notif.div.style.top = notif.y + 'px';
