@@ -23,7 +23,7 @@
 			levelUp: function() {
 				this.level++;
 				if (Shop.has('zbglo')) {
-					Game.acquireXp('MC', 5 * (Shop.has('addonenhancer') ? 2 : 1));
+					Game.acquireXp('MC', 5 * (Shop.has('addonenhancer') ? Shop.boost('addonenhancer').power : 1));
 				}
 				if (this.level >= 1 && !Achievements.has('mover')) {
 					Shop.unlock('xtpro');
@@ -112,10 +112,10 @@
 		currency.xp += xpAmount;
 		let bonusXp = 0;
 		if (currency.shortName === 'MM') {
-			if (Shop.has('xtpro') && currency.xp % 5 === 0) bonusXp = Shop.boost('xtpro').bonusXp * (Shop.has('addonenhancer') ? 2 : 1);
+			if (Shop.has('xtpro') && currency.xp % 5 === 0) bonusXp = Shop.boost('xtpro').bonusXp * (Shop.has('addonenhancer') ? Shop.boost('addonenhancer').power : 1);
 		}
 		if (currency.shortName === 'MC') {
-			if (Shop.has('dmblu') && currency.xp % 5 === 0) bonusXp =  Shop.boost('dmblu').bonusXp * (Shop.has('addonenhancer') ? 2 : 1);
+			if (Shop.has('dmblu') && currency.xp % 5 === 0) bonusXp =  Shop.boost('dmblu').bonusXp * (Shop.has('addonenhancer') ? Shop.boost('addonenhancer').power : 1);
 		}
 		currency.xp += bonusXp;
 		Game.checkLevelUps(currency);
