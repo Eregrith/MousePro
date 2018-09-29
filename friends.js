@@ -14,7 +14,7 @@
             name: 'Aldo',
             shortname: 'aldo',
             getDescription: function() { return 'This little man will help you by moving his mouse as well!<br>Yay!<br>'
-                + 'Gives ' + this.bought + ' MM xp per activation.'; },
+                + (this.bought > 0 ? 'Gives ' + this.bought + ' MM xp per activation.' : ''); },
             baseTicksPerMove: 10,
             baseCosts: {
                 levels: {

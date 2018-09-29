@@ -1,6 +1,7 @@
 @font-face {
-    font-family: gameFont;
-    src: url(AldotheApache.ttf);
+	font-family: gameFont;
+	src: url(ObelixPro-cyr.ttf);
+    /* src: url(AldotheApache.ttf); */
 }
 
 body {
@@ -79,8 +80,8 @@ ul {
 }
 .boost-buy-btn {
 	border: 1px solid black;
-    padding: 3px;
-    width: 29px;
+	width: fit-content;
+    padding: 7px;
     margin: 7px;
 	cursor: pointer;
 }
@@ -148,8 +149,8 @@ ul {
 }
 .friend-buy-btn {
 	border: 1px solid black;
-    padding: 3px;
-    width: 29px;
+    padding: 7px;
+    width: fit-content;
     margin: 7px;
 	cursor: pointer;
 }
