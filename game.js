@@ -20,8 +20,8 @@
 				}
 			},
 			xpGained: function(currency) {
-				if (Shop.has('xtpro') && currency.xp % 5 === 0)
-					currency.xp += Shop.boost('xtpro').bonusXp * (Shop.has('addonenhancer') ? Shop.boost('addonenhancer').power : 1);
+				if (Shop.has('xtpro') && currency.getXp() % 5 === 0)
+					currency.setXp() += Shop.boost('xtpro').bonusXp * (Shop.has('addonenhancer') ? Shop.boost('addonenhancer').power : 1);
 			}
 		});
 	Currencies.newCurrency({
@@ -35,8 +35,8 @@
 				}
 			},
 			xpGained: function(currency) {
-				if (Shop.has('dmblu') && currency.xp % 5 === 0)
-					currency.xp += Shop.boost('dmblu').bonusXp * (Shop.has('addonenhancer') ? Shop.boost('addonenhancer').power : 1);
+				if (Shop.has('dmblu') && getXp() % 5 === 0)
+					currency.setXp() += Shop.boost('dmblu').bonusXp * (Shop.has('addonenhancer') ? Shop.boost('addonenhancer').power : 1);
 			}
 		});
 
@@ -90,13 +90,13 @@
 		for (let currency in costs.xp) {
 			if (costs.xp.hasOwnProperty(currency)) {
 				let cost = costs.xp[currency];
-				if (Game.currency(currency).xp < cost) return false;
+				if (Game.currency(currency).getXp() < cost) return false;
 			}
 		}
 		for (let currency in costs.levels) {
 			if (costs.levels.hasOwnProperty(currency)) {
 				let cost = costs.levels[currency];
-				if (Game.currency(currency).level < cost) return false;
+				if (Game.currency(currency).saveableState.level < cost) return false;
 			}
 		}
 		return true;
@@ -106,7 +106,8 @@
 		for (let currency in costs.xp) {
 			if (costs.xp.hasOwnProperty(currency)) {
 				let cost = costs.xp[currency];
-				Game.currency(currency).xp -= cost;
+				let c = Game.currency(currency);
+				c.setXp(c.getXp() - cost);
 			}
 		}
 		for (let currencyShortName in costs.levels) {

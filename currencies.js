@@ -10,27 +10,38 @@
     Currencies.newCurrency = function(settings) {
         let currency = {
             ...settings,
-			xp: 0,
-            level: 0,
+            saveableState: {
+                xp: 0,
+                level: 0
+            },
+            getLevel: function() {
+                return this.saveableState.level;
+            },
+            getXp: function() {
+                return this.saveableState.xp;
+            },
+            setXp: function(xp) {
+                this.saveableState.xp = xp;
+            },
 			xpIncreaseFactor: settings.xpIncreaseFactor || 1.2,
             xpRequiredForNextLevel: function () {
-				return Math.round(settings.xpRequiredForNextLevel * Math.pow(this.xpIncreaseFactor, this.level));
+				return Math.round(settings.xpRequiredForNextLevel * Math.pow(this.xpIncreaseFactor, this.saveableState.level));
 			},
             levelUp: function() {
-                this.xp -= this.xpRequiredForNextLevel();
-                this.level++;
+                this.saveableState.xp -= this.xpRequiredForNextLevel();
+                this.saveableState.level++;
                 settings.levelUp();
                 Game.checkUnlocks();
             },
             levelDown: function(amount) {
-                this.level -= amount;
+                this.saveableState.level -= amount;
                 this.checkLevelUps();
             },
             canLevelUp: function() {
-                return this.xp >= this.xpRequiredForNextLevel();
+                return this.saveableState.xp >= this.xpRequiredForNextLevel();
             },
             acquireXp: function(amount) {
-                this.xp += amount;
+                this.saveableState.xp += amount;
                 if (settings.xpGained)
                     settings.xpGained(this);
                 this.checkLevelUps();
@@ -42,7 +53,7 @@
                 }
             },
             xpProgressPercent: function() {
-                return (this.xp / this.xpRequiredForNextLevel()) * 100.0;
+                return (this.saveableState.xp / this.xpRequiredForNextLevel()) * 100.0;
             }
         };
 

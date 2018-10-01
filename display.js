@@ -41,10 +41,10 @@ Display = {};
 	
 	Display.updateCurrency = function(currency) {
 		let xpDiv = document.getElementById('currency-'+currency.shortName+'-xp');
-		xpDiv.innerHTML = Display.beautify(currency.xp) + ' / ' + Display.beautify(currency.xpRequiredForNextLevel());
+		xpDiv.innerHTML = Display.beautify(currency.getXp()) + ' / ' + Display.beautify(currency.xpRequiredForNextLevel());
 		
 		let currencyLevel = document.getElementById('currency-'+currency.shortName+'-level');
-		currencyLevel.innerHTML = '<span>' + currency.shortName + ' (' + currency.level + ') XP:</span>';
+		currencyLevel.innerHTML = '<span>' + currency.shortName + ' (' + currency.getLevel() + ') XP:</span>';
 		
 		let progressBar = document.getElementById('currency-' + currency.shortName + '-bar');
 		let progressPercent = Game.currencyProgressPercent(currency.shortName);
@@ -112,7 +112,7 @@ Display = {};
 	
 	Display.notifyLevelUp = function(e) {
 		let currency = e.detail.currency;
-		Display.notify('Level Up ! ' + currency.name + ' is now level ' + currency.level + '!');
+		Display.notify('Level Up ! ' + currency.name + ' is now level ' + currency.getLevel() + '!');
 	}
 	
 	Display.displayCurrencies = function () {
@@ -282,13 +282,13 @@ Display = {};
 		let currencyLevel = document.createElement('div');
 		currencyLevel.id = 'currency-'+currency.shortName+'-level';
 		currencyLevel.className = 'currency-level';
-		currencyLevel.innerHTML = '<span>' + currency.shortName + ' (' + currency.level + ')</span>';
+		currencyLevel.innerHTML = '<span>' + currency.shortName + ' (' + currency.getLevel() + ')</span>';
 		
 		currencyData.appendChild(currencyLevel);
 		
 		let xpDiv = document.createElement('div');
 		xpDiv.id = 'currency-'+currency.shortName+'-xp';
-		xpDiv.innerHTML = currency.xp + ' / ' + currency.xpRequiredForNextLevel();
+		xpDiv.innerHTML = currency.getXp() + ' / ' + currency.xpRequiredForNextLevel();
 		xpDiv.className = 'currency-xp';
 		
 		currencyData.appendChild(xpDiv);

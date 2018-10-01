@@ -12,6 +12,8 @@ let gameObjects = {
 	Shop: {},
 	Achievements: {},
 	Display: {},
-	Friends: {},
+	Friends: {
+		friends: []
+	},
 	Currencies: {}
 };
