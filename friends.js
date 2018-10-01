@@ -12,6 +12,7 @@
     Friends.friends = [
         {
             name: 'Aldo',
+            getName: function() { return this.name + (this.bought > 0 ? ' (lvl ' + this.bought + ')' : ''); },
             shortName: 'aldo',
             getDescription: function() { return 'This little man will help you by moving his mouse as well!<br>Yay!<br>'
                 + (this.bought > 0 ? 'Gives ' + this.bought + ' MM xp per activation.' : ''); },
@@ -40,6 +41,7 @@
         },
         {
             name: 'Barnabeus',
+            getName: function() { return this.name + (this.bought > 0 ? ' (lvl ' + this.bought + ')' : ''); },
             shortName: 'barnabeus',
             getDescription: function() { return 'This little man will help you by clicking his mouse as well!<br>Yay!<br>'
                 + (this.bought > 0 ? 'Gives ' + this.bought + ' MC xp per activation.' : ''); },

@@ -215,7 +215,7 @@ Display = {};
 
 		let titleDiv = document.createElement('div');
 		titleDiv.className = 'friend-title';
-		titleDiv.innerHTML = friend.name;
+		titleDiv.innerHTML = friend.getName();
 		
 		let descDiv = document.createElement('div');
 		descDiv.className = 'friend-desc';
