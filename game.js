@@ -13,20 +13,30 @@
 			name: 'Mouse Mover',
 			shortName: 'MM',
 			color: 'gray',
+			xpRequiredForNextLevel: 100,
 			levelUp: function() {
 				if (Shop.has('zbglo')) {
 					Game.acquireXp('MC', 5 * (Shop.has('addonenhancer') ? Shop.boost('addonenhancer').power : 1));
 				}
+			},
+			xpGained: function(currency) {
+				if (Shop.has('xtpro') && currency.xp % 5 === 0)
+					currency.xp += Shop.boost('xtpro').bonusXp * (Shop.has('addonenhancer') ? Shop.boost('addonenhancer').power : 1);
 			}
 		});
 	Currencies.newCurrency({
 			name: 'Mouse Clicker',
 			shortName: 'MC',
 			color: 'green',
+			xpRequiredForNextLevel: 10,
 			levelUp: function() {
 				if (Shop.has('zbglo')) {
 					Game.acquireXp('MM', 5 * (Shop.has('addonenhancer') ? Shop.boost('addonenhancer').power : 1));
 				}
+			},
+			xpGained: function(currency) {
+				if (Shop.has('dmblu') && currency.xp % 5 === 0)
+					currency.xp += Shop.boost('dmblu').bonusXp * (Shop.has('addonenhancer') ? Shop.boost('addonenhancer').power : 1);
 			}
 		});
 
@@ -54,16 +64,6 @@
 		}
 	}
 	
-	Game.initialize = function() {
-		for (var c in Game.currencies) {
-			if (Game.currencies.hasOwnProperty(c)) {
-				let currency = Game.currencies[c];
-				
-				currency.levelUp = currency.levelUp || function() { this.level++ };
-			}
-		}
-	}
-
 	Game.tick = function() {
 		for (f in Friends.friends) {
 			if (Friends.friends.hasOwnProperty(f)) {
@@ -78,31 +78,12 @@
 	
 	Game.currencyProgressPercent = function(currencyShortName) {
 		let currency = Game.currency(currencyShortName);
-		
-		let percent = (currency.xp / currency.xpRequiredForNextLevel()) * 100.0;
-		return percent;
+		return currency.xpProgressPercent();
 	}
 	
 	Game.acquireXp = function(currencyShortName, xpAmount) {
 		let currency = Game.currency(currencyShortName);
-		currency.xp += xpAmount;
-		let bonusXp = 0;
-		if (currency.shortName === 'MM') {
-			if (Shop.has('xtpro') && currency.xp % 5 === 0) bonusXp = Shop.boost('xtpro').bonusXp * (Shop.has('addonenhancer') ? Shop.boost('addonenhancer').power : 1);
-		}
-		if (currency.shortName === 'MC') {
-			if (Shop.has('dmblu') && currency.xp % 5 === 0) bonusXp =  Shop.boost('dmblu').bonusXp * (Shop.has('addonenhancer') ? Shop.boost('addonenhancer').power : 1);
-		}
-		currency.xp += bonusXp;
-		Game.checkLevelUps(currency);
-	}
-
-	Game.checkLevelUps = function(currency) {
-		while (currency.xp >= currency.xpRequiredForNextLevel()) {
-			currency.xp -= currency.xpRequiredForNextLevel();
-			currency.levelUp();
-			Game.triggerEvent('levelUp', { currency: currency });
-		}
+		currency.acquireXp(xpAmount);
 	}
 	
 	Game.hasCurrency = function(costs) {
@@ -132,8 +113,7 @@
 			if (costs.levels.hasOwnProperty(currencyShortName)) {
 				let cost = costs.levels[currencyShortName];
 				let currency = Game.currency(currencyShortName);
-				currency.level -= cost;
-				Game.checkLevelUps(currency);
+				currency.levelDown(cost);
 			}
 		}
 	}
@@ -156,6 +136,4 @@
 		}
 	}
 	
-	Game.initialize();
-
 })(gameObjects.Game, gameObjects.Currencies, gameObjects.Achievements, gameObjects.Friends, gameObjects.Shop);
