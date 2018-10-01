@@ -5,48 +5,30 @@
 * Game.js
 */
 
-(function (Game, Achievements, Friends, Shop) {
+(function (Game, Currencies, Achievements, Friends, Shop) {
 	
 	EventNode = document.getElementById('eventNode');
 
-	Game.currencies = [
-		{
+	Currencies.newCurrency({
 			name: 'Mouse Mover',
 			shortName: 'MM',
-			xp: 0,
-			level: 0,
-			xpRequiredForNextLevel: function () {
-				return Math.round(100 * Math.pow(this.xpIncreaseFactor, this.level));
-			},
-			xpIncreaseFactor: 1.2,
 			color: 'gray',
 			levelUp: function() {
-				this.level++;
 				if (Shop.has('zbglo')) {
 					Game.acquireXp('MC', 5 * (Shop.has('addonenhancer') ? Shop.boost('addonenhancer').power : 1));
 				}
-				Game.checkUnlocks();
 			}
-		},
-		{
+		});
+	Currencies.newCurrency({
 			name: 'Mouse Clicker',
 			shortName: 'MC',
-			xp: 0,
-			level: 0,
-			xpRequiredForNextLevel: function () {
-				return Math.round(10 * Math.pow(this.xpIncreaseFactor, this.level));
-			},
-			xpIncreaseFactor: 1.2,
 			color: 'green',
 			levelUp: function() {
-				this.level++;
 				if (Shop.has('zbglo')) {
 					Game.acquireXp('MM', 5 * (Shop.has('addonenhancer') ? Shop.boost('addonenhancer').power : 1));
 				}
-				Game.checkUnlocks();
 			}
-		}
-	];
+		});
 
 	Game.checkUnlocks = function() {
 		if (Game.currency('MM').level >= 1 && !Achievements.has('mover')) {
@@ -176,4 +158,4 @@
 	
 	Game.initialize();
 
-})(gameObjects.Game, gameObjects.Achievements, gameObjects.Friends, gameObjects.Shop);
+})(gameObjects.Game, gameObjects.Currencies, gameObjects.Achievements, gameObjects.Friends, gameObjects.Shop);

@@ -6,9 +6,12 @@
 */
 
 let gameObjects = {
-	Game: {},
+	Game: {
+		currencies: []
+	},
 	Shop: {},
 	Achievements: {},
 	Display: {},
-	Friends: {}
+	Friends: {},
+	Currencies: {}
 };
