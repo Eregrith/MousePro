@@ -198,7 +198,7 @@ Display = {};
 		while (ul.firstChild) {
 			ul.removeChild(ul.firstChild);
 		}
-		let friends = Friends.friends.filter(b => b.buyable);
+		let friends = Friends.friends.filter(b => b.saveableState.buyable);
 		
 		for (var f in friends) {
 			if (friends.hasOwnProperty(f)) {

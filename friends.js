@@ -12,11 +12,16 @@
     Friends.newFriend = function(settings) {
         let friend = {
             ...settings,
-            buyable: false,
-            bought: 0,
-            ticks: 0,
+            saveableState: {
+                buyable: false,
+                bought: 0,
+                ticks: 0
+            },
+            getXpPerActivation: function() {
+                return this.saveableState.bought;
+            },
             getTicksNeededToActivate: function() { return this.baseTicksPerMove; },
-            getName: function() { return this.name + (this.bought > 0 ? ' (lvl ' + this.bought + ')' : ''); },
+            getName: function() { return this.name + (this.saveableState.bought > 0 ? ' (lvl ' + this.saveableState.bought + ')' : ''); },
             getActivationFrequencyDescription: function() {
                 let activationsPerSecond = Display.framesPerSecond() / this.getTicksNeededToActivate();
                 return 'Activates ' + (activationsPerSecond > 1 ? activationsPerSecond + ' times': 'once') + ' per second';
@@ -25,7 +30,7 @@
                 let costs = JSON.parse(JSON.stringify(this.baseCosts));
                 for (let l in costs.levels) {
                     if (costs.levels.hasOwnProperty(l)) {
-                        costs.levels[l] = Math.round(costs.levels[l] * Math.pow(this.costsIncrement, this.bought));
+                        costs.levels[l] = Math.round(costs.levels[l] * Math.pow(this.costsIncrement, this.saveableState.bought));
                     }
                 }
                 return costs;
@@ -40,7 +45,7 @@
         shortName: 'aldo',
         getDescription: function() {
             return 'This little man will help you by moving his mouse as well!<br>Yay!<br>'
-                + (this.bought > 0 ? 'Gives ' + this.bought + ' MM xp per activation.' : '') + '<br>'
+                + (this.getXpPerActivation() > 0 ? 'Gives ' + this.getXpPerActivation() + ' MM xp per activation.' : '') + '<br>'
                 + this.getActivationFrequencyDescription();
         },
         baseTicksPerMove: 10,
@@ -51,7 +56,7 @@
             }
         },
         activate: function() {
-            Game.acquireXp('MM', this.bought);
+            Game.acquireXp('MM', this.getXpPerActivation());
         }
     });
     Friends.newFriend({
@@ -59,7 +64,7 @@
         shortName: 'barnabeus',
         getDescription: function() {
             return 'This little man will help you by clicking his mouse as well!<br>Yay!<br>'
-                + (this.bought > 0 ? 'Gives ' + this.bought + ' MC xp per activation.' : '') + '<br>'
+                + (this.getXpPerActivation() > 0 ? 'Gives ' + this.getXpPerActivation() + ' MC xp per activation.' : '') + '<br>'
                 + this.getActivationFrequencyDescription();
         },
         baseTicksPerMove: 100,
@@ -70,7 +75,7 @@
             }
         },
         activate: function() {
-            Game.acquireXp('MC', this.bought);
+            Game.acquireXp('MC', this.getXpPerActivation());
         }
     });
 
@@ -79,7 +84,7 @@
     }
 
     Friends.unlock = function(shortName) {
-        Friends.friend(shortName).buyable = true;
+        Friends.friend(shortName).saveableState.buyable = true;
 		Friends.refreshFriends();
     }
 
@@ -95,7 +100,7 @@
 		if (!Game.hasCurrency(costs)) return;
 		
 		Game.spend(costs);
-		friend.bought++;
+		friend.saveableState.bought++;
 
 		if (friend.onBuy !== undefined)
 			friend.onBuy();
@@ -104,11 +109,11 @@
 	}
     
     Friends.tick = function(friend) {
-        if (!friend.bought) return;
-        friend.ticks++;
+        if (!friend.saveableState.bought) return;
+        friend.saveableState.ticks++;
 
-        while (friend.ticks >= friend.getTicksNeededToActivate()) {
-            friend.ticks -= friend.getTicksNeededToActivate();
+        while (friend.saveableState.ticks >= friend.getTicksNeededToActivate()) {
+            friend.saveableState.ticks -= friend.getTicksNeededToActivate();
             friend.activate();
         }
     }
