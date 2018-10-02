@@ -41,23 +41,23 @@
 		});
 
 	Game.checkUnlocks = function() {
-		if (Game.currency('MM').level >= 1 && !Achievements.has('mover')) {
+		if (Game.currency('MM').getLevel() >= 1 && !Achievements.has('mover')) {
 			Shop.unlock('xtpro');
 			Achievements.gain('mover');
 		}
-		if (Game.currency('MC').level >= 1 && !Achievements.has('clicker')) {
+		if (Game.currency('MC').getLevel() >= 1 && !Achievements.has('clicker')) {
 			Shop.unlock('dmblu');
 			Achievements.gain('clicker');
 		}
-		if (Game.currency('MM').level >= 5 && Game.currency('MC').level >= 5 && !Achievements.has('together')) {
+		if (Game.currency('MM').getLevel() >= 5 && Game.currency('MC').getLevel() >= 5 && !Achievements.has('together')) {
 			Shop.unlock('zbglo');
 			Achievements.gain('together');
 		}
-		if (Game.currency('MM').level >= 10 && Game.currency('MC').level >= 10 && !Achievements.has('42')) {
+		if (Game.currency('MM').getLevel() >= 10 && Game.currency('MC').getLevel() >= 10 && !Achievements.has('42')) {
 			Shop.unlock('addonenhancer');
 			Achievements.gain('42');
 		}
-		if (Game.currency('MM').level >= 15 && Game.currency('MC').level >= 15 && !Achievements.has('marignan')) {
+		if (Game.currency('MM').getLevel() >= 15 && Game.currency('MC').getLevel() >= 15 && !Achievements.has('marignan')) {
 			Shop.unlock('addonenhancer');
 			Friends.unlock('barnabeus');
 			Achievements.gain('marignan');

@@ -17,6 +17,9 @@
                 bought: 0,
                 ticks: 0
             },
+            canBuy: function() {
+                return this.saveableState.buyable;
+            },
             getXpPerActivation: function() {
                 return this.saveableState.bought;
             },

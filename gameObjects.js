@@ -9,11 +9,15 @@ let gameObjects = {
 	Game: {
 		currencies: []
 	},
-	Shop: {},
+	Shop: {
+		boosts: []
+	},
+	Boosts: {},
 	Achievements: {},
 	Display: {},
 	Friends: {
 		friends: []
 	},
-	Currencies: {}
+	Currencies: {},
+	Save: {}
 };

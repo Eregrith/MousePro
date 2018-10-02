@@ -132,7 +132,7 @@ Display = {};
 		while (ul.firstChild) {
 			ul.removeChild(ul.firstChild);
 		}
-		let boosts = Shop.boosts.filter(b => b.buyable);
+		let boosts = Shop.boosts.filter(b => b.canBuy());
 		
 		for (var b in boosts) {
 			if (boosts.hasOwnProperty(b)) {
@@ -148,7 +148,7 @@ Display = {};
 		while (ul.firstChild) {
 			ul.removeChild(ul.firstChild);
 		}
-		let boosts = Shop.boosts.filter(b => b.bought);
+		let boosts = Shop.boosts.filter(b => b.isBought());
 		
 		for (var b in boosts) {
 			if (boosts.hasOwnProperty(b)) {
@@ -174,7 +174,7 @@ Display = {};
 		mainDiv.appendChild(titleDiv);
 		mainDiv.appendChild(descDiv);
 
-		if (boost.buyable) {
+		if (boost.canBuy()) {
 			let costDiv = document.createElement('div');
 			costDiv.className = 'boost-cost';
 			costDiv.innerHTML = 'Cost:';
@@ -198,7 +198,7 @@ Display = {};
 		while (ul.firstChild) {
 			ul.removeChild(ul.firstChild);
 		}
-		let friends = Friends.friends.filter(b => b.saveableState.buyable);
+		let friends = Friends.friends.filter(f => f.canBuy());
 		
 		for (var f in friends) {
 			if (friends.hasOwnProperty(f)) {
