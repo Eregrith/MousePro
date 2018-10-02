@@ -127,12 +127,14 @@ Display = {};
 	}
 	
 	Display.refreshShop = function () {
+		let boosts = Shop.boosts.filter(b => b.canBuy());
+		if (boosts.length == 0) return;
+		
 		let ul = document.getElementById('shop');
 		ul.parentElement.parentElement.style.display = '';
 		while (ul.firstChild) {
 			ul.removeChild(ul.firstChild);
 		}
-		let boosts = Shop.boosts.filter(b => b.canBuy());
 		
 		for (var b in boosts) {
 			if (boosts.hasOwnProperty(b)) {
@@ -143,12 +145,14 @@ Display = {};
 	}
 	
 	Display.refreshBoostsOwned = function() {
+		let boosts = Shop.boosts.filter(b => b.isBought());
+		if (boosts.length == 0) return;
+
 		let ul = document.getElementById('owned');
 		ul.parentElement.parentElement.style.display = '';
 		while (ul.firstChild) {
 			ul.removeChild(ul.firstChild);
 		}
-		let boosts = Shop.boosts.filter(b => b.isBought());
 		
 		for (var b in boosts) {
 			if (boosts.hasOwnProperty(b)) {
@@ -193,12 +197,14 @@ Display = {};
 	}
 	
 	Display.refreshFriends = function() {
+		let friends = Friends.friends.filter(f => f.canBuy());
+		if (friends.length == 0) return;
+
 		let ul = document.getElementById('friends');
 		ul.parentElement.style.display = '';
 		while (ul.firstChild) {
 			ul.removeChild(ul.firstChild);
 		}
-		let friends = Friends.friends.filter(f => f.canBuy());
 		
 		for (var f in friends) {
 			if (friends.hasOwnProperty(f)) {

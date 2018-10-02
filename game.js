@@ -5,7 +5,7 @@
 * Game.js
 */
 
-(function (Game, Currencies, Achievements, Friends, Shop) {
+(function (Game, Currencies, Achievements, Friends, Shop, Save) {
 	
 	EventNode = document.getElementById('eventNode');
 
@@ -21,7 +21,7 @@
 			},
 			xpGained: function(currency) {
 				if (Shop.has('xtpro') && currency.getXp() % 5 === 0)
-					currency.setXp() += Shop.boost('xtpro').bonusXp * (Shop.has('addonenhancer') ? Shop.boost('addonenhancer').power : 1);
+					currency.setXp(currency.getXp() + Shop.boost('xtpro').bonusXp * (Shop.has('addonenhancer') ? Shop.boost('addonenhancer').power : 1));
 			}
 		});
 	Currencies.newCurrency({
@@ -35,8 +35,8 @@
 				}
 			},
 			xpGained: function(currency) {
-				if (Shop.has('dmblu') && getXp() % 5 === 0)
-					currency.setXp() += Shop.boost('dmblu').bonusXp * (Shop.has('addonenhancer') ? Shop.boost('addonenhancer').power : 1);
+				if (Shop.has('dmblu') && currency.getXp() % 5 === 0)
+					currency.setXp(currency.getXp() + Shop.boost('dmblu').bonusXp * (Shop.has('addonenhancer') ? Shop.boost('addonenhancer').power : 1));
 			}
 		});
 
