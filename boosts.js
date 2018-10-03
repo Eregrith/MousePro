@@ -18,15 +18,18 @@
                 return this.cost;
             },
             buy: function () {
+                if (!this.saveableState.buyable) return;
+
                 this.saveableState.buyable = false;
                 this.saveableState.bought = true;
+
                 if (settings.buy)
                     settings.buy(this);
             },
             unlock: function() {
                 this.saveableState.buyable = true;
             },
-            canBuy: function() {
+            canBuy: settings.canBuy || function() {
                 return this.saveableState.buyable;
             },
             isBought: function() {

@@ -9,10 +9,9 @@ Display = {};
 
 (function (Game, Achievements, Shop, Friends, Display) {
 
-	EventNode = document.getElementById('eventNode');
-
 	Display.tickInterval = null;
 	Display.tickIntervalValue = 10;
+	Display.ticks = 0;
 	
 	Display.framesPerSecond = function() {
 		return 1000.0 / Display.tickIntervalValue;
@@ -88,6 +87,13 @@ Display = {};
 	Display.tick = function() {
 		Display.updateCurrencies();
 		Display.updateNotifs();
+		Display.ticks++;
+		if (Display.ticks == 50) {
+			Display.ticks = 0;
+			Display.refreshShop();
+			Display.refreshFriends();
+			Display.refreshBoostsOwned();
+		}
 		Game.tick();
 	}
 	
@@ -103,15 +109,9 @@ Display = {};
 	Display.bindEvents = function() {
 		document.onmousedown = Game.onclick;
 		document.onmousemove = Game.onmousemove;
-		EventNode.addEventListener('achievementGained', Display.notifyAchievementGained, false);
-		EventNode.addEventListener('refreshShop', Display.refreshShop, false);
-		EventNode.addEventListener('refreshBoostsOwned', Display.refreshBoostsOwned, false);
-		EventNode.addEventListener('refreshFriends', Display.refreshFriends, false);
-		EventNode.addEventListener('levelUp', Display.notifyLevelUp, false);
 	}
 	
-	Display.notifyLevelUp = function(e) {
-		let currency = e.detail.currency;
+	Display.notifyLevelUp = function(currency) {
 		Display.notify('Level Up ! ' + currency.name + ' is now level ' + currency.getLevel() + '!');
 	}
 	
@@ -127,15 +127,15 @@ Display = {};
 	}
 	
 	Display.refreshShop = function () {
-		let boosts = Shop.boosts.filter(b => b.canBuy());
-		if (boosts.length == 0) return;
-		
 		let ul = document.getElementById('shop');
-		ul.parentElement.parentElement.style.display = '';
 		while (ul.firstChild) {
 			ul.removeChild(ul.firstChild);
 		}
-		
+
+		let boosts = Shop.boosts.filter(b => b.canBuy());
+		if (boosts.length == 0) return;
+
+		ul.parentElement.parentElement.style.display = '';
 		for (var b in boosts) {
 			if (boosts.hasOwnProperty(b)) {
 				let boostItem = Display.buildDisplayItemForBoost(boosts[b]);
@@ -145,15 +145,15 @@ Display = {};
 	}
 	
 	Display.refreshBoostsOwned = function() {
-		let boosts = Shop.boosts.filter(b => b.isBought());
-		if (boosts.length == 0) return;
-
 		let ul = document.getElementById('owned');
-		ul.parentElement.parentElement.style.display = '';
 		while (ul.firstChild) {
 			ul.removeChild(ul.firstChild);
 		}
 		
+		let boosts = Shop.boosts.filter(b => b.isBought());
+		if (boosts.length == 0) return;
+
+		ul.parentElement.parentElement.style.display = '';
 		for (var b in boosts) {
 			if (boosts.hasOwnProperty(b)) {
 				let boostItem = Display.buildDisplayItemForBoost(boosts[b]);
@@ -188,7 +188,7 @@ Display = {};
 			let buyButton = document.createElement('div');
 			buyButton.className = 'boost-buy-btn';
 			buyButton.innerHTML = 'Buy';
-			buyButton.onclick = function() { Shop.buy(boost.shortName) };
+			buyButton.addEventListener('click', function() { console.log('button clicked'); Shop.buy(boost.shortName) });
 
 			mainDiv.appendChild(buyButton);
 		}
@@ -306,9 +306,9 @@ Display = {};
 		return listItem;
 	}
 	
-	Display.notifyAchievementGained = function(e) {
+	Display.notifyAchievementGained = function(ach) {
 		let achievementGainedMsg = "You gained an achievement ! ";
-		achievementGainedMsg += e.detail.achievement.name + ": " + e.detail.achievement.description;
+		achievementGainedMsg += ach.name + ": " + ach.description;
 		Display.notify(achievementGainedMsg);
 	}
 	

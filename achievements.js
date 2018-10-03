@@ -7,9 +7,7 @@
 
 Achievements = {};
 
-(function (Achievements) {
-
-	EventNode = document.getElementById('eventNode');
+(function (Display, Achievements) {
 
 	Achievements.achievements = [
 		{
@@ -51,8 +49,7 @@ Achievements = {};
 	Achievements.gain = function(achievementShortName) {
 		let ach = Achievements.achievement(achievementShortName);
 		ach.acquired = true;
-		let event = new CustomEvent('achievementGained', { detail: { achievement: ach }})
-		EventNode.dispatchEvent(event);
+		Display.notifyAchievementGained(ach);
 	}
 	
 	Achievements.has = function(achievementShortName) {
@@ -60,4 +57,4 @@ Achievements = {};
 		return ach.acquired;
 	}
 
-})(gameObjects.Achievements);
+})(gameObjects.Display, gameObjects.Achievements);

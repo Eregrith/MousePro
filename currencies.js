@@ -5,7 +5,7 @@
 * Currencies.js
 */
 
-(function(Game, Shop, Currencies) {
+(function(Game, Display, Shop, Currencies) {
     
     Currencies.newCurrency = function(settings) {
         let currency = {
@@ -31,6 +31,7 @@
                 this.saveableState.xp -= this.xpRequiredForNextLevel();
                 this.saveableState.level++;
                 settings.levelUp();
+                Display.notifyLevelUp(this);
                 Game.checkUnlocks();
             },
             levelDown: function(amount) {
@@ -49,7 +50,6 @@
             checkLevelUps: function() {
                 while (this.canLevelUp()) {
                     this.levelUp();
-                    Game.triggerEvent('levelUp', { currency: this });
                 }
             },
             xpProgressPercent: function() {
@@ -60,4 +60,4 @@
         Game.currencies.push(currency);
     }
 
-})(gameObjects.Game, gameObjects.Shop, gameObjects.Currencies);
+})(gameObjects.Game, gameObjects.Display, gameObjects.Shop, gameObjects.Currencies);

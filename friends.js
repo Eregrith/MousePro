@@ -7,8 +7,6 @@
 
 (function (Game, Display, Friends) {
 
-    EventNode = document.getElementById('eventNode');
-    
     Friends.newFriend = function(settings) {
         let friend = {
             ...settings,
@@ -88,12 +86,6 @@
 
     Friends.unlock = function(shortName) {
         Friends.friend(shortName).saveableState.buyable = true;
-		Friends.refreshFriends();
-    }
-
-    Friends.refreshFriends = function() {
-		let event = new Event('refreshFriends');
-		EventNode.dispatchEvent(event);
     }
 
 	Friends.buy = function(shortName) {
@@ -107,8 +99,6 @@
 
 		if (friend.onBuy !== undefined)
 			friend.onBuy();
-		
-		Friends.refreshFriends();
 	}
     
     Friends.tick = function(friend) {

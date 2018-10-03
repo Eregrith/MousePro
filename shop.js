@@ -91,16 +91,6 @@
 		return Shop.boost(shortName).isBought();
 	}
 	
-	Shop.refreshShop = function() {
-		let event = new Event('refreshShop');
-		EventNode.dispatchEvent(event);
-	}
-	
-	Shop.refreshBoostsOwned = function() {
-		let event = new Event('refreshBoostsOwned');
-		EventNode.dispatchEvent(event);
-	}
-	
 	Shop.buy = function(shortName) {
 		let boost = Shop.boost(shortName);
 		
@@ -108,16 +98,11 @@
 		
 		Game.spend(boost.getCost());
 		boost.buy();
-		
-		Shop.refreshShop();
-		Shop.refreshBoostsOwned();
-		return;
 	}
 	
 	Shop.unlock = function(shortName) {
 		let boost = Shop.boost(shortName);
 		boost.unlock();
-		Shop.refreshShop();
 	}
 
 })(gameObjects.Game, gameObjects.Boosts, gameObjects.Friends, gameObjects.Shop);

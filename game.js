@@ -119,11 +119,6 @@
 		}
 	}
 	
-	Game.triggerEvent = function(eventCode, data) {
-		let event = new CustomEvent(eventCode, { detail: data });
-		EventNode.dispatchEvent(event);
-	}
-	
 	Game.lastMouseDown = {};
 	
 	Game.onclick = function (e) {
