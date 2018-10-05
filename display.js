@@ -189,8 +189,10 @@ Display = {};
 			mainDiv.appendChild(costDiv);
 
 			let buyButton = document.createElement('div');
-			buyButton.className = 'boost-buy-btn';
+			buyButton.classList = ['boost-buy-btn'];
 			buyButton.innerHTML = 'Buy';
+			if (!Game.hasCurrency(boost.getCost()))
+				buyButton.classList.add('disabled');
 			buyButton.addEventListener('click', function() { Shop.buy(boost.shortName) });
 
 			mainDiv.appendChild(buyButton);
@@ -236,8 +238,10 @@ Display = {};
 		costDiv.appendChild(Display.buildCostListForCost(friend.getCosts()));
 		
 		let buyButton = document.createElement('div');
-		buyButton.className = 'friend-buy-btn';
+		buyButton.classList = ['friend-buy-btn'];
 		buyButton.innerHTML = 'Buy';
+		if (!Game.hasCurrency(friend.getCosts()))
+			buyButton.classList.add('disabled');
 		buyButton.onclick = function() { Friends.buy(friend.shortName) };
 		
 		mainDiv.appendChild(titleDiv);

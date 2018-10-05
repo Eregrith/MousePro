@@ -90,6 +90,10 @@ ul {
     margin: 7px;
 	cursor: pointer;
 }
+.boost-buy-btn.disabled {
+	color: gray;
+	cursor: default;
+}
 
 /*
     SHOP
@@ -157,6 +161,10 @@ ul {
     width: fit-content;
     margin: 7px;
 	cursor: pointer;
+}
+.friend-buy-btn.disabled {
+	color: gray;
+	cursor: default;
 }
 
 /*
