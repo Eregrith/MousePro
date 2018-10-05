@@ -5,9 +5,7 @@
 * Shop.js
 */
 
-(function (Game, Boosts, Friends, Shop) {
-
-	EventNode = document.getElementById('eventNode');
+(function (Game, Boosts, Friends, Display, Shop) {
 
 	Boosts.newBoost({
 		name: 'Mouse mover XT-PRO',
@@ -98,11 +96,13 @@
 		
 		Game.spend(boost.getCost());
 		boost.buy();
+		Display.needsRepaintImmediate = true;
 	}
 	
 	Shop.unlock = function(shortName) {
 		let boost = Shop.boost(shortName);
 		boost.unlock();
+		Display.needsRepaintImmediate = true;
 	}
 
-})(gameObjects.Game, gameObjects.Boosts, gameObjects.Friends, gameObjects.Shop);
+})(gameObjects.Game, gameObjects.Boosts, gameObjects.Friends, gameObjects.Display, gameObjects.Shop);

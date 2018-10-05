@@ -86,6 +86,7 @@
 
     Friends.unlock = function(shortName) {
         Friends.friend(shortName).saveableState.buyable = true;
+		Display.needsRepaintImmediate = true;
     }
 
 	Friends.buy = function(shortName) {
@@ -98,7 +99,9 @@
 		friend.saveableState.bought++;
 
 		if (friend.onBuy !== undefined)
-			friend.onBuy();
+            friend.onBuy();
+
+        Display.needsRepaintImmediate = true;
 	}
     
     Friends.tick = function(friend) {

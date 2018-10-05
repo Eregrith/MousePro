@@ -13,6 +13,8 @@ Display = {};
 	Display.tickIntervalValue = 10;
 	Display.ticks = 0;
 	
+	Display.needsRepaintImmediate = false;
+
 	Display.framesPerSecond = function() {
 		return 1000.0 / Display.tickIntervalValue;
 	}
@@ -88,8 +90,9 @@ Display = {};
 		Display.updateCurrencies();
 		Display.updateNotifs();
 		Display.ticks++;
-		if (Display.ticks == 50) {
+		if (Display.ticks == 50 || Display.needsRepaintImmediate) {
 			Display.ticks = 0;
+			Display.needsRepaintImmediate = false;
 			Display.refreshShop();
 			Display.refreshFriends();
 			Display.refreshBoostsOwned();
@@ -188,7 +191,7 @@ Display = {};
 			let buyButton = document.createElement('div');
 			buyButton.className = 'boost-buy-btn';
 			buyButton.innerHTML = 'Buy';
-			buyButton.addEventListener('click', function() { console.log('button clicked'); Shop.buy(boost.shortName) });
+			buyButton.addEventListener('click', function() { Shop.buy(boost.shortName) });
 
 			mainDiv.appendChild(buyButton);
 		}
