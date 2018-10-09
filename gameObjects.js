@@ -6,6 +6,7 @@
 */
 
 let gameObjects = {
+	Tabs: {},
 	Game: {
 		currencies: []
 	},

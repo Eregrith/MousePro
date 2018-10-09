@@ -5,7 +5,7 @@
 * Save.js
 */
 
-(function(Display, Game, Friends, Shop, Achievements, Save) {
+(function(Display, Game, Friends, Shop, Achievements, Tabs, Save) {
 
     Save.toto = "true";
 
@@ -14,6 +14,12 @@
         for (c in Game.currencies) {
             if (Game.currencies.hasOwnProperty(c)) {
                 saveCurrencies.push({shortName: Game.currencies[c].shortName, saveableState: Game.currencies[c].saveableState });
+            }
+        }
+        let saveTabs = [];
+        for (t in Tabs.tabs) {
+            if (Tabs.tabs.hasOwnProperty(t)) {
+                saveTabs.push({shortName: Tabs.tabs[t].shortName, saveableState: Tabs.tabs[t].saveableState });
             }
         }
         let saveBoosts = [];
@@ -38,6 +44,7 @@
         }
 
         let saveGame = {
+            Tabs: saveTabs,
             Currencies: saveCurrencies,
             Boosts: saveBoosts,
             Friends: saveFriends,
@@ -62,6 +69,13 @@
                 currency.saveableState = saveCurrencies[c].saveableState;
             }
         }
+        let saveTabs = saveGame.Tabs;
+        for (t in saveTabs) {
+            if (saveTabs.hasOwnProperty(t)) {
+                let tab = Tabs.tab(saveTabs[t].shortName);
+                tab.saveableState = saveTabs[t].saveableState;
+            }
+        }
         let saveBoosts = saveGame.Boosts;
         for (b in saveBoosts) {
             if (saveBoosts.hasOwnProperty(b)) {
@@ -84,6 +98,7 @@
         }
 
         Display.refreshShop();
+        Display.refreshTabs();
         Display.refreshFriends();
         Display.refreshBoostsOwned();
         Display.notify('Game loaded');
@@ -97,4 +112,4 @@
 
     Save.loadGame();
 
-})(gameObjects.Display, gameObjects.Game, gameObjects.Friends, gameObjects.Shop, gameObjects.Achievements, gameObjects.Save);
+})(gameObjects.Display, gameObjects.Game, gameObjects.Friends, gameObjects.Shop, gameObjects.Achievements, gameObjects.Tabs, gameObjects.Save);

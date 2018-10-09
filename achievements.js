@@ -39,6 +39,12 @@ Achievements = {};
 			shortName: 'marignan',
 			description: 'Reach level 15 in both proficiencies',
 			acquired: false
+		},
+		{
+			name: 'Pro tuner',
+			shortName: 'jacky',
+			description: 'Reach level 1 in both proficiencies',
+			acquired: false
 		}
 	];
 	

@@ -4,24 +4,32 @@
 
 <body>
 	<ul id="currencies"></ul>
+	<ul id="tabs"></ul>
 	
-	<div class="shop" style="display:none">
-		<div class="scroller">
-			<ul id="shop"></ul>
+	<div class="tab tab-active" id="tab-game">
+		<div class="shop" style="display:none">
+			<div class="scroller">
+				<ul id="shop"></ul>
+			</div>
+		</div>
+
+		<div class="friends" style="display:none">
+			<ul id="friends"></ul>
+		</div>
+		
+		<div class="owned" style="display:none">
+			<div class="scroller">
+				<ul id="owned"></ul>
+			</div>
 		</div>
 	</div>
-
-	<div class="friends" style="display:none">
-		<ul id="friends"></ul>
-	</div>
-	
-	<div class="owned" style="display:none">
-		<div class="scroller">
-			<ul id="owned"></ul>
+	<div class="tab" id="tab-settings">
+		<div class="settings">
+			<div>TODO : ADD SOMETHING HERE !</div>
 		</div>
 	</div>
-
 	<script type="text/javascript" src="gameObjects.js"></script>
+	<script type="text/javascript" src="tabs.js"></script>
 	<script type="text/javascript" src="achievements.js"></script>
 	<script type="text/javascript" src="boosts.js"></script>
 	<script type="text/javascript" src="currencies.js"></script>

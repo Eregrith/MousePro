@@ -15,6 +15,10 @@
                 bought: false,
             },
             getCost: function () {
+                if (this.cost.xp == undefined)
+                    this.cost.xp = {};
+                if (this.cost.levels == undefined)
+                    this.cost.levels = {};
                 return this.cost;
             },
             buy: function () {

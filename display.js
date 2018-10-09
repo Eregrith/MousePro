@@ -7,7 +7,7 @@
 
 Display = {};
 
-(function (Game, Achievements, Shop, Friends, Display) {
+(function (Game, Achievements, Shop, Friends, Tabs, Display) {
 
 	Display.tickInterval = null;
 	Display.tickIntervalValue = 10;
@@ -94,6 +94,7 @@ Display = {};
 			Display.ticks = 0;
 			Display.needsRepaintImmediate = false;
 			Display.refreshShop();
+			Display.refreshTabs();
 			Display.refreshFriends();
 			Display.refreshBoostsOwned();
 		}
@@ -312,6 +313,59 @@ Display = {};
 		
 		return listItem;
 	}
+
+	Display.refreshTabs = function() {
+		let ul = document.getElementById('tabs');
+
+		let tabs = Tabs.tabs.filter(t => t.isUnlocked());
+		if (tabs.length == 0) return;
+
+		ul.parentElement.style.display = '';
+		while (ul.firstChild) {
+			ul.removeChild(ul.firstChild);
+		}
+
+		for (t in tabs) {
+			if (tabs.hasOwnProperty(t)) {
+				let div = document.createElement('div');
+				div.className = 'tab-btn';
+				div.setAttribute('data-target', tabs[t].shortName);
+				div.innerHTML = tabs[t].label;
+				div.onclick = (function (shortName) {
+					return function() { Display.toggleActiveTabTo(shortName); };
+				})(tabs[t].shortName);
+				ul.appendChild(div);
+			}
+		}
+	}
+
+	Display.toggleActiveTabTo = function(shortName) {
+		let tabs = document.getElementsByClassName('tab');
+
+		for (t in tabs) {
+			if (tabs.hasOwnProperty(t)) {
+				let tabDiv = tabs[t];
+				if (tabDiv.id == 'tab-' + shortName) {
+					tabDiv.classList.add('tab-active');
+				} else {
+					tabDiv.classList.remove('tab-active');
+				}
+			}
+		}
+
+		let tabBtns = document.getElementsByClassName('tab-btn');
+
+		for (t in tabBtns) {
+			if (tabBtns.hasOwnProperty(t)) {
+				let tabBtnDiv = tabBtns[t];
+				if (tabBtnDiv.getAttribute('data-target') == shortName) {
+					tabBtnDiv.classList.add('tab-active');
+				} else {
+					tabBtnDiv.classList.remove('tab-active');
+				}
+			}
+		}
+	}
 	
 	Display.notifyAchievementGained = function(ach) {
 		let achievementGainedMsg = "You gained an achievement ! ";
@@ -385,4 +439,4 @@ Display = {};
 	
 	Display.startTicking();
 
-})(gameObjects.Game, gameObjects.Achievements, gameObjects.Shop, gameObjects.Friends, gameObjects.Display);
+})(gameObjects.Game, gameObjects.Achievements, gameObjects.Shop, gameObjects.Friends, gameObjects.Tabs, gameObjects.Display);

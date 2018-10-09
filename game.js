@@ -5,7 +5,7 @@
 * Game.js
 */
 
-(function (Game, Currencies, Achievements, Friends, Shop, Save) {
+(function (Game, Currencies, Achievements, Friends, Shop, Save, Tabs) {
 	
 	EventNode = document.getElementById('eventNode');
 
@@ -44,6 +44,10 @@
 		if (Game.currency('MM').getLevel() >= 1 && !Achievements.has('mover')) {
 			Shop.unlock('xtpro');
 			Achievements.gain('mover');
+		}
+		if (Game.currency('MM').getLevel() >= 1 && Game.currency('MC').getLevel() >= 1 && !Achievements.has('jacky')) {
+			Shop.unlock('settings');
+			Achievements.gain('jacky');
 		}
 		if (Game.currency('MC').getLevel() >= 1 && !Achievements.has('clicker')) {
 			Shop.unlock('dmblu');

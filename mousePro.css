@@ -26,6 +26,11 @@ ul {
 /*
     CURRENCIES
 */
+#currencies {
+	width: 40%;
+	display: inline-block;
+}
+
 .currency {
 	border: 1px solid black;
 	border-radius: 5px;
@@ -54,6 +59,39 @@ ul {
 	position: relative;
 	left: -20px;
 	float: right;
+}
+
+/*
+	TABS
+*/
+#tabs {
+	width: 40%;
+	display: inline-block;
+	vertical-align: top;
+	margin-top: 40px;
+    border-bottom: 1px solid black;
+}
+
+#tabs div {
+	display: inline-block;
+	margin-left: 5px;
+}
+
+.tab {
+	display: none;
+}
+.tab.tab-active {
+	display: unset;
+}
+
+.tab-btn {
+    border: black solid;
+	border-width: 1px 1px 0px 1px;
+    border-radius: 6px 6px 0px 0px;
+	padding: 5px;
+}
+.tab-btn.tab-active {
+	background-color: aqua;
 }
 
 /*
@@ -186,6 +224,25 @@ ul {
 	background: white;
 	padding: 5px;
 }
+
+/*
+    SETTINGS
+*/
+.settings {
+	border: 1px solid black;
+	width: 100%;
+	float: right;
+	height: 800px;
+}
+.settings::before {
+	content: 'SETTINGS';
+	position: relative;
+	top: -10px;
+	left: 10px;
+	background: white;
+	padding: 5px;
+}
+
 
 /*
     NOTIFS

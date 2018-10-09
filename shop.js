@@ -5,7 +5,7 @@
 * Shop.js
 */
 
-(function (Game, Boosts, Friends, Display, Shop) {
+(function (Game, Boosts, Friends, Display, Shop, Tabs) {
 
 	Boosts.newBoost({
 		name: 'Mouse mover XT-PRO',
@@ -44,6 +44,21 @@
 		bonusXp: 20
 	});
 	Boosts.newBoost({
+		name: 'Settings',
+		getDescription: function() { return 'Let\'s tune this thing'; },
+		shortName: 'settings',
+		cost: {
+			levels: {
+				MM: 1,
+				MC: 1
+			}
+		},
+		buy: function () {
+			Tabs.unlock('game');
+			Tabs.unlock('settings');
+		}
+	});
+	Boosts.newBoost({
 		name: 'Addon Enhancer',
 		getDescription: function() {
 			return this.buyable ?
@@ -52,7 +67,6 @@
 		},
 		shortName: 'addonenhancer',
 		cost: {
-			xp: { },
 			levels: {
 				MM: 10,
 				MC: 10
@@ -70,7 +84,6 @@
 		getDescription: function() { return this.bought ? 'Friends are AWESOOOME!!' : 'It\'s dangerous to go alone. Take this!'; },
 		shortName: 'friends',
 		cost: {
-			xp: { },
 			levels: {
 				MM: 10,
 				MC: 10
@@ -105,4 +118,4 @@
 		Display.needsRepaintImmediate = true;
 	}
 
-})(gameObjects.Game, gameObjects.Boosts, gameObjects.Friends, gameObjects.Display, gameObjects.Shop);
+})(gameObjects.Game, gameObjects.Boosts, gameObjects.Friends, gameObjects.Display, gameObjects.Shop, gameObjects.Tabs);
