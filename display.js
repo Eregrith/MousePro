@@ -332,14 +332,18 @@ Display = {};
 				div.setAttribute('data-target', tabs[t].shortName);
 				div.innerHTML = tabs[t].label;
 				div.onclick = (function (shortName) {
-					return function() { Display.toggleActiveTabTo(shortName); };
+					return function() { 
+						Tabs.toggleActiveTabTo(shortName);
+						Display.displayActiveTab();
+					};
 				})(tabs[t].shortName);
 				ul.appendChild(div);
 			}
 		}
 	}
 
-	Display.toggleActiveTabTo = function(shortName) {
+	Display.displayActiveTab = function() {
+		let shortName = Tabs.getActiveTab();
 		let tabs = document.getElementsByClassName('tab');
 
 		for (t in tabs) {
@@ -365,8 +369,6 @@ Display = {};
 				}
 			}
 		}
-
-		Tabs.toggleActiveTabTo(shortName);
 	}
 	
 	Display.notifyAchievementGained = function(ach) {

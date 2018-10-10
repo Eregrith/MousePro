@@ -57,4 +57,8 @@
         Tabs.tab(shortName).saveableState.active = true;
     }
 
+    Tabs.getActiveTab = function() {
+        return Tabs.tabs.filter(t => t.isActive())[0].shortName;
+    }
+
 })(gameObjects.Display, gameObjects.Tabs);

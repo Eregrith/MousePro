@@ -99,6 +99,7 @@
 
         Display.refreshShop();
         Display.refreshTabs();
+        Display.displayActiveTab();
         Display.refreshFriends();
         Display.refreshBoostsOwned();
         Display.notify('Game loaded');
