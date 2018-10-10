@@ -328,7 +328,7 @@ Display = {};
 		for (t in tabs) {
 			if (tabs.hasOwnProperty(t)) {
 				let div = document.createElement('div');
-				div.className = 'tab-btn';
+				div.className = 'tab-btn' + (tabs[t].isActive() ? ' tab-active' : '');
 				div.setAttribute('data-target', tabs[t].shortName);
 				div.innerHTML = tabs[t].label;
 				div.onclick = (function (shortName) {
@@ -365,6 +365,8 @@ Display = {};
 				}
 			}
 		}
+
+		Tabs.toggleActiveTabTo(shortName);
 	}
 	
 	Display.notifyAchievementGained = function(ach) {

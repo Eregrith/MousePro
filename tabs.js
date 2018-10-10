@@ -13,6 +13,10 @@
             shortName: 'game',
             saveableState: {
                 unlocked: false,
+                active: false
+            },
+            isActive: function() {
+                return this.saveableState.active;
             },
             isUnlocked: function() {
                 return this.saveableState.unlocked;
@@ -23,6 +27,10 @@
             shortName: 'settings',
             saveableState: {
                 unlocked: false,
+                active: false
+            },
+            isActive: function() {
+                return this.saveableState.active;
             },
             isUnlocked: function() {
                 return this.saveableState.unlocked;
@@ -38,6 +46,15 @@
 
     Tabs.tab = function(shortName) {
         return Tabs.tabs.filter(t => t.shortName == shortName)[0];
+    }
+
+    Tabs.toggleActiveTabTo = function(shortName) {
+        for (t in Tabs.tabs) {
+            if (Tabs.tabs.hasOwnProperty(t)) {
+                Tabs.tabs[t].saveableState.active = false;
+            }
+        }
+        Tabs.tab(shortName).saveableState.active = true;
     }
 
 })(gameObjects.Display, gameObjects.Tabs);

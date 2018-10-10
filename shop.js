@@ -56,6 +56,7 @@
 		buy: function () {
 			Tabs.unlock('game');
 			Tabs.unlock('settings');
+			Tabs.toggleActiveTabTo('game');
 		}
 	});
 	Boosts.newBoost({
