@@ -23,6 +23,14 @@ ul {
 	overflow-y: auto;
 }
 
+.btn {
+	border: 1px solid black;
+	width: fit-content;
+    padding: 7px;
+    margin: 7px;
+	cursor: pointer;
+}
+
 /*
     CURRENCIES
 */

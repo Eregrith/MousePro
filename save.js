@@ -9,7 +9,8 @@
 
     Save.toto = "true";
 
-    Save.saveGame = function() {
+    Save.generateSaveGame = function() {
+        
         let saveCurrencies = [];
         for (c in Game.currencies) {
             if (Game.currencies.hasOwnProperty(c)) {
@@ -51,6 +52,12 @@
             AcquiredAchievements: acquiredAchievements
         };
 
+        return saveGame;
+    }
+
+    Save.saveGame = function() {
+        let saveGame = Save.generateSaveGame();
+
         localStorage.setItem('saveGame', JSON.stringify(saveGame));
 
         Display.notify('Game saved');
@@ -61,7 +68,10 @@
         if (localSave == undefined) return ;
         
         let saveGame = JSON.parse(localSave);
+        Save.applySave(saveGame);
+    }
 
+    Save.applySave = function(saveGame){
         let saveCurrencies = saveGame.Currencies;
         for (c in saveCurrencies) {
             if (saveCurrencies.hasOwnProperty(c)) {
@@ -106,7 +116,25 @@
     }
 
     Save.resetSave = function() {
+        let ok = confirm('Are you sure you want to wipe your save?');
+        if (!ok) return;
+        
         localStorage.removeItem('saveGame');
+        window.location.reload();
+    }
+
+    Save.exportSave = function() {
+        let saveGame = Save.generateSaveGame();
+
+        prompt("Your saved game:", btoa(JSON.stringify(saveGame)));
+    }
+
+    Save.importSave = function() {
+        let saveBase64 = prompt("Paste your save:", '');
+        if (saveBase64 == null || saveBase64 == '') return;
+
+        let saveGame = JSON.parse(atob(saveBase64));
+        Save.applySave(saveGame);
     }
 
     setInterval(Save.saveGame, 10000);
