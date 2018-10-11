@@ -137,6 +137,10 @@
         Save.applySave(saveGame);
     }
 
+    Save.nightMode = function() {
+        document.getElementsByTagName('body')[0].className = 'dark-theme';
+    }
+
     setInterval(Save.saveGame, 10000);
 
     Save.loadGame();
