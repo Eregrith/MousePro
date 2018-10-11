@@ -116,7 +116,7 @@ ul {
 	padding: 5px;
 }
 .tab-btn.tab-active {
-	background-color: --active-color;
+	background-color: var(--active-color);
 }
 
 /*
