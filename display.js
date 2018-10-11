@@ -438,6 +438,15 @@ Display = {};
 			notif.div.remove();
 		}
 	}
+
+    Display.switchMode = function() {
+		let body =  document.getElementsByTagName('body')[0];
+		if (body.className == 'dark-theme') {
+			body.className = 'origin-theme';
+		} else {
+			body.className = 'dark-theme';
+		}
+    }
 	
 	Display.initialize();
 	

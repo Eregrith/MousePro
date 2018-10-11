@@ -4,6 +4,21 @@
     /* src: url(AldotheApache.ttf); */
 }
 
+.origin-theme {
+	--background-color : white;
+	--text-color : black;
+	--active-color : aqua;
+	--inactive-color : gray;
+}
+
+.dark-theme {
+	--background-color : #2b2b2b ;
+	--text-color : #a9b7c6 ;
+	--active-color : #a582b7;
+	--inactive-color : #606070;
+}
+
+
 body {
 	font-family: gameFont;
 	-moz-user-select: none;
@@ -11,6 +26,8 @@ body {
 	-ms-user-select: none;
 	user-select: none;
 	-o-user-select: none;
+	background-color: var(--background-color);
+	color: var(--text-color);
 }
 
 ul {
@@ -24,7 +41,7 @@ ul {
 }
 
 .btn {
-	border: 1px solid black;
+	border: 1px solid var(--text-color);
 	width: fit-content;
     padding: 7px;
     margin: 7px;
@@ -40,7 +57,7 @@ ul {
 }
 
 .currency {
-	border: 1px solid black;
+	border: 1px solid var(--text-color);
 	border-radius: 5px;
 	width: 600px;
 	margin: 3px;
@@ -77,7 +94,7 @@ ul {
 	display: inline-block;
 	vertical-align: top;
 	margin-top: 40px;
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid var(--text-color);
 }
 
 #tabs div {
@@ -93,20 +110,20 @@ ul {
 }
 
 .tab-btn {
-    border: black solid;
+    border: var(--text-color) solid;
 	border-width: 1px 1px 0px 1px;
     border-radius: 6px 6px 0px 0px;
 	padding: 5px;
 }
 .tab-btn.tab-active {
-	background-color: aqua;
+	background-color: var(--active-color);
 }
 
 /*
     BOOSTS
 */
 .boost {
-	border: 1px solid black;
+	border: 1px solid var(--text-color);
 	border-radius: 2px;
 	width: 150px;
     display: inline-block;
@@ -130,14 +147,14 @@ ul {
     padding-left: 10px;
 }
 .boost-buy-btn {
-	border: 1px solid black;
+	border: 1px solid var(--text-color);
 	width: fit-content;
     padding: 7px;
     margin: 7px;
 	cursor: pointer;
 }
 .boost-buy-btn.disabled {
-	color: gray;
+	color: var(--inactive-color);
 	cursor: default;
 }
 
@@ -145,7 +162,7 @@ ul {
     SHOP
 */
 .shop {
-	border: 1px solid black;
+	border: 1px solid var(--text-color);
 	width: 49%;
 	float: left;
 	height: 400px;
@@ -155,7 +172,7 @@ ul {
 	position: relative;
 	top: -10px;
 	left: 10px;
-	background: white;
+	background: var(--background-color);
 	padding: 5px;
 }
 
@@ -163,7 +180,7 @@ ul {
     FRIENDS
 */
 .friends {
-	border: 1px solid black;
+	border: 1px solid var(--text-color);
 	width: 50%;
 	float: right;
 	height: 400px;
@@ -173,12 +190,12 @@ ul {
 	position: relative;
 	top: -10px;
 	left: 10px;
-	background: white;
+	background: var(--background-color);
 	padding: 5px;
 }
 
 .friend {
-	border: 1px solid black;
+	border: 1px solid var(--text-color);
 	border-radius: 2px;
 	width: 200px;
     display: inline-block;
@@ -202,14 +219,14 @@ ul {
     padding-left: 10px;
 }
 .friend-buy-btn {
-	border: 1px solid black;
+	border: 1px solid var(--text-color);
     padding: 7px;
     width: fit-content;
     margin: 7px;
 	cursor: pointer;
 }
 .friend-buy-btn.disabled {
-	color: gray;
+	color: var(--inactive-color);
 	cursor: default;
 }
 
@@ -217,7 +234,7 @@ ul {
     OWNED BOOSTS
 */
 .owned {
-	border: 1px solid black;
+	border: 1px solid var(--text-color);
 	width: 100%;
 	height: 400px;
 	display: block;
@@ -229,7 +246,7 @@ ul {
 	position: relative;
 	top: -10px;
 	left: 10px;
-	background: white;
+	background: var(--background-color);
 	padding: 5px;
 }
 
@@ -237,7 +254,7 @@ ul {
     SETTINGS
 */
 .settings {
-	border: 1px solid black;
+	border: 1px solid var(--text-color);
 	width: 100%;
 	float: right;
 	height: 800px;
@@ -247,7 +264,7 @@ ul {
 	position: relative;
 	top: -10px;
 	left: 10px;
-	background: white;
+	background: var(--background-color);
 	padding: 5px;
 }
 
