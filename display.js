@@ -97,6 +97,7 @@ Display = {};
 			Display.refreshTabs();
 			Display.refreshFriends();
 			Display.refreshBoostsOwned();
+			Display.refreshAchievements();
 		}
 		Game.tick();
 	}
@@ -146,6 +147,44 @@ Display = {};
 				ul.appendChild(boostItem);
 			}
 		}
+	}
+	
+	Display.refreshAchievements = function() {
+		let ul = document.getElementById('achievements');
+		while (ul.firstChild) {
+			ul.removeChild(ul.firstChild);
+		}
+		
+		let ach = Achievements.achievements;
+		if (ach.length == 0) return;
+
+		for (var a in ach) {
+			if (ach.hasOwnProperty(a)) {
+				let achievement = Display.buildDisplayItemForAchievement(ach[a]);
+				ul.appendChild(achievement);
+			}
+		}
+	}
+
+	Display.buildDisplayItemForAchievement = function(achievement) {
+		let mainDiv = document.createElement('div');
+		mainDiv.classList = ['achievement'];
+		if (!achievement.acquired)
+			mainDiv.classList.add('locked');
+		mainDiv.id = 'achievement-' + achievement.shortName;
+		
+		let titleDiv = document.createElement('div');
+		titleDiv.className = 'achievement-title';
+		titleDiv.innerHTML = achievement.name;
+		
+		let descDiv = document.createElement('div');
+		descDiv.className = 'achievement-desc';
+		descDiv.innerHTML = achievement.description;
+		
+		mainDiv.appendChild(titleDiv);
+		mainDiv.appendChild(descDiv);
+
+		return mainDiv;
 	}
 	
 	Display.refreshBoostsOwned = function() {

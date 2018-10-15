@@ -7,7 +7,7 @@
 
 Achievements = {};
 
-(function (Display, Achievements) {
+(function (Display, Shop, Achievements) {
 
 	Achievements.achievements = [
 		{
@@ -45,6 +45,12 @@ Achievements = {};
 			shortName: 'jacky',
 			description: 'Reach level 1 in both proficiencies',
 			acquired: false
+		},
+		{
+			name: 'Bootloader',
+			shortName: 'bootloader',
+			description: 'Load a saved game',
+			acquired: false
 		}
 	];
 	
@@ -56,6 +62,7 @@ Achievements = {};
 		let ach = Achievements.achievement(achievementShortName);
 		ach.acquired = true;
 		Display.notifyAchievementGained(ach);
+		if (!Shop.has('vitrine') && Shop.has('settings')) Shop.unlock('vitrine');
 	}
 	
 	Achievements.has = function(achievementShortName) {
@@ -63,4 +70,4 @@ Achievements = {};
 		return ach.acquired;
 	}
 
-})(gameObjects.Display, gameObjects.Achievements);
+})(gameObjects.Display, gameObjects.Shop, gameObjects.Achievements);

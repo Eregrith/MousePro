@@ -15,6 +15,9 @@
 			color: 'gray',
 			xpRequiredForNextLevel: 100,
 			levelUp: function(me) {
+				if (Shop.has('bootloader')) {
+					Game.acquireXp('MM', 10);
+				}
 				if (Shop.has('zbglo')) {
 					let xp = 5;
 					if (Shop.has('zbgloinjectordown')) {
@@ -35,6 +38,9 @@
 			color: 'green',
 			xpRequiredForNextLevel: 10,
 			levelUp: function(me) {
+				if (Shop.has('bootloader')) {
+					Game.acquireXp('MC', 10);
+				}
 				if (Shop.has('zbglo')) {
 					let xp = 5;
 					if (Shop.has('zbgloinjectorup')) {

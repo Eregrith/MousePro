@@ -35,6 +35,20 @@
             isUnlocked: function() {
                 return this.saveableState.unlocked;
             }
+        },
+        {
+            label: 'Achievements',
+            shortName: 'achievements',
+            saveableState: {
+                unlocked: false,
+                active: false
+            },
+            isActive: function() {
+                return this.saveableState.active;
+            },
+            isUnlocked: function() {
+                return this.saveableState.unlocked;
+            }
         }
     ];
 

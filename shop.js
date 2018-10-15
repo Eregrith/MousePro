@@ -116,6 +116,31 @@
 			}
 		}
 	});
+	Boosts.newBoost({
+		name: 'Bootloader',
+		getDescription: function() { return 'Kickstarts MM and MC by giving them 10 xp when they level up'; },
+		shortName: 'bootloader',
+		cost: {
+			levels: {
+				MM: 2,
+				MC: 2
+			}
+		}
+	});
+	Boosts.newBoost({
+		name: 'Vitrine',
+		getDescription: function() { return 'A nice place to show off what you got'; },
+		shortName: 'vitrine',
+		cost: {
+			levels: {
+				MM: 5,
+				MC: 5
+			}
+		},
+		onBuy: function() {
+			Tabs.unlock('achievements');
+		}
+	});
 	
 	Shop.boost = function(shortName) {
 		return Shop.boosts.filter(b => b.shortName == shortName)[0];

@@ -69,6 +69,11 @@
         
         let saveGame = JSON.parse(localSave);
         Save.applySave(saveGame);
+
+        if (!Achievements.has('bootloader')) {
+            Shop.unlock('bootloader');
+            Achievements.gain('bootloader');
+        }
     }
 
     Save.applySave = function(saveGame){
