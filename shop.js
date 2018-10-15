@@ -62,9 +62,9 @@
 	Boosts.newBoost({
 		name: 'Addon Enhancer',
 		getDescription: function() {
-			return this.buyable ?
+			return this.canBuy() ?
 				'This little device will double the effects of XT-PRO, DM-BLU and ZB-GLO addons'
-				: 'This little device multiplies the effects of XT-PRO, DM-BLU and ZB-GLO addons by ' + this.power;
+				: 'This little device multiplies the effects of XT-PRO, DM-BLU and ZB-GLO addons by ' + this.getPower();
 		},
 		shortName: 'addonenhancer',
 		cost: {
@@ -75,7 +75,7 @@
 		},
 		power: 1,
 		buy: function (thisBoost) {
-			thisBoost.power *= 2;
+			thisBoost.saveableState.power *= 2;
 			if (!Shop.has('friends'))
 				Shop.unlock('friends');
 		}
@@ -92,6 +92,28 @@
 		},
 		buy: function () {
 			Friends.unlock('aldo');
+		}
+	});
+	Boosts.newBoost({
+		name: 'ZB-GLO Injector - Down',
+		getDescription: function() { return 'Mouse XP transfer ZB-GLO will give MC xp based on the MM level attained when it triggers.'; },
+		shortName: 'zbgloinjectordown',
+		cost: {
+			levels: {
+				MM: 15,
+				MC: 15
+			}
+		}
+	});
+	Boosts.newBoost({
+		name: 'ZB-GLO Injector - Up',
+		getDescription: function() { return 'Mouse XP transfer ZB-GLO will give MM xp based on the MC level attained when it triggers.'; },
+		shortName: 'zbgloinjectorup',
+		cost: {
+			levels: {
+				MM: 15,
+				MC: 15
+			}
 		}
 	});
 	

@@ -5,7 +5,7 @@
 * Friends.js
 */
 
-(function (Game, Display, Friends) {
+(function (Game, Display, Shop, Friends) {
 
     Friends.newFriend = function(settings) {
         let friend = {
@@ -58,6 +58,9 @@
         },
         activate: function() {
             Game.acquireXp('MM', this.getXpPerActivation());
+        },
+        onBuy: function() {
+            Game.checkUnlocks();
         }
     });
     Friends.newFriend({
@@ -77,6 +80,11 @@
         },
         activate: function() {
             Game.acquireXp('MC', this.getXpPerActivation());
+        },
+        onBuy: function() {
+            if (this.bought >= 5) {
+                Shop.unlock('zbglotransferup');
+            }
         }
     });
 
@@ -114,4 +122,4 @@
         }
     }
 
-})(gameObjects.Game, gameObjects.Display, gameObjects.Friends);
+})(gameObjects.Game, gameObjects.Display, gameObjects.Shop, gameObjects.Friends);

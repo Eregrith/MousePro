@@ -14,14 +14,19 @@
 			shortName: 'MM',
 			color: 'gray',
 			xpRequiredForNextLevel: 100,
-			levelUp: function() {
+			levelUp: function(me) {
 				if (Shop.has('zbglo')) {
-					Game.acquireXp('MC', 5 * (Shop.has('addonenhancer') ? Shop.boost('addonenhancer').power : 1));
+					let xp = 5;
+					if (Shop.has('zbgloinjectordown')) {
+						xp += me.saveableState.level;
+					}
+					xp *= (Shop.has('addonenhancer') ? Shop.boost('addonenhancer').saveableState.power : 1);
+					Game.acquireXp('MC', xp);
 				}
 			},
 			xpGained: function(currency) {
 				if (Shop.has('xtpro') && currency.getXp() % 5 === 0)
-					currency.setXp(currency.getXp() + Shop.boost('xtpro').bonusXp * (Shop.has('addonenhancer') ? Shop.boost('addonenhancer').power : 1));
+					currency.setXp(currency.getXp() + Shop.boost('xtpro').bonusXp * (Shop.has('addonenhancer') ? Shop.boost('addonenhancer').saveableState.power : 1));
 			}
 		});
 	Currencies.newCurrency({
@@ -29,14 +34,19 @@
 			shortName: 'MC',
 			color: 'green',
 			xpRequiredForNextLevel: 10,
-			levelUp: function() {
+			levelUp: function(me) {
 				if (Shop.has('zbglo')) {
-					Game.acquireXp('MM', 5 * (Shop.has('addonenhancer') ? Shop.boost('addonenhancer').power : 1));
+					let xp = 5;
+					if (Shop.has('zbgloinjectorup')) {
+						xp += me.saveableState.level;
+					}
+					xp *= (Shop.has('addonenhancer') ? Shop.boost('addonenhancer').saveableState.power : 1);
+					Game.acquireXp('MM', xp);
 				}
 			},
 			xpGained: function(currency) {
 				if (Shop.has('dmblu') && currency.getXp() % 5 === 0)
-					currency.setXp(currency.getXp() + Shop.boost('dmblu').bonusXp * (Shop.has('addonenhancer') ? Shop.boost('addonenhancer').power : 1));
+					currency.setXp(currency.getXp() + Shop.boost('dmblu').bonusXp * (Shop.has('addonenhancer') ? Shop.boost('addonenhancer').saveableState.power : 1));
 			}
 		});
 
@@ -65,6 +75,12 @@
 			Shop.unlock('addonenhancer');
 			Friends.unlock('barnabeus');
 			Achievements.gain('marignan');
+		}
+		if (Friends.friend('aldo').saveableState.bought >= 5 && !Shop.has('zbgloinjectordown')) {
+			Shop.unlock('zbgloinjectordown');
+		}
+		if (Friends.friend('barnabeus').saveableState.bought >= 5 && !Shop.has('zbgloinjectorup')) {
+			Shop.unlock('zbgloinjectorup');
 		}
 	}
 	

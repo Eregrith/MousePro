@@ -30,7 +30,7 @@
             levelUp: function() {
                 this.saveableState.xp -= this.xpRequiredForNextLevel();
                 this.saveableState.level++;
-                settings.levelUp();
+                settings.levelUp(this);
                 Display.notifyLevelUp(this);
                 Game.checkUnlocks();
             },

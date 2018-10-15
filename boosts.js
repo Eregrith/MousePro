@@ -13,6 +13,7 @@
             saveableState: {
                 buyable: false,
                 bought: false,
+                power: settings.power || 0
             },
             getCost: function () {
                 if (this.cost.xp == undefined)
@@ -20,6 +21,9 @@
                 if (this.cost.levels == undefined)
                     this.cost.levels = {};
                 return this.cost;
+            },
+            getPower: function() {
+                return this.saveableState.power;
             },
             buy: function () {
                 if (!this.saveableState.buyable) return;
