@@ -137,7 +137,7 @@
 				MC: 5
 			}
 		},
-		onBuy: function() {
+		buy: function() {
 			Tabs.unlock('achievements');
 		}
 	});
