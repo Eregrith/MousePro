@@ -63,6 +63,12 @@ Achievements = {};
 			shortName: 'saycheese',
 			description: 'Get cheese',
 			acquired: false
+		},
+		{
+			name: 'Glowing proficiency',
+			shortName: 'glowing',
+			description: 'Reach level 30 in both proficiencies',
+			acquired: false
 		}
 	];
 	

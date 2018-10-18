@@ -140,6 +140,20 @@
 			Tabs.unlock('achievements');
 		}
 	});
+	Boosts.newBoost({
+		name: 'Outer GLO',
+		getDescription: function() { return 'Multiplies the effect of ZB-GLO by the corresponding friend\'s level. Can only be bought when MC xp is even.'; },
+		shortName: 'outerglo',
+		cost: {
+			levels: {
+				MM: 20,
+				MC: 20
+			}
+		},
+		canBuy: function() {
+			return (Game.currency('MC').saveableState.xp % 2 == 0);
+		}
+	});
 	
 	Shop.boost = function(shortName) {
 		return Shop.boosts.filter(b => b.shortName == shortName)[0];

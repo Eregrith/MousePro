@@ -37,8 +37,11 @@
             unlock: function() {
                 this.saveableState.buyable = true;
             },
-            canBuy: settings.canBuy || function() {
+            isUnlocked: function() {
                 return this.saveableState.buyable;
+            },
+            canBuy: settings.canBuy || function() {
+                return true;
             },
             isBought: function() {
                 return this.saveableState.bought;

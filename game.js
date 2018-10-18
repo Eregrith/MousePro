@@ -23,6 +23,9 @@
 					if (Shop.has('zbgloinjectordown')) {
 						xp += me.saveableState.level;
 					}
+					if (Shop.has('outerglo')) {
+						xp *= Friends.friend('aldo').getLevel();
+					}
 					xp *= (Shop.has('addonenhancer') ? Shop.boost('addonenhancer').saveableState.power : 1);
 					Game.acquireXp('MC', xp);
 				}
@@ -45,6 +48,9 @@
 					let xp = 5;
 					if (Shop.has('zbgloinjectorup')) {
 						xp += me.saveableState.level;
+					}
+					if (Shop.has('outerglo')) {
+						xp *= Friends.friend('barnabeus').getLevel();
 					}
 					xp *= (Shop.has('addonenhancer') ? Shop.boost('addonenhancer').saveableState.power : 1);
 					Game.acquireXp('MM', xp);
@@ -91,6 +97,10 @@
 		}
 		if (Friends.friend('barnabeus').saveableState.bought >= 5 && !Shop.has('zbgloinjectorup')) {
 			Shop.unlock('zbgloinjectorup');
+		}
+		if (Game.currency('MM').getLevel() >= 30 && Game.currency('MC').getLevel() >= 30 && !Achievements.has('glowing')) {
+			Shop.unlock('outerglo');
+			Achievements.gain('glowing');
 		}
 	}
 	

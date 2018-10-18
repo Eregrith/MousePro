@@ -137,7 +137,7 @@ Display = {};
 			ul.removeChild(ul.firstChild);
 		}
 
-		let boosts = Shop.boosts.filter(b => b.canBuy());
+		let boosts = Shop.boosts.filter(b => b.isUnlocked());
 		if (boosts.length == 0) return;
 
 		ul.parentElement.parentElement.style.display = '';
@@ -193,7 +193,7 @@ Display = {};
 			ul.removeChild(ul.firstChild);
 		}
 		
-		let boosts = Shop.boosts.filter(b => b.isBought() && !b.canBuy());
+		let boosts = Shop.boosts.filter(b => b.isBought() && !b.isUnlocked());
 		if (boosts.length == 0) return;
 
 		ul.parentElement.parentElement.style.display = '';
@@ -221,7 +221,7 @@ Display = {};
 		mainDiv.appendChild(titleDiv);
 		mainDiv.appendChild(descDiv);
 
-		if (boost.canBuy()) {
+		if (boost.isUnlocked()) {
 			let costDiv = document.createElement('div');
 			costDiv.className = 'boost-cost';
 			costDiv.innerHTML = 'Cost:';
@@ -231,7 +231,7 @@ Display = {};
 			let buyButton = document.createElement('div');
 			buyButton.classList = ['boost-buy-btn'];
 			buyButton.innerHTML = 'Buy';
-			if (!Game.hasCurrency(boost.getCost()))
+			if (!Game.hasCurrency(boost.getCost()) || !boost.canBuy())
 				buyButton.classList.add('disabled');
 			buyButton.addEventListener('click', function() { Shop.buy(boost.shortName) });
 

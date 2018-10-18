@@ -15,6 +15,9 @@
                 bought: 0,
                 ticks: 0
             },
+            getLevel: function() {
+                return this.saveableState.bought;
+            },
             canBuy: function() {
                 return this.saveableState.buyable;
             },
