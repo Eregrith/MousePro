@@ -82,6 +82,10 @@
 			Friends.unlock('barnabeus');
 			Achievements.gain('marignan');
 		}
+		if (Game.currency('MM').getLevel() >= 25 && Game.currency('MC').getLevel() >= 25 && !Achievements.has('quartercentury')) {
+			Shop.unlock('addonenhancer');
+			Achievements.gain('quartercentury');
+		}
 		if (Friends.friend('aldo').saveableState.bought >= 5 && !Shop.has('zbgloinjectordown')) {
 			Shop.unlock('zbgloinjectordown');
 		}

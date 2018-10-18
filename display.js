@@ -193,7 +193,7 @@ Display = {};
 			ul.removeChild(ul.firstChild);
 		}
 		
-		let boosts = Shop.boosts.filter(b => b.isBought());
+		let boosts = Shop.boosts.filter(b => b.isBought() && !b.canBuy());
 		if (boosts.length == 0) return;
 
 		ul.parentElement.parentElement.style.display = '';

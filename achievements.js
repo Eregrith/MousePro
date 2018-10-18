@@ -51,6 +51,18 @@ Achievements = {};
 			shortName: 'bootloader',
 			description: 'Load a saved game',
 			acquired: false
+		},
+		{
+			name: 'Quarter of a century',
+			shortName: 'quartercentury',
+			description: 'Reach level 25 in both proficiencies',
+			acquired: false
+		},
+		{
+			name: 'Say Cheese',
+			shortName: 'saycheese',
+			description: 'Get cheese',
+			acquired: false
 		}
 	];
 	

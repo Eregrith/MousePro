@@ -62,9 +62,8 @@
 	Boosts.newBoost({
 		name: 'Addon Enhancer',
 		getDescription: function() {
-			return this.canBuy() ?
-				'This little device will double the effects of XT-PRO, DM-BLU and ZB-GLO addons'
-				: 'This little device multiplies the effects of XT-PRO, DM-BLU and ZB-GLO addons by ' + this.getPower();
+			return 'This little device multiplies the effects of XT-PRO, DM-BLU and ZB-GLO addons by ' + this.getPower()
+				+ (this.canBuy() ? '<br/>When bought, this effect doubles.' : '');
 		},
 		shortName: 'addonenhancer',
 		cost: {
