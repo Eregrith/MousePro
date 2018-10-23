@@ -298,6 +298,23 @@ ul {
 	padding: 5px;
 }
 
+/*
+    STATS
+*/
+.stats {
+	border: 1px solid var(--text-color);
+	width: 100%;
+	float: right;
+	height: 800px;
+}
+.stats::before {
+	content: 'STATS';
+	position: relative;
+	top: -10px;
+	left: 10px;
+	background: var(--background-color);
+	padding: 5px;
+}
 
 /*
     NOTIFS

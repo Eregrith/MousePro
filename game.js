@@ -102,6 +102,10 @@
 			Shop.unlock('outerglo');
 			Achievements.gain('glowing');
 		}
+		if ((Game.currency('MM').getXp() == 123 || Game.currency('MC').getXp() == 123) && !Achievements.has('statistician')) {
+			Shop.unlock('stats');
+			Achievements.gain('statistician');
+		}
 	}
 	
 	Game.tick = function() {
@@ -124,6 +128,7 @@
 	Game.acquireXp = function(currencyShortName, xpAmount) {
 		let currency = Game.currency(currencyShortName);
 		currency.acquireXp(xpAmount);
+		Game.checkUnlocks();
 	}
 	
 	Game.hasCurrency = function(costs) {

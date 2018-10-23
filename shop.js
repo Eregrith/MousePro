@@ -154,6 +154,20 @@
 			return (Game.currency('MC').saveableState.xp % 2 == 0);
 		}
 	});
+	Boosts.newBoost({
+		name: 'Stats',
+		getDescription: function() { return 'You know numbers. Here you can look at them'; },
+		shortName: 'stats',
+		cost: {
+			xp: {
+				MM: 123,
+				MC: 123
+			}
+		},
+		buy: function() {
+			Tabs.unlock('stats');
+		}
+	});
 	
 	Shop.boost = function(shortName) {
 		return Shop.boosts.filter(b => b.shortName == shortName)[0];

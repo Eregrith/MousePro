@@ -49,6 +49,20 @@
             isUnlocked: function() {
                 return this.saveableState.unlocked;
             }
+        },
+        {
+            label: 'Stats',
+            shortName: 'stats',
+            saveableState: {
+                unlocked: false,
+                active: false
+            },
+            isActive: function() {
+                return this.saveableState.active;
+            },
+            isUnlocked: function() {
+                return this.saveableState.unlocked;
+            }
         }
     ];
 
