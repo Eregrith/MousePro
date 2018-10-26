@@ -485,7 +485,19 @@ Display = {};
 		} else {
 			body.className = 'dark-theme';
 		}
-    }
+	}
+	
+	Display.displaySaveExport = function(save) {
+		let mainDiv = document.getElementById('saveExport');
+		mainDiv.style.display = '';
+		let textArea = document.getElementById('saveExportText');
+		textArea.value = save;
+	}
+	
+	Display.closeSaveExport = function() {
+		let mainDiv = document.getElementById('saveExport');
+		mainDiv.style.display = 'none';
+	}
 	
 	Display.initialize();
 	

@@ -131,7 +131,9 @@
     Save.exportSave = function() {
         let saveGame = Save.generateSaveGame();
 
-        prompt("Your saved game:", btoa(JSON.stringify(saveGame)));
+        let exportSave = btoa(JSON.stringify(saveGame));
+
+        Display.displaySaveExport(exportSave);
     }
 
     Save.importSave = function() {

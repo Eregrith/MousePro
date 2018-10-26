@@ -128,7 +128,7 @@
 	Game.acquireXp = function(currencyShortName, xpAmount) {
 		let currency = Game.currency(currencyShortName);
 		currency.acquireXp(xpAmount);
-		Game.checkUnlocks();
+		//Game.checkUnlocks();
 	}
 	
 	Game.hasCurrency = function(costs) {
