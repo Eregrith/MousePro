@@ -98,6 +98,7 @@ Display = {};
 			Display.refreshFriends();
 			Display.refreshBoostsOwned();
 			Display.refreshAchievements();
+			//Game.checkUnlocks();
 		}
 		Game.tick();
 	}
