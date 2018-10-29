@@ -12,37 +12,27 @@
     Save.generateSaveGame = function() {
         
         let saveCurrencies = [];
-        for (c in Game.currencies) {
-            if (Game.currencies.hasOwnProperty(c)) {
-                saveCurrencies.push({shortName: Game.currencies[c].shortName, saveableState: Game.currencies[c].saveableState });
-            }
-        }
+        Game.currencies.forEach((currency) => {
+            saveCurrencies.push({shortName: currency.shortName, saveableState: currency.saveableState });
+        });
         let saveTabs = [];
-        for (t in Tabs.tabs) {
-            if (Tabs.tabs.hasOwnProperty(t)) {
-                saveTabs.push({shortName: Tabs.tabs[t].shortName, saveableState: Tabs.tabs[t].saveableState });
-            }
-        }
+        Tabs.tabs.forEach((tab) => {
+            saveTabs.push({shortName: tab.shortName, saveableState: tab.saveableState });
+        });
         let saveBoosts = [];
-        for (b in Shop.boosts) {
-            if (Shop.boosts.hasOwnProperty(b)) {
-                saveBoosts.push({shortName: Shop.boosts[b].shortName, saveableState: Shop.boosts[b].saveableState });
-            }
-        }
+        Shop.boosts.forEach((boost) => {
+            saveBoosts.push({shortName: boost.shortName, saveableState: boost.saveableState });
+        });
         let saveFriends = [];
-        for (f in Friends.friends) {
-            if (Friends.friends.hasOwnProperty(f)) {
-                saveFriends.push({shortName: Friends.friends[f].shortName, saveableState: Friends.friends[f].saveableState });
-            }
-        }
+        Friends.friends.forEach((friend) => {
+            saveFriends.push({shortName: friend.shortName, saveableState: friend.saveableState });
+        });
         let acquiredAchievements = [];
-        for (a in Achievements.achievements) {
-            if (Achievements.achievements.hasOwnProperty(a)) {
-                if (Achievements.achievements[a].acquired) {
-                    acquiredAchievements.push(Achievements.achievements[a].shortName);
-                }
+        Achievements.achievements.forEach((achievement) => {
+            if (achievement.acquired) {
+                acquiredAchievements.push(achievement.shortName);
             }
-        }
+        });
 
         let saveGame = {
             Tabs: saveTabs,
@@ -77,40 +67,25 @@
     }
 
     Save.applySave = function(saveGame){
-        let saveCurrencies = saveGame.Currencies;
-        for (c in saveCurrencies) {
-            if (saveCurrencies.hasOwnProperty(c)) {
-                let currency = Game.currency(saveCurrencies[c].shortName);
-                currency.saveableState = saveCurrencies[c].saveableState;
-            }
-        }
-        let saveTabs = saveGame.Tabs;
-        for (t in saveTabs) {
-            if (saveTabs.hasOwnProperty(t)) {
-                let tab = Tabs.tab(saveTabs[t].shortName);
-                tab.saveableState = saveTabs[t].saveableState;
-            }
-        }
-        let saveBoosts = saveGame.Boosts;
-        for (b in saveBoosts) {
-            if (saveBoosts.hasOwnProperty(b)) {
-                let boost = Shop.boost(saveBoosts[b].shortName);
-                boost.saveableState = saveBoosts[b].saveableState;
-            }
-        }
-        let saveFriends = saveGame.Friends;
-        for (f in saveFriends) {
-            if (saveFriends.hasOwnProperty(c)) {
-                let friend = Friends.friend(saveFriends[f].shortName);
-                friend.saveableState = saveFriends[f].saveableState;
-            }
-        }
-        let acquiredAchievements = saveGame.AcquiredAchievements;
-        for (a in acquiredAchievements) {
-            if (acquiredAchievements.hasOwnProperty(a)) {
-                Achievements.achievement(acquiredAchievements[a]).acquired = true;
-            }
-        }
+        saveGame.Currencies.forEach((savedCurrency) => {
+            let currency = Game.currency(savedCurrency.shortName);
+            currency.saveableState = savedCurrency.saveableState;
+        });
+        saveGame.Tabs.forEach((savedTab) => {
+            let tab = Tabs.tab(savedTab.shortName);
+            tab.saveableState = savedTab.saveableState;
+        });
+        saveGame.Boosts.forEach((savedBoost) => {
+            let boost = Shop.boost(savedBoost.shortName);
+            boost.saveableState = savedBoost.saveableState;
+        });
+        saveGame.Friends.forEach((savedFriend) => {
+            let friend = Friends.friend(savedFriend.shortName);
+            friend.saveableState = savedFriend.saveableState;
+        });
+        saveGame.AcquiredAchievements.forEach((acquiredAchievement) => {
+            Achievements.achievement(acquiredAchievement).acquired = true;
+        });
 
         Display.refreshShop();
         Display.refreshTabs();

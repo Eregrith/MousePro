@@ -77,11 +77,7 @@
     }
 
     Tabs.toggleActiveTabTo = function(shortName) {
-        for (t in Tabs.tabs) {
-            if (Tabs.tabs.hasOwnProperty(t)) {
-                Tabs.tabs[t].saveableState.active = false;
-            }
-        }
+        Tabs.tabs.forEach((tab) => { tab.saveableState.active = false; });
         Tabs.tab(shortName).saveableState.active = true;
     }
 

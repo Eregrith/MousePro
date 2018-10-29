@@ -20,11 +20,7 @@ Display = {};
 	}
 	
 	Display.updateCurrencies = function() {
-		for (var c in Game.currencies) {
-			if (Game.currencies.hasOwnProperty(c)) {
-				this.updateCurrency(Game.currencies[c]);
-			}
-		}
+		Game.currencies.forEach(Display.updateCurrency);
 	}
 	
 	Display.updateNotifs = function() {
@@ -124,12 +120,10 @@ Display = {};
 	Display.displayCurrencies = function () {
 		let ul = document.getElementById('currencies');
 		
-		for (var c in Game.currencies) {
-			if (Game.currencies.hasOwnProperty(c)) {
-				let currencyDiv = this.buildDisplayItemForCurrency(Game.currencies[c]);
-				ul.appendChild(currencyDiv);
-			}
-		}
+		Game.currencies.forEach((currency) => {
+			let currencyDiv = this.buildDisplayItemForCurrency(currency);
+			ul.appendChild(currencyDiv);
+		});
 	}
 	
 	Display.refreshShop = function () {
@@ -142,12 +136,10 @@ Display = {};
 		if (boosts.length == 0) return;
 
 		ul.parentElement.parentElement.style.display = '';
-		for (var b in boosts) {
-			if (boosts.hasOwnProperty(b)) {
-				let boostItem = Display.buildDisplayItemForBoost(boosts[b]);
-				ul.appendChild(boostItem);
-			}
-		}
+		boosts.forEach((boost) => {
+			let boostItem = Display.buildDisplayItemForBoost(boost);
+			ul.appendChild(boostItem);
+		});
 	}
 	
 	Display.refreshAchievements = function() {
@@ -159,12 +151,10 @@ Display = {};
 		let ach = Achievements.achievements;
 		if (ach.length == 0) return;
 
-		for (var a in ach) {
-			if (ach.hasOwnProperty(a)) {
-				let achievement = Display.buildDisplayItemForAchievement(ach[a]);
-				ul.appendChild(achievement);
-			}
-		}
+		ach.forEach((achievement) => {
+			let achievementItem = Display.buildDisplayItemForAchievement(achievement);
+			ul.appendChild(achievementItem);
+		});
 	}
 
 	Display.buildDisplayItemForAchievement = function(achievement) {
@@ -198,12 +188,10 @@ Display = {};
 		if (boosts.length == 0) return;
 
 		ul.parentElement.parentElement.style.display = '';
-		for (var b in boosts) {
-			if (boosts.hasOwnProperty(b)) {
-				let boostItem = Display.buildDisplayItemForBoost(boosts[b]);
-				ul.appendChild(boostItem);
-			}
-		}
+		boosts.forEach((boost) => {
+			let boostItem = Display.buildDisplayItemForBoost(boost);
+			ul.appendChild(boostItem);
+		});
 	}
 
 	Display.buildDisplayItemForBoost = function(boost) {
@@ -252,12 +240,10 @@ Display = {};
 			ul.removeChild(ul.firstChild);
 		}
 		
-		for (var f in friends) {
-			if (friends.hasOwnProperty(f)) {
-				let friendItem = Display.buildDisplayItemForFriend(friends[f]);
-				ul.appendChild(friendItem);
-			}
-		}
+		friends.forEach((friend) => {
+			let friendItem = Display.buildDisplayItemForFriend(friend);
+			ul.appendChild(friendItem);
+		});
 	}
 
 	Display.buildDisplayItemForFriend = function(friend) {
@@ -365,50 +351,42 @@ Display = {};
 			ul.removeChild(ul.firstChild);
 		}
 
-		for (t in tabs) {
-			if (tabs.hasOwnProperty(t)) {
-				let div = document.createElement('div');
-				div.className = 'tab-btn' + (tabs[t].isActive() ? ' tab-active' : '');
-				div.setAttribute('data-target', tabs[t].shortName);
-				div.innerHTML = tabs[t].label;
-				div.onclick = (function (shortName) {
-					return function() { 
-						Tabs.toggleActiveTabTo(shortName);
-						Display.displayActiveTab();
-					};
-				})(tabs[t].shortName);
-				ul.appendChild(div);
-			}
-		}
+		tabs.forEach((tab) => {
+			let div = document.createElement('div');
+			div.className = 'tab-btn' + (tab.isActive() ? ' tab-active' : '');
+			div.setAttribute('data-target', tab.shortName);
+			div.innerHTML = tab.label;
+			div.onclick = (function (shortName) {
+				return function() { 
+					Tabs.toggleActiveTabTo(shortName);
+					Display.displayActiveTab();
+				};
+			})(tab.shortName);
+			ul.appendChild(div);
+		});
 	}
 
 	Display.displayActiveTab = function() {
 		let shortName = Tabs.getActiveTab();
 		let tabs = document.getElementsByClassName('tab');
 
-		for (t in tabs) {
-			if (tabs.hasOwnProperty(t)) {
-				let tabDiv = tabs[t];
-				if (tabDiv.id == 'tab-' + shortName) {
-					tabDiv.classList.add('tab-active');
-				} else {
-					tabDiv.classList.remove('tab-active');
-				}
+		[...tabs].forEach((tabDiv) => {
+			if (tabDiv.id == 'tab-' + shortName) {
+				tabDiv.classList.add('tab-active');
+			} else {
+				tabDiv.classList.remove('tab-active');
 			}
-		}
+		});
 
 		let tabBtns = document.getElementsByClassName('tab-btn');
 
-		for (t in tabBtns) {
-			if (tabBtns.hasOwnProperty(t)) {
-				let tabBtnDiv = tabBtns[t];
-				if (tabBtnDiv.getAttribute('data-target') == shortName) {
-					tabBtnDiv.classList.add('tab-active');
-				} else {
-					tabBtnDiv.classList.remove('tab-active');
-				}
+		[...tabBtns].forEach((tabBtnDiv) => {
+			if (tabBtnDiv.getAttribute('data-target') == shortName) {
+				tabBtnDiv.classList.add('tab-active');
+			} else {
+				tabBtnDiv.classList.remove('tab-active');
 			}
-		}
+		});
 	}
 	
 	Display.notifyAchievementGained = function(ach) {

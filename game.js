@@ -75,21 +75,17 @@
 			{ mm: 25, mc: 25, achievement: 'quartercentury', boost: 'addonenhancer' },
 			{ mm: 30, mc: 30, achievement: 'glowing', boost: 'outerglo' },
 		];
-		for (let l in levelsUnlocks) {
-			if (levelsUnlocks.hasOwnProperty(l)){
-				let levelUnlock = levelsUnlocks[l];
-
-				if (mm.getLevel() >= levelUnlock.mm
-				 && mc.getLevel() >= levelUnlock.mc
-				 && !Achievements.has(levelUnlock.achievement)) {
-					Shop.unlock(levelUnlock.boost);
-					Achievements.gain(levelUnlock.achievement);
-					if (levelUnlock.friend !== undefined) {
-						Friends.unlock(levelUnlock.friend);
-					}
+		levelsUnlocks.forEach((levelUnlock) => {
+			if (mm.getLevel() >= levelUnlock.mm
+				&& mc.getLevel() >= levelUnlock.mc
+				&& !Achievements.has(levelUnlock.achievement)) {
+				Shop.unlock(levelUnlock.boost);
+				Achievements.gain(levelUnlock.achievement);
+				if (levelUnlock.friend !== undefined) {
+					Friends.unlock(levelUnlock.friend);
 				}
 			}
-		}
+		});
 		if (Friends.friend('aldo').saveableState.bought >= 5 && !Shop.has('zbgloinjectordown')) {
 			Shop.unlock('zbgloinjectordown');
 		}
@@ -103,11 +99,7 @@
 	}
 	
 	Game.tick = function() {
-		for (f in Friends.friends) {
-			if (Friends.friends.hasOwnProperty(f)) {
-				Friends.tick(Friends.friends[f]);
-			}
-		}
+		Friends.friends.forEach((friend) => Friends.tick(friend));
 	}
 
 	Game.currency = function(currencyShortName) {
