@@ -97,16 +97,25 @@
 			Shop.unlock('stats');
 			Achievements.gain('statistician');
 		}
+		if ((Shop.boost('sacrifice-mm').getPower() + Shop.boost('sacrifice-mc').getPower()) >= 5 && !Achievements.has('cutting')) {
+			Shop.unlock('posters');
+			Achievements.gain('cutting');
+		}
 	}
 	
 	Game.tick = function() {
 		Friends.friends.forEach((friend) => Friends.tick(friend));
-		if (Shop.has('kriss') && !Shop.has('sacrifice-mc') && !Shop.has('sacrifice-mm') && Math.random() < 0.0005)
+		if (Shop.has('kriss') && !Shop.has('sacrifice-mc') && !Shop.has('sacrifice-mm'))
 		{
-			if (Math.random() < 0.5)
-				Shop.unlock('sacrifice-mm');
-			else
-				Shop.unlock('sacrifice-mc');
+			let sacrificeChance = 0.0005;
+			if (Shop.has('posters'))
+				sacrificeChance *= 2;
+			if (Math.random() < sacrificeChance) {
+				if (Math.random() < 0.5)
+					Shop.unlock('sacrifice-mm');
+				else
+					Shop.unlock('sacrifice-mc');
+			}
 		}
 		Shop.boosts.filter(b => b.tick != undefined).forEach((boost) => boost.tick());
 	}

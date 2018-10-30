@@ -81,6 +81,12 @@ Achievements = {};
 			shortName: 'fnafMaster',
 			description: 'Reach level 20 in both proficiencies',
 			acquired: false
+		},
+		{
+			name: 'Cutting down to business',
+			shortName: 'cutting',
+			description: 'Made 5 sacrifices',
+			acquired: false
 		}
 	];
 	

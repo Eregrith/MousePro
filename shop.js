@@ -216,6 +216,17 @@
 		ephemeral: true,
 		lifeDurationInTicks: 1000
 	});
+	Boosts.newBoost({
+		name: 'Recruitment posters',
+		getDescription: function() { return 'This will help you find lambs to slaughter. Doubles the chance to have a ready sacrifice.'; },
+		shortName: 'posters',
+		cost: {
+			levels: {
+				MM: 5, 
+				MC: 5
+			}
+		}
+	});
 	
 	Shop.boost = function(shortName) {
 		return Shop.boosts.filter(b => b.shortName == shortName)[0];
