@@ -71,7 +71,7 @@
 			{ mm: 1, mc: 1, achievement: 'jacky', boost: 'settings' },
 			{ mm: 5, mc: 5, achievement: 'together', boost: 'zbglo' },
 			{ mm: 10, mc: 10, achievement: '42', boost: 'addonenhancer' },
-			{ mm: 15, mc: 15, achievement: 'marignan', boost: 'addonenhancer' },
+			{ mm: 15, mc: 15, achievement: 'marignan', boost: 'addonenhancer', friend: 'barnabeus'},
 			{ mm: 25, mc: 25, achievement: 'quartercentury', boost: 'addonenhancer' },
 			{ mm: 30, mc: 30, achievement: 'glowing', boost: 'outerglo' },
 		];
