@@ -40,6 +40,9 @@
             lock: function() {
                 this.saveableState.buyable = false;
                 this.saveableState.bought = false;
+
+                if (this.ephemeral)
+                    this.lifeDurationInTicks = this.originalLifeDuration;
             },
             isUnlocked: function() {
                 return this.saveableState.buyable;
