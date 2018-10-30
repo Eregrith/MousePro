@@ -94,7 +94,6 @@ Display = {};
 			Display.refreshFriends();
 			Display.refreshBoostsOwned();
 			Display.refreshAchievements();
-			//Game.checkUnlocks();
 		}
 		Game.tick();
 	}
@@ -128,18 +127,36 @@ Display = {};
 	
 	Display.refreshShop = function () {
 		let ul = document.getElementById('shop');
-		while (ul.firstChild) {
-			ul.removeChild(ul.firstChild);
-		}
+		let shopBoosts = [...ul.getElementsByClassName('boost')];
 
 		let boosts = Shop.boosts.filter(b => b.isUnlocked());
-		if (boosts.length == 0) return;
+		if (boosts.length == 0)
+			ul.parentElement.parentElement.style.display = 'none';
+		else
+			ul.parentElement.parentElement.style.display = '';
 
-		ul.parentElement.parentElement.style.display = '';
-		boosts.forEach((boost) => {
-			let boostItem = Display.buildDisplayItemForBoost(boost);
-			ul.appendChild(boostItem);
+		shopBoosts.forEach((shopBoost) => {
+			let boost = boosts.filter(b => 'boost-' + b.shortName == shopBoost.id);
+			if (boost.length == 0) {
+				ul.removeChild(shopBoost);
+				return;
+			}
 		});
+		boosts.forEach((boost) => {
+			let shopBoost = shopBoosts.filter(sb => sb.id == 'boost-' + boost.shortName);
+			if (shopBoost.length == 0) {
+				let boostItem = Display.buildDisplayItemForBoost(boost);
+				ul.appendChild(boostItem);
+			} else {
+				shopBoost = shopBoost[0];
+				let buyButton = shopBoost.getElementsByClassName('boost-buy-btn')[0];
+				if (!Game.hasCurrency(boost.getCost()) || !boost.canBuy())
+					buyButton.classList.add('disabled');
+				else 
+					buyButton.classList.remove('disabled');
+			}
+		});
+
 	}
 	
 	Display.refreshAchievements = function() {
@@ -180,17 +197,27 @@ Display = {};
 	
 	Display.refreshBoostsOwned = function() {
 		let ul = document.getElementById('owned');
-		while (ul.firstChild) {
-			ul.removeChild(ul.firstChild);
-		}
-		
-		let boosts = Shop.boosts.filter(b => b.isBought() && !b.isUnlocked());
-		if (boosts.length == 0) return;
+		let ownedBoosts = [...ul.getElementsByClassName('boost')];
 
-		ul.parentElement.parentElement.style.display = '';
+		let boosts = Shop.boosts.filter(b => b.isBought() && !b.isUnlocked());
+		if (boosts.length == 0)
+			ul.parentElement.parentElement.style.display = 'none';
+		else
+			ul.parentElement.parentElement.style.display = '';
+
+		ownedBoosts.forEach((ownedBoost) => {
+			let boost = boosts.filter(b => 'boost-' + b.shortName == ownedBoost.id);
+			if (boost.length == 0) {
+				ul.removeChild(ownedBoost);
+				return;
+			}
+		});
 		boosts.forEach((boost) => {
-			let boostItem = Display.buildDisplayItemForBoost(boost);
-			ul.appendChild(boostItem);
+			let ownedBoost = ownedBoosts.filter(sb => sb.id == 'boost-' + boost.shortName);
+			if (ownedBoost.length == 0) {
+				let boostItem = Display.buildDisplayItemForBoost(boost);
+				ul.appendChild(boostItem);
+			}
 		});
 	}
 
@@ -235,14 +262,41 @@ Display = {};
 		if (friends.length == 0) return;
 
 		let ul = document.getElementById('friends');
+		let unlockedFriends = [...ul.getElementsByClassName('friend')];
 		ul.parentElement.style.display = '';
-		while (ul.firstChild) {
-			ul.removeChild(ul.firstChild);
-		}
 		
+		unlockedFriends.forEach((unlockedFriend) => {
+			let friend = friends.filter(f => 'friend-' + f.shortName == unlockedFriend.id);
+			if (friend.length == 0) {
+				ul.removeChild(unlockedFriend);
+				return;
+			}
+			friend = friend[0];
+			let costDiv = unlockedFriend.getElementsByClassName('friend-cost')[0];
+			let costList = costDiv.getElementsByClassName('cost-list')[0];
+			costDiv.removeChild(costList);
+			costDiv.appendChild(Display.buildCostListForCost(friend.getCosts()));
+		});
 		friends.forEach((friend) => {
-			let friendItem = Display.buildDisplayItemForFriend(friend);
-			ul.appendChild(friendItem);
+			let unlockedFriend = unlockedFriends.filter(sb => sb.id == 'friend-' + friend.shortName);
+			if (unlockedFriend.length == 0) {
+				let friendItem = Display.buildDisplayItemForFriend(friend);
+				ul.appendChild(friendItem);
+			} else {
+				unlockedFriend = unlockedFriend[0];
+
+				let title = unlockedFriend.getElementsByClassName('friend-title')[0];
+				title.innerHTML = friend.getName();
+				
+				let desc = unlockedFriend.getElementsByClassName('friend-desc')[0];
+				desc.innerHTML = friend.getDescription();
+
+				let buyButton = unlockedFriend.getElementsByClassName('friend-buy-btn')[0];
+				if (!Game.hasCurrency(friend.getCosts()))
+					buyButton.classList.add('disabled');
+				else 
+					buyButton.classList.remove('disabled');
+			}
 		});
 	}
 
@@ -281,6 +335,7 @@ Display = {};
 	
 	Display.buildCostListForCost = function(cost) {
 		let ul = document.createElement('ul');
+		ul.className = 'cost-list';
 		
 		if (cost.xp) {
 			for (let part in cost.xp) {
@@ -346,23 +401,27 @@ Display = {};
 		let tabs = Tabs.tabs.filter(t => t.isUnlocked());
 		if (tabs.length == 0) return;
 
+		let tabBtns = [...ul.getElementsByClassName('tab-btn')];
 		ul.parentElement.style.display = '';
-		while (ul.firstChild) {
-			ul.removeChild(ul.firstChild);
-		}
 
+		tabBtns.forEach((tabBtn) => {
+			if (tabs.filter(t => t.shortName == tabBtn.getAttribute('data-target')).length == 0)
+				ul.removeChild(tabBtn);
+		});
 		tabs.forEach((tab) => {
-			let div = document.createElement('div');
-			div.className = 'tab-btn' + (tab.isActive() ? ' tab-active' : '');
-			div.setAttribute('data-target', tab.shortName);
-			div.innerHTML = tab.label;
-			div.onclick = (function (shortName) {
-				return function() { 
-					Tabs.toggleActiveTabTo(shortName);
-					Display.displayActiveTab();
-				};
-			})(tab.shortName);
-			ul.appendChild(div);
+			if (tabBtns.filter(t => t.getAttribute('data-target') == tab.shortName).length == 0) {
+				let div = document.createElement('div');
+				div.className = 'tab-btn' + (tab.isActive() ? ' tab-active' : '');
+				div.setAttribute('data-target', tab.shortName);
+				div.innerHTML = tab.label;
+				div.onclick = (function (shortName) {
+					return function() { 
+						Tabs.toggleActiveTabTo(shortName);
+						Display.displayActiveTab();
+					};
+				})(tab.shortName);
+				ul.appendChild(div);
+			}
 		});
 	}
 

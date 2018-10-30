@@ -82,7 +82,9 @@
     }
 
     Tabs.getActiveTab = function() {
-        return Tabs.tabs.filter(t => t.isActive())[0].shortName;
+        let tab = Tabs.tabs.filter(t => t.isActive())[0];
+        if (tab == undefined) return '';
+        return tab.shortName;
     }
 
 })(gameObjects.Display, gameObjects.Tabs);
