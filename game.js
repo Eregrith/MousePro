@@ -72,6 +72,7 @@
 			{ mm: 5, mc: 5, achievement: 'together', boost: 'zbglo' },
 			{ mm: 10, mc: 10, achievement: '42', boost: 'addonenhancer' },
 			{ mm: 15, mc: 15, achievement: 'marignan', boost: 'addonenhancer', friend: 'barnabeus'},
+			{ mm: 20, mc: 20, achievement: 'fnafMaster', boost: 'kriss' },
 			{ mm: 25, mc: 25, achievement: 'quartercentury', boost: 'addonenhancer' },
 			{ mm: 30, mc: 30, achievement: 'glowing', boost: 'outerglo' },
 		];
@@ -100,6 +101,14 @@
 	
 	Game.tick = function() {
 		Friends.friends.forEach((friend) => Friends.tick(friend));
+		if (Shop.has('kriss') && !Shop.has('sacrifice-mc') && !Shop.has('sacrifice-mm') && Math.random() < 0.0005)
+		{
+			if (Math.random() < 0.5)
+				Shop.unlock('sacrifice-mm');
+			else
+				Shop.unlock('sacrifice-mc');
+		}
+		Shop.boosts.filter(b => b.tick != undefined).forEach((boost) => boost.tick());
 	}
 
 	Game.currency = function(currencyShortName) {

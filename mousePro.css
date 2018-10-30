@@ -139,6 +139,11 @@ ul {
 	padding: 5px;
 	font-size: 13px;
 }
+.boost-ephemeral {
+	padding: 5px;
+	font-size: 9px;
+	font-style: italic;
+}
 .boost-cost {
 	font-size: 12px;
     padding: 5px;

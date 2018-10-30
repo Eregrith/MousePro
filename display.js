@@ -149,10 +149,17 @@ Display = {};
 				ul.appendChild(boostItem);
 			} else {
 				shopBoost = shopBoost[0];
+				let descDiv = shopBoost.getElementsByClassName('boost-desc')[0];
+				descDiv.innerHTML = boost.getDescription();
+				let ephemeralDiv = shopBoost.getElementsByClassName('boost-ephemeral');
+				if (ephemeralDiv.length > 0){
+					ephemeralDiv = ephemeralDiv[0];
+					ephemeralDiv.innerHTML = boost.getEphemeralDescription(Display);
+				}
 				let buyButton = shopBoost.getElementsByClassName('boost-buy-btn')[0];
 				if (!Game.hasCurrency(boost.getCost()) || !boost.canBuy())
 					buyButton.classList.add('disabled');
-				else 
+				else
 					buyButton.classList.remove('disabled');
 			}
 		});
@@ -236,6 +243,13 @@ Display = {};
 		
 		mainDiv.appendChild(titleDiv);
 		mainDiv.appendChild(descDiv);
+
+		if (boost.ephemeral == true) {
+			ephemeralDiv = document.createElement('div');
+			ephemeralDiv.className = 'boost-ephemeral';
+			ephemeralDiv.innerHTML = boost.getEphemeralDescription(Display);
+			mainDiv.appendChild(ephemeralDiv);
+		}
 
 		if (boost.isUnlocked()) {
 			let costDiv = document.createElement('div');

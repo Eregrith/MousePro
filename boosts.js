@@ -37,6 +37,10 @@
             unlock: function() {
                 this.saveableState.buyable = true;
             },
+            lock: function() {
+                this.saveableState.buyable = false;
+                this.saveableState.bought = false;
+            },
             isUnlocked: function() {
                 return this.saveableState.buyable;
             },
@@ -45,6 +49,22 @@
             },
             isBought: function() {
                 return this.saveableState.bought;
+            },
+            originalLifeDuration: settings.lifeDurationInTicks,
+            tick: function() {
+                if (this.ephemeral == true && this.isUnlocked()) {
+                    this.lifeDurationInTicks--;
+                    if (this.lifeDurationInTicks <= 0) {
+                        this.lifeDurationInTicks = this.originalLifeDuration;
+                        this.lock();
+                    }
+                }
+            },
+            getEphemeralDescription: function(Display) {
+                let lifeInSeconds = Math.round(boost.lifeDurationInTicks / Display.framesPerSecond());
+                return 'This boost is ephemeral. It will only stay for '
+                        + lifeInSeconds
+                        + ' sec before being locked again.';
             }
         }
 

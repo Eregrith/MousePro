@@ -168,6 +168,54 @@
 			Tabs.unlock('stats');
 		}
 	});
+	Boosts.newBoost({
+		name: 'Sacrificial Kriss',
+		getDescription: function() { return 'This might come in handy... maybe? What would you buy a sacrificial knife for anyway?'; },
+		shortName: 'kriss',
+		cost: {
+			levels: {
+				MM: 12,
+				MC: 14
+			}
+		},
+		buy: function() {
+			Shop.unlock('sacrifice-mm');
+		}
+	});
+	Boosts.newBoost({
+		name: 'MM Sacrifice',
+		getDescription: function() { return 'Immediately gain 50% of required MC xp for your current MC level (' + (Game.currency('MC').xpRequiredForNextLevel() / 2) + ')'; },
+		shortName: 'sacrifice-mm',
+		cost: {
+			levels: {
+				MM: 1
+			}
+		},
+		buy: function(me) {
+			me.saveableState.power++;
+			Game.acquireXp('MC', Game.currency('MC').xpRequiredForNextLevel() / 2);
+			Shop.lock('sacrifice-mm');
+		},
+		ephemeral: true,
+		lifeDurationInTicks: 1000
+	});
+	Boosts.newBoost({
+		name: 'MC Sacrifice',
+		getDescription: function() { return 'Immediately gain 50% of required MM xp for your current MM level (' + (Game.currency('MM').xpRequiredForNextLevel() / 2) + ')'; },
+		shortName: 'sacrifice-mc',
+		cost: {
+			levels: {
+				MC: 1
+			}
+		},
+		buy: function(me) {
+			me.saveableState.power++;
+			Game.acquireXp('MM', Game.currency('MM').xpRequiredForNextLevel() / 2);
+			Shop.lock('sacrifice-mc');
+		},
+		ephemeral: true,
+		lifeDurationInTicks: 1000
+	});
 	
 	Shop.boost = function(shortName) {
 		return Shop.boosts.filter(b => b.shortName == shortName)[0];
@@ -190,6 +238,12 @@
 	Shop.unlock = function(shortName) {
 		let boost = Shop.boost(shortName);
 		boost.unlock();
+		Display.needsRepaintImmediate = true;
+	}
+	
+	Shop.lock = function(shortName) {
+		let boost = Shop.boost(shortName);
+		boost.lock();
 		Display.needsRepaintImmediate = true;
 	}
 

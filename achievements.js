@@ -75,6 +75,12 @@ Achievements = {};
 			shortName: 'statistician',
 			description: 'Have any xp at 123',
 			acquired: false
+		},
+		{
+			name: '20/20 MODE',
+			shortName: 'fnafMaster',
+			description: 'Reach level 20 in both proficiencies',
+			acquired: false
 		}
 	];
 	
