@@ -105,7 +105,7 @@
 	
 	Game.tick = function() {
 		Friends.friends.forEach((friend) => Friends.tick(friend));
-		if (Shop.has('kriss') && !Shop.has('sacrifice-mc') && !Shop.has('sacrifice-mm'))
+		if (Shop.has('kriss') && !Shop.boost('sacrifice-mc').isUnlocked() && !Shop.boost('sacrifice-mm').isUnlocked() )
 		{
 			let sacrificeChance = 0.0005;
 			if (Shop.has('posters'))
