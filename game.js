@@ -63,53 +63,43 @@
 		});
 
 	Game.checkUnlocks = function() {
-		if (Game.currency('MM').getLevel() >= 1 && !Achievements.has('mover')) {
-			Shop.unlock('xtpro');
-			Achievements.gain('mover');
-		}
-		if (Game.currency('MM').getLevel() >= 1 && Game.currency('MC').getLevel() >= 1 && !Achievements.has('jacky')) {
-			Shop.unlock('settings');
-			Achievements.gain('jacky');
-		}
-		if (Game.currency('MC').getLevel() >= 1 && !Achievements.has('clicker')) {
-			Shop.unlock('dmblu');
-			Achievements.gain('clicker');
-		}
-		if (Game.currency('MM').getLevel() >= 5 && Game.currency('MC').getLevel() >= 5 && !Achievements.has('together')) {
-			Shop.unlock('zbglo');
-			Achievements.gain('together');
-		}
-		if (Game.currency('MM').getLevel() >= 10 && Game.currency('MC').getLevel() >= 10 && !Achievements.has('42')) {
-			Shop.unlock('addonenhancer');
-			Achievements.gain('42');
-		}
-		if (Game.currency('MM').getLevel() >= 15 && Game.currency('MC').getLevel() >= 15 && !Achievements.has('marignan')) {
-			Shop.unlock('addonenhancer');
-			Friends.unlock('barnabeus');
-			Achievements.gain('marignan');
-		}
-		if (Game.currency('MM').getLevel() >= 25 && Game.currency('MC').getLevel() >= 25 && !Achievements.has('quartercentury')) {
-			Shop.unlock('addonenhancer');
-			Achievements.gain('quartercentury');
-		}
+		let mm = Game.currency('MM');
+		let mc = Game.currency('MC');
+		let levelsUnlocks = [
+			{ mm: 1, mc: 0, achievement: 'mover', boost: 'xtpro' },
+			{ mm: 0, mc: 1, achievement: 'clicker', boost: 'dmblu' },
+			{ mm: 1, mc: 1, achievement: 'jacky', boost: 'settings' },
+			{ mm: 5, mc: 5, achievement: 'together', boost: 'zbglo' },
+			{ mm: 10, mc: 10, achievement: '42', boost: 'addonenhancer' },
+			{ mm: 15, mc: 15, achievement: 'marignan', boost: 'addonenhancer', friend: 'barnabeus'},
+			{ mm: 25, mc: 25, achievement: 'quartercentury', boost: 'addonenhancer' },
+			{ mm: 30, mc: 30, achievement: 'glowing', boost: 'outerglo' },
+		];
+		levelsUnlocks.forEach((levelUnlock) => {
+			if (mm.getLevel() >= levelUnlock.mm
+				&& mc.getLevel() >= levelUnlock.mc
+				&& !Achievements.has(levelUnlock.achievement)) {
+				Shop.unlock(levelUnlock.boost);
+				Achievements.gain(levelUnlock.achievement);
+				if (levelUnlock.friend !== undefined) {
+					Friends.unlock(levelUnlock.friend);
+				}
+			}
+		});
 		if (Friends.friend('aldo').saveableState.bought >= 5 && !Shop.has('zbgloinjectordown')) {
 			Shop.unlock('zbgloinjectordown');
 		}
 		if (Friends.friend('barnabeus').saveableState.bought >= 5 && !Shop.has('zbgloinjectorup')) {
 			Shop.unlock('zbgloinjectorup');
 		}
-		if (Game.currency('MM').getLevel() >= 30 && Game.currency('MC').getLevel() >= 30 && !Achievements.has('glowing')) {
-			Shop.unlock('outerglo');
-			Achievements.gain('glowing');
+		if ((mm.getXp() == 123 || mc.getXp() == 123) && !Achievements.has('statistician')) {
+			Shop.unlock('stats');
+			Achievements.gain('statistician');
 		}
 	}
 	
 	Game.tick = function() {
-		for (f in Friends.friends) {
-			if (Friends.friends.hasOwnProperty(f)) {
-				Friends.tick(Friends.friends[f]);
-			}
-		}
+		Friends.friends.forEach((friend) => Friends.tick(friend));
 	}
 
 	Game.currency = function(currencyShortName) {
@@ -124,6 +114,7 @@
 	Game.acquireXp = function(currencyShortName, xpAmount) {
 		let currency = Game.currency(currencyShortName);
 		currency.acquireXp(xpAmount);
+		Game.checkUnlocks();
 	}
 	
 	Game.hasCurrency = function(costs) {

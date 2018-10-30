@@ -69,6 +69,12 @@ Achievements = {};
 			shortName: 'glowing',
 			description: 'Reach level 30 in both proficiencies',
 			acquired: false
+		},
+		{
+			name: 'Statistician',
+			shortName: 'statistician',
+			description: 'Have any xp at 123',
+			acquired: false
 		}
 	];
 	
