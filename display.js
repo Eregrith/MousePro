@@ -242,12 +242,17 @@
 		let titleDiv = document.createElement('div');
 		titleDiv.className = 'boost-title';
 		titleDiv.innerHTML = boost.name;
+		mainDiv.appendChild(titleDiv);
+
+		if (boost.icon != undefined) {
+			let iconDiv = document.createElement('div');
+			iconDiv.className = 'boost-icon fa fa-' + boost.icon;
+			mainDiv.appendChild(iconDiv);
+		}
 		
 		let descDiv = document.createElement('div');
 		descDiv.className = 'boost-desc';
 		descDiv.innerHTML = boost.getDescription();
-		
-		mainDiv.appendChild(titleDiv);
 		mainDiv.appendChild(descDiv);
 
 		if (boost.ephemeral == true) {

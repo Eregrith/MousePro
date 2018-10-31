@@ -45,6 +45,7 @@
 	});
 	Boosts.newBoost({
 		name: 'Settings',
+		icon: 'cogs',
 		getDescription: function() { return 'Let\'s tune this thing'; },
 		shortName: 'settings',
 		cost: {

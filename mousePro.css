@@ -136,9 +136,13 @@ ul {
 	vertical-align: top;
 }
 .boost-title {
+	display: inline-block;
 	text-decoration: underline;
     font-size: 15px;
 	padding: 3px;
+}
+.boost-icon {
+	display: inline-block;
 }
 .boost-desc {
 	padding: 5px;
