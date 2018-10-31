@@ -74,7 +74,7 @@
                 + (this.getXpPerActivation() > 0 ? 'Gives ' + this.getXpPerActivation() + ' MC xp per activation.' : '') + '<br>'
                 + this.getActivationFrequencyDescription();
         },
-        baseTicksPerMove: 100,
+        baseTicksPerMove: 50,
         costsIncrement: 1.6,
         baseCosts: {
             levels: {
