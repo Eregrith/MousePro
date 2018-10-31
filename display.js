@@ -112,7 +112,14 @@
 	}
 	
 	Display.notifyLevelUp = function(currency) {
-		Display.notify('Level Up ! ' + currency.name + ' is now level ' + currency.getLevel() + '!');
+		let msg = 'Level Up ! ' + currency.name + ' is now level ' + currency.getLevel() + '!';
+		if (currency.getLevel() <= currency.getHighestLevelAttained())
+		{
+			if (!Achievements.has('again'))
+				Achievements.gain('again');
+			msg += ' ... again';
+		}
+		Display.notify(msg);
 	}
 	
 	Display.displayCurrencies = function () {

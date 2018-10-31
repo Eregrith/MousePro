@@ -93,6 +93,12 @@ Achievements = {};
 			shortName: 'ocd',
 			description: 'You\'ll never get this one. <span style="font-size:2pt">Thank you /u/jverity</span>',
 			acquired: false
+		},
+		{
+			name: '... again',
+			shortName: 'again',
+			description: 'Reach a level you already had reached before',
+			acquired: false
 		}
 	];
 	

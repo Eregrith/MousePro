@@ -34,11 +34,11 @@
             levelUp: function() {
                 this.saveableState.xp -= this.xpRequiredForNextLevel();
                 this.saveableState.level++;
+                settings.levelUp(this);
+                Display.notifyLevelUp(this);
                 if (this.saveableState.highestLevelAttained == undefined
                     || this.saveableState.level > this.saveableState.highestLevelAttained)
                     this.saveableState.highestLevelAttained = this.saveableState.level;
-                settings.levelUp(this);
-                Display.notifyLevelUp(this);
                 Game.checkUnlocks();
             },
             levelDown: function(amount) {
