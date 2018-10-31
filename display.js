@@ -557,6 +557,14 @@
 		mainDiv.style.display = 'none';
 	}
 	
+	Display.changeFont = function() {
+		let body = document.getElementsByTagName('body')[0];
+
+		let gameFont = document.getElementById('gameFont').value;
+
+		body.setAttribute('gameFont', gameFont);
+	}
+
 	Display.initialize();
 	
 	Display.startTicking();

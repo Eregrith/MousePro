@@ -1,7 +1,6 @@
 @font-face {
-	font-family: gameFont;
+	font-family: ObelixPro;
 	src: url(ObelixPro-cyr.ttf);
-    /* src: url(AldotheApache.ttf); */
 }
 
 .origin-theme {
@@ -18,9 +17,7 @@
 	--inactive-color : #606070;
 }
 
-
 body {
-	font-family: gameFont;
 	-moz-user-select: none;
 	-webkit-user-select: none;
 	-ms-user-select: none;
@@ -28,6 +25,14 @@ body {
 	-o-user-select: none;
 	background-color: var(--background-color);
 	color: var(--text-color);
+}
+
+body[gameFont=ObelixPro] {
+	font-family: ObelixPro;
+}
+
+body[gameFont=Helvetica] {
+	font-family: Helvetica;
 }
 
 ul {

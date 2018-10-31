@@ -2,7 +2,7 @@
 	<link rel="stylesheet" href="mousePro.css" />
 </head>
 
-<body class="origin-theme">
+<body class="origin-theme" gameFont="ObelixPro">
 	<ul id="currencies"></ul>
 	<ul id="tabs"></ul>
 	
@@ -32,6 +32,12 @@
 				<li><div class="btn" onclick="gameObjects.Save.exportSave()">Export</div></li>
 				<li><div class="btn" onclick="gameObjects.Save.importSave()">Import</div></li>
 				<li><div class="btn" onclick="gameObjects.Display.switchMode()">Switch display mode</div></li>
+				<li>Game font:
+					<select onchange="gameObjects.Display.changeFont()" id="gameFont">
+						<option value="ObelixPro">Obelix Pro</option>
+						<option value="Helvetica">Helvetica</option>
+					</select>
+				</li>
 			</ul>
 		</div>
 	</div>
