@@ -5,9 +5,7 @@
 * Display.js
 */
 
-Display = {};
-
-(function (Game, Achievements, Shop, Friends, Tabs, Display) {
+(function (Game, Achievements, Shop, Friends, Tabs, Stats, Display) {
 
 	Display.tickInterval = null;
 	Display.tickIntervalValue = 10;
@@ -94,6 +92,7 @@ Display = {};
 			Display.refreshFriends();
 			Display.refreshBoostsOwned();
 			Display.refreshAchievements();
+			Stats.refreshStats();
 		}
 		Game.tick();
 	}
@@ -555,4 +554,4 @@ Display = {};
 	
 	Display.startTicking();
 
-})(gameObjects.Game, gameObjects.Achievements, gameObjects.Shop, gameObjects.Friends, gameObjects.Tabs, gameObjects.Display);
+})(gameObjects.Game, gameObjects.Achievements, gameObjects.Shop, gameObjects.Friends, gameObjects.Tabs, gameObjects.Stats, gameObjects.Display);

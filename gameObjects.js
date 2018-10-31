@@ -20,5 +20,6 @@ let gameObjects = {
 		friends: []
 	},
 	Currencies: {},
-	Save: {}
+	Save: {},
+	Stats: {}
 };
