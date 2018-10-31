@@ -87,7 +87,8 @@
         saveGame.AcquiredAchievements.forEach((acquiredAchievement) => {
             Achievements.achievement(acquiredAchievement).acquired = true;
         });
-        document.getElementsByTagName('body')[0].className = saveGame.DisplayMode;
+        if (saveGame.DisplayMode != undefined)
+            document.getElementsByTagName('body')[0].className = saveGame.DisplayMode;
 
         Display.refreshShop();
         Display.refreshTabs();
