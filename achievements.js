@@ -87,6 +87,12 @@ Achievements = {};
 			shortName: 'cutting',
 			description: 'Made 5 sacrifices',
 			acquired: false
+		},
+		{
+			name: 'OCD Hell',
+			shortName: 'ocd',
+			description: 'You\'ll never get this one. <span style="font-size:2pt">Thank you /u/jverity</span>',
+			acquired: false
 		}
 	];
 	
