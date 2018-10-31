@@ -39,7 +39,8 @@
             Currencies: saveCurrencies,
             Boosts: saveBoosts,
             Friends: saveFriends,
-            AcquiredAchievements: acquiredAchievements
+            AcquiredAchievements: acquiredAchievements,
+            DisplayMode: document.getElementsByTagName('body')[0].className
         };
 
         return saveGame;
@@ -86,6 +87,7 @@
         saveGame.AcquiredAchievements.forEach((acquiredAchievement) => {
             Achievements.achievement(acquiredAchievement).acquired = true;
         });
+        document.getElementsByTagName('body')[0].className = saveGame.DisplayMode;
 
         Display.refreshShop();
         Display.refreshTabs();
