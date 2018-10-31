@@ -57,14 +57,14 @@
 			{ divisor: 1e3,  postFix: 'K'},
 			{ divisor: 1e6,  postFix: 'M'},
 			{ divisor: 1e9,  postFix: 'B'},
-			{ divisor: 1e10, postFix: 'T'},
-			{ divisor: 1e11, postFix: 'Qa'},
-			{ divisor: 1e12, postFix: 'Qi'},
-			{ divisor: 1e13, postFix: 'Sx'},
-			{ divisor: 1e14, postFix: 'Sp'},
-			{ divisor: 1e15, postFix: 'Oc'},
-			{ divisor: 1e16, postFix: 'No'},
-			{ divisor: 1e17, postFix: 'Dc'}
+			{ divisor: 1e12, postFix: 'T'},
+			{ divisor: 1e15, postFix: 'Qa'},
+			{ divisor: 1e18, postFix: 'Qi'},
+			{ divisor: 1e21, postFix: 'Sx'},
+			{ divisor: 1e24, postFix: 'Sp'},
+			{ divisor: 1e27, postFix: 'Oc'},
+			{ divisor: 1e30, postFix: 'No'},
+			{ divisor: 1e33, postFix: 'Dc'}
 		]
 		let postFixIndex = 0;
 		while (postFixIndex < (postFixes.length - 1)
