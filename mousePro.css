@@ -91,6 +91,10 @@ ul {
 	float: right;
 }
 
+.currency-icon {
+	top: -2px;
+	position: relative;
+}
 /*
 	TABS
 */
@@ -222,9 +226,18 @@ ul {
 	vertical-align: top;
 }
 .friend-title {
+	display: inline-block;
 	text-decoration: underline;
     font-size: 15px;
 	padding: 3px;
+	max-width: 120px;
+}
+.friend-icon {
+	display: block;
+    top: 4px;
+    position: relative;
+    right: 4px;
+    float: right;
 }
 .friend-desc {
 	padding: 5px;
@@ -397,4 +410,8 @@ ul {
 
 body[gameFont=Helvetica] .fa-kriss {
 	top: 0;
+}
+
+.dark-theme .fa-kriss {
+	content: url('img/kriss-dark.png');
 }

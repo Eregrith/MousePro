@@ -47,6 +47,7 @@
     Friends.newFriend({
         name: 'Aldo',
         shortName: 'aldo',
+        icon: 'user-circle',
         getDescription: function() {
             return 'This little man will help you by moving his mouse as well!<br>Yay!<br>'
                 + (this.getXpPerActivation() > 0 ? 'Gives ' + this.getXpPerActivation() + ' MM xp per activation.' : '') + '<br>'
@@ -69,6 +70,7 @@
     Friends.newFriend({
         name: 'Barnabeus',
         shortName: 'barnabeus',
+        icon: 'user-circle fa-lighter',
         getDescription: function() {
             return 'This little man will help you by clicking his mouse as well!<br>Yay!<br>'
                 + (this.getXpPerActivation() > 0 ? 'Gives ' + this.getXpPerActivation() + ' MC xp per activation.' : '') + '<br>'

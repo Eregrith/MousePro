@@ -39,7 +39,7 @@
 		xpDiv.innerHTML = Display.beautify(currency.getXp()) + ' / ' + Display.beautify(currency.xpRequiredForNextLevel());
 		
 		let currencyLevel = document.getElementById('currency-'+currency.shortName+'-level');
-		currencyLevel.innerHTML = '<span>' + currency.shortName + ' (' + currency.getLevel() + ') XP:</span>';
+		currencyLevel.innerHTML = '<span>' + currency.iconTag + '&nbsp;' + currency.shortName + ' (' + currency.getLevel() + ') XP:</span>';
 		
 		let progressBar = document.getElementById('currency-' + currency.shortName + '-bar');
 		let progressPercent = Game.currencyProgressPercent(currency.shortName);
@@ -333,15 +333,24 @@
 		let titleDiv = document.createElement('div');
 		titleDiv.className = 'friend-title';
 		titleDiv.innerHTML = friend.getName();
+		mainDiv.appendChild(titleDiv);
+
+		if (friend.icon != undefined) {
+			let iconDiv = document.createElement('div');
+			iconDiv.className = 'friend-icon fa fa-' + friend.icon;
+			mainDiv.appendChild(iconDiv);
+		}
 		
 		let descDiv = document.createElement('div');
 		descDiv.className = 'friend-desc';
 		descDiv.innerHTML = friend.getDescription();
+		mainDiv.appendChild(descDiv);
 		
 		let costDiv = document.createElement('div');
 		costDiv.className = 'friend-cost';
 		costDiv.innerHTML = 'Cost:';
 		costDiv.appendChild(Display.buildCostListForCost(friend.getCosts()));
+		mainDiv.appendChild(costDiv);
 		
 		let buyButton = document.createElement('div');
 		buyButton.classList = ['friend-buy-btn'];
@@ -349,10 +358,6 @@
 		if (!Game.hasCurrency(friend.getCosts()))
 			buyButton.classList.add('disabled');
 		buyButton.onclick = function() { Friends.buy(friend.shortName) };
-		
-		mainDiv.appendChild(titleDiv);
-		mainDiv.appendChild(descDiv);
-		mainDiv.appendChild(costDiv);
 		mainDiv.appendChild(buyButton);
 		
 		return mainDiv;
@@ -366,7 +371,8 @@
 			for (let part in cost.xp) {
 				if (cost.xp.hasOwnProperty(part)) {
 					let li = document.createElement('li');
-					li.innerHTML = part + ': ' + cost.xp[part] + ' xp';
+					let currency = Game.currency(part);
+					li.innerHTML = currency.iconTag + '&nbsp;' + part + ': ' + cost.xp[part] + ' xp';
 					ul.appendChild(li);
 				}
 			}
@@ -375,7 +381,8 @@
 			for (let part in cost.levels) {
 				if (cost.levels.hasOwnProperty(part)) {
 					let li = document.createElement('li');
-					li.innerHTML = part + ': ' + cost.levels[part] + ' levels';
+					let currency = Game.currency(part);
+					li.innerHTML = currency.iconTag + '&nbsp;' +part + ': ' + cost.levels[part] + ' levels';
 					ul.appendChild(li);
 				}
 			}

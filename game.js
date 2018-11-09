@@ -13,6 +13,7 @@
 			name: 'Mouse Mover',
 			shortName: 'MM',
 			color: 'gray',
+			iconTag: '<i class="fa fa-sun currency-icon"></i>',
 			xpRequiredForNextLevel: 100,
 			levelUp: function(me) {
 				if (Shop.has('bootloader')) {
@@ -39,6 +40,7 @@
 			name: 'Mouse Clicker',
 			shortName: 'MC',
 			color: 'green',
+			iconTag: '<i class="fa fa-moon currency-icon"></i>',
 			xpRequiredForNextLevel: 10,
 			levelUp: function(me) {
 				if (Shop.has('bootloader')) {
