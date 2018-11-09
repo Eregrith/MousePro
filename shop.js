@@ -152,7 +152,7 @@
 	});
 	Boosts.newBoost({
 		name: 'Outer GLO',
-		icon: 'lightbulb outer-glow',
+		icon: 'lightbulb outer-glow fa-lighter',
 		getDescription: function() { return 'Multiplies the effect of ZB-GLO by the corresponding friend\'s level. Can only be bought when MC xp is even.'; },
 		shortName: 'outerglo',
 		cost: {

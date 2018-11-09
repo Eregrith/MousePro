@@ -378,9 +378,12 @@ ul {
 	max-height: 90%;
 }
 
+.fa-lighter {
+	font-weight: 400;
+}
+
 .outer-glow {
 	text-shadow: 0px 0px 5px gold;
-	font-weight: 400;
 }
 
 .fa-kriss {
@@ -390,4 +393,8 @@ ul {
 	position: relative;
 	top: -40px;
 	right: 10px;
+}
+
+body[gameFont=Helvetica] .fa-kriss {
+	top: 0;
 }
