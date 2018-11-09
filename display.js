@@ -473,6 +473,10 @@
 		Display.notify(achievementGainedMsg, 'achievement');
 	}
 	
+	Display.notifyLoot = function() {
+		Display.notify('You found something', 'loot');
+	}
+	
 	Display.notifs = [];
 	Display.notifsY = 0;
 	Display.notifsX = 0;

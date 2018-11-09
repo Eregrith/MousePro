@@ -5,7 +5,7 @@
 * Shop.js
 */
 
-(function (Game, Boosts, Friends, Display, Shop, Tabs) {
+(function (Game, Boosts, Friends, Display, Shop, Loot, Tabs) {
 
 	Boosts.newBoost({
 		name: 'Mouse mover XT-PRO',
@@ -209,6 +209,7 @@
 			me.saveableState.power++;
 			Game.acquireXp('MC', Game.currency('MC').xpRequiredForNextLevel() / 2);
 			Shop.lock('sacrifice-mm');
+			Loot.tryLootCategory('knifepart');
 		},
 		ephemeral: true,
 		lifeDurationInTicks: 1000
@@ -227,6 +228,7 @@
 			me.saveableState.power++;
 			Game.acquireXp('MM', Game.currency('MM').xpRequiredForNextLevel() / 2);
 			Shop.lock('sacrifice-mc');
+			Loot.tryLootCategory('knifepart');
 		},
 		ephemeral: true,
 		lifeDurationInTicks: 1000
@@ -240,6 +242,61 @@
 			levels: {
 				MM: 5, 
 				MC: 5
+			}
+		}
+	});
+	Boosts.newBoost({
+		name: 'Serrated blade',
+		getDescription: function() { return 'A part of a nice knife. Your sacrifices yield +10% of xp required for next level.'; },
+		shortName: 'serratedblade',
+		cost: {
+			levels: {
+				MM: 18, 
+				MC: 18
+			}
+		}
+	});
+	Boosts.newBoost({
+		name: 'Ruby pommel',
+		getDescription: function() { return 'A part of a nice knife. Your sacrifices yield +10% of xp required for next level.'; },
+		shortName: 'rubypommel',
+		cost: {
+			levels: {
+				MM: 18, 
+				MC: 18
+			}
+		}
+	});
+	Boosts.newBoost({
+		name: 'Sculpted Dragon Grip',
+		getDescription: function() { return 'A part of a nice knife. Your sacrifices yield +10% of xp required for next level.'; },
+		shortName: 'dragongrip',
+		cost: {
+			levels: {
+				MM: 18, 
+				MC: 18
+			}
+		}
+	});
+	Boosts.newBoost({
+		name: 'Diamond Blade-Tip',
+		getDescription: function() { return 'A part of a nice knife. Your sacrifices yield +10% of xp required for next level.'; },
+		shortName: 'diamondbladetip',
+		cost: {
+			levels: {
+				MM: 18, 
+				MC: 18
+			}
+		}
+	});
+	Boosts.newBoost({
+		name: 'Cheater\'s scabbard',
+		getDescription: function() { return 'A part of a nice knife. Your sacrifices yield +10% of xp required for next level.'; },
+		shortName: 'cheatersscabbard',
+		cost: {
+			levels: {
+				MM: 18, 
+				MC: 18
 			}
 		}
 	});
@@ -274,4 +331,4 @@
 		Display.needsRepaintImmediate = true;
 	}
 
-})(gameObjects.Game, gameObjects.Boosts, gameObjects.Friends, gameObjects.Display, gameObjects.Shop, gameObjects.Tabs);
+})(gameObjects.Game, gameObjects.Boosts, gameObjects.Friends, gameObjects.Display, gameObjects.Shop, gameObjects.Loot, gameObjects.Tabs);
