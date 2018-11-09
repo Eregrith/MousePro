@@ -9,6 +9,7 @@
 
 	Boosts.newBoost({
 		name: 'Mouse mover XT-PRO',
+		icon: 'mouse-pointer',
 		getDescription: function() { return 'This awesome mouse-addon gives you ' + this.bonusXp + ' MM XP every 5 points of MM XP' },
 		shortName: 'xtpro',
 		cost: {
@@ -21,6 +22,7 @@
 	});
 	Boosts.newBoost({
 		name: 'Mouse clicker DM-BLU',
+		icon: 'mouse-pointer',
 		getDescription: function() { return 'This awesome mouse-addon gives you ' + this.bonusXp + ' MC XP every 5 points of MC XP'; },
 		shortName: 'dmblu',
 		cost: {
@@ -33,6 +35,7 @@
 	});
 	Boosts.newBoost({
 		name: 'Mouse XP transfer ZB-GLO',
+		icon: 'exchange-alt fa-rotate-90',
 		getDescription: function() { return 'This awesome mouse-addon gives you ' + this.bonusXp + ' XP in the other proficiency when you level up one'; },
 		shortName: 'zbglo',
 		cost: {
@@ -62,6 +65,7 @@
 	});
 	Boosts.newBoost({
 		name: 'Addon Enhancer',
+		icon: 'star',
 		getDescription: function() {
 			return 'This little device multiplies the effects of XT-PRO, DM-BLU and ZB-GLO addons by ' + this.getPower()
 				+ (this.canBuy() ? '<br/>When bought, this effect doubles.' : '');
@@ -82,6 +86,7 @@
 	});
 	Boosts.newBoost({
 		name: 'Friends',
+		icon: 'user-friends',
 		getDescription: function() { return this.bought ? 'Friends are AWESOOOME!!' : 'It\'s dangerous to go alone. Take this!'; },
 		shortName: 'friends',
 		cost: {
@@ -96,6 +101,7 @@
 	});
 	Boosts.newBoost({
 		name: 'ZB-GLO Injector - Down',
+		icon: 'arrow-down',
 		getDescription: function() { return 'Mouse XP transfer ZB-GLO will give MC xp based on the MM level attained when it triggers.'; },
 		shortName: 'zbgloinjectordown',
 		cost: {
@@ -107,6 +113,7 @@
 	});
 	Boosts.newBoost({
 		name: 'ZB-GLO Injector - Up',
+		icon: 'arrow-up',
 		getDescription: function() { return 'Mouse XP transfer ZB-GLO will give MM xp based on the MC level attained when it triggers.'; },
 		shortName: 'zbgloinjectorup',
 		cost: {
@@ -118,6 +125,7 @@
 	});
 	Boosts.newBoost({
 		name: 'Bootloader',
+		icon: 'download',
 		getDescription: function() { return 'Kickstarts MM and MC by giving them 10 xp when they level up'; },
 		shortName: 'bootloader',
 		cost: {
@@ -129,6 +137,7 @@
 	});
 	Boosts.newBoost({
 		name: 'Vitrine',
+		icon: 'tv',
 		getDescription: function() { return 'A nice place to show off what you got'; },
 		shortName: 'vitrine',
 		cost: {
@@ -143,6 +152,7 @@
 	});
 	Boosts.newBoost({
 		name: 'Outer GLO',
+		icon: 'lightbulb outer-glow',
 		getDescription: function() { return 'Multiplies the effect of ZB-GLO by the corresponding friend\'s level. Can only be bought when MC xp is even.'; },
 		shortName: 'outerglo',
 		cost: {
@@ -157,6 +167,7 @@
 	});
 	Boosts.newBoost({
 		name: 'Stats',
+		icon: 'chart-bar',
 		getDescription: function() { return 'You know numbers. Here you can look at them'; },
 		shortName: 'stats',
 		cost: {
@@ -171,6 +182,7 @@
 	});
 	Boosts.newBoost({
 		name: 'Sacrificial Kriss',
+		icon: 'kriss',
 		getDescription: function() { return 'This might come in handy... maybe? What would you buy a sacrificial knife for anyway?'; },
 		shortName: 'kriss',
 		cost: {
@@ -185,6 +197,7 @@
 	});
 	Boosts.newBoost({
 		name: 'MM Sacrifice',
+		icon: 'sun',
 		getDescription: function() { return 'Immediately gain 50% of required MC xp for your current MC level (' + (Game.currency('MC').xpRequiredForNextLevel() / 2) + ')'; },
 		shortName: 'sacrifice-mm',
 		cost: {
@@ -202,6 +215,7 @@
 	});
 	Boosts.newBoost({
 		name: 'MC Sacrifice',
+		icon: 'moon',
 		getDescription: function() { return 'Immediately gain 50% of required MM xp for your current MM level (' + (Game.currency('MM').xpRequiredForNextLevel() / 2) + ')'; },
 		shortName: 'sacrifice-mc',
 		cost: {
@@ -219,6 +233,7 @@
 	});
 	Boosts.newBoost({
 		name: 'Recruitment posters',
+		icon: 'portrait',
 		getDescription: function() { return 'This will help you find lambs to slaughter. Doubles the chance to have a ready sacrifice.'; },
 		shortName: 'posters',
 		cost: {
