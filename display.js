@@ -21,19 +21,6 @@
 		Game.currencies.forEach(Display.updateCurrency);
 	}
 	
-	Display.updateNotifs = function() {
-		if (Display.notifQueue.length === 0) return;
-		
-		let now = new Date();
-		if (!Display.nextNotifAvailableOn
-		|| now.getTime() >= Display.nextNotifAvailableOn)
-		{
-			notif = Display.notifQueue.shift();
-			Display.animateNotif(notif);
-			Display.nextNotifAvailableOn = now.getTime() + 400;
-		}
-	}
-	
 	Display.updateCurrency = function(currency) {
 		let xpDiv = document.getElementById('currency-'+currency.shortName+'-xp');
 		xpDiv.innerHTML = Display.beautify(currency.getXp()) + ' / ' + Display.beautify(currency.xpRequiredForNextLevel());
@@ -119,7 +106,7 @@
 				Achievements.gain('again');
 			msg += ' ... again';
 		}
-		Display.notify(msg);
+		Display.notify(msg, 'levelup'+currency.shortName);
 	}
 	
 	Display.displayCurrencies = function () {
@@ -483,19 +470,20 @@
 	Display.notifyAchievementGained = function(ach) {
 		let achievementGainedMsg = "You gained an achievement ! ";
 		achievementGainedMsg += ach.name + ": " + ach.description;
-		Display.notify(achievementGainedMsg);
+		Display.notify(achievementGainedMsg, 'achievement');
 	}
 	
 	Display.notifs = [];
 	Display.notifsY = 0;
 	Display.notifsX = 0;
 	Display.logArchive = {};
-	Display.notify = function(msg) {
+	Display.notify = function(msg, category) {
 
 		let x = Math.floor(window.innerWidth / 2);
 		let y = Math.floor(window.innerHeight * 0.95);
 
 		let notif = {
+			category: category,
 			targetX: x,
 			targetY: y - 75,
 			opacity: 100,
@@ -514,14 +502,36 @@
 	}
 	
 	Display.notifQueue = [];
+	Display.animatedNotifs = [];
 	Display.nextNotifAvailableOn = undefined;
 	Display.queueNotif = function(notif) {
+		Display.notifQueue = Display.notifQueue.filter(n => n.category != notif.category);
+		Display.animatedNotifs = Display.animatedNotifs.filter(n => n.category != notif.category);
 		Display.notifQueue.push(notif);
 		if (Display.notifQueue.length > 50)
 			Display.notifQueue.shift();
 	}
 	
+	Display.updateNotifs = function() {
+		if (Display.notifQueue.length === 0) return;
+		
+		let now = new Date();
+		if (!Display.nextNotifAvailableOn
+			|| now.getTime() >= Display.nextNotifAvailableOn)
+		{
+			notif = Display.notifQueue.shift();
+			Display.animatedNotifs.push(notif);
+			Display.animateNotif(notif);
+			Display.nextNotifAvailableOn = now.getTime() + 400;
+		}
+	}
+	
 	Display.animateNotif = function(notif) {
+
+		if (Display.animatedNotifs.indexOf(notif) == -1) {
+			document.getElementsByTagName('body')[0].removeChild(notif.div);
+			return;
+		}
 		
 		let xSway = 25;
 
