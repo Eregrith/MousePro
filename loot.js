@@ -34,6 +34,8 @@
 
     Loot.tryLootCategory = function(category) {
         let lootCategory = Loot.category(category);
+        if (lootCategory.boosts.length == 0) return;
+
         let lootChance = lootCategory.getLootChance();
         let roll = Math.random();
 

@@ -2,7 +2,7 @@
 ** Kriss
 */
 .fa-kriss {
-	content: url('img/kriss.png');
+	content: url('../img/kriss.png');
 	transform: rotate(-15deg);
 	width: 20px;
 	position: relative;
@@ -15,14 +15,14 @@ body[gameFont=Helvetica] .fa-kriss {
 }
 
 .dark-theme .fa-kriss {
-	content: url('img/kriss-dark.png');
+	content: url('../img/kriss-dark.png');
 }
 
 /*
 ** Serrated Blade
 */
 .fa-serratedblade {
-	content: url('img/serratedblade.png');
+	content: url('../img/serratedblade.png');
     transform: rotate(40deg);
     width: 60px;
     position: relative;
@@ -37,14 +37,14 @@ body[gameFont=Helvetica] .fa-serratedblade {
 }
 
 .dark-theme .fa-serratedblade {
-	content: url('img/serratedblade-dark.png');
+	content: url('../img/serratedblade-dark.png');
 }
 
 /*
 ** Ruby Pommel
 */
 .fa-rubypommel {
-	content: url('img/rubypommel.png');
+	content: url('../img/rubypommel.png');
     transform: rotate(0deg);
     width: 23px;
     position: relative;
@@ -60,7 +60,7 @@ body[gameFont=Helvetica] .fa-rubypommel {
 ** Dragon Sculpted Grip
 */
 .fa-dragongrip {
-	content: url('img/dragongrip.png');
+	content: url('../img/dragongrip.png');
     transform: rotate(0deg);
     width: 35px;
     position: relative;
@@ -76,7 +76,7 @@ body[gameFont=Helvetica] .fa-dragongrip {
 ** Diamond Blade Tip
 */
 .fa-diamondbladetip {
-	content: url('img/diamondbladetip.png');
+	content: url('../img/diamondbladetip.png');
     transform: rotate(0deg);
     width: 25px;
     position: relative;
@@ -89,14 +89,14 @@ body[gameFont=Helvetica] .fa-diamondbladetip {
 }
 
 .dark-theme .fa-diamondbladetip {
-	content: url('img/diamondbladetip-dark.png');
+	content: url('../img/diamondbladetip-dark.png');
 }
 
 /*
 ** Cheater's Scabbard
 */
 .fa-cheatersscabbard {
-	content: url('img/cheatersscabbard.png');
+	content: url('../img/cheatersscabbard.png');
     transform: rotate(-11deg);
     width: 25px;
     position: relative;
@@ -109,5 +109,5 @@ body[gameFont=Helvetica] .fa-cheatersscabbard {
 }
 
 .dark-theme .fa-cheatersscabbard {
-	content: url('img/cheatersscabbard-dark.png');
+	content: url('../img/cheatersscabbard-dark.png');
 }
