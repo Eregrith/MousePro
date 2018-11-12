@@ -99,6 +99,12 @@ Achievements = {};
 			shortName: 'again',
 			description: 'Reach a level you already had reached before',
 			acquired: false
+		},
+		{
+			name: 'Died of old age',
+			shortName: 'ephemeral',
+			description: 'Miss 10 ephemeral boosts by letting them die',
+			acquired: false
 		}
 	];
 	

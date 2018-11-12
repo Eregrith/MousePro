@@ -5,7 +5,7 @@
 * Game.js
 */
 
-(function (Game, Currencies, Achievements, Friends, Shop, Save, Tabs) {
+(function (Game, Currencies, Achievements, Friends, Shop, Stats) {
 	
 	EventNode = document.getElementById('eventNode');
 
@@ -169,6 +169,15 @@
 			}
 		}
 	}
+
+	Game.ephemeralDeath = function(boost) {
+		let anchor = Shop.boost('anchor');
+		anchor.saveableState.power++;
+		if (anchor.saveableState.power >= 10 && !Achievements.has('ephemeral')) {
+			Shop.unlock('anchor');
+			Achievements.gain('ephemeral');
+		}
+	}
 	
 	Game.lastMouseDown = {};
 	
@@ -183,4 +192,4 @@
 		}
 	}
 	
-})(gameObjects.Game, gameObjects.Currencies, gameObjects.Achievements, gameObjects.Friends, gameObjects.Shop);
+})(gameObjects.Game, gameObjects.Currencies, gameObjects.Achievements, gameObjects.Friends, gameObjects.Shop, gameObjects.Stats);

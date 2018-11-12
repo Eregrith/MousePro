@@ -5,7 +5,7 @@
 * Shop.js
 */
 
-(function (Shop, Boosts) {
+(function (Shop, Game, Boosts) {
 
     Boosts.newBoost = function(settings) {
         let boost = {
@@ -42,7 +42,7 @@
                 this.saveableState.bought = false;
 
                 if (this.ephemeral)
-                    this.lifeDurationInTicks = this.originalLifeDuration;
+                    this.lifeDurationInTicks = this.originalLifeDuration * (Shop.has('anchor') ? 2 : 1);
             },
             isUnlocked: function() {
                 return this.saveableState.buyable;
@@ -58,8 +58,9 @@
                 if (this.ephemeral == true && this.isUnlocked()) {
                     this.lifeDurationInTicks--;
                     if (this.lifeDurationInTicks <= 0) {
-                        this.lifeDurationInTicks = this.originalLifeDuration;
+                        this.lifeDurationInTicks = this.originalLifeDuration * (Shop.has('anchor') ? 2 : 1);
                         this.lock();
+                        Game.ephemeralDeath(this);
                     }
                 }
             },
@@ -74,4 +75,4 @@
         Shop.boosts.push(boost);
     }
 
-})(gameObjects.Shop, gameObjects.Boosts);
+})(gameObjects.Shop, gameObjects.Game, gameObjects.Boosts);

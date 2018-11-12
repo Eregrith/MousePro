@@ -180,5 +180,17 @@
 			Tabs.unlock('stats');
 		}
     });
+	Boosts.newBoost({
+		name: 'Ephemeral Anchor',
+		icon: 'anchor',
+		getDescription: function() { return 'Ephemeral boosts live for twice as long before disappearing.'; },
+		shortName: 'anchor',
+		cost: {
+			xp: {
+				MM: 1024,
+				MC: 1024
+			}
+		}
+    });
     
 })(gameObjects.Game, gameObjects.Boosts, gameObjects.Friends, gameObjects.Shop, gameObjects.Tabs);

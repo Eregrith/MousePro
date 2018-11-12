@@ -19,6 +19,8 @@
         document.getElementById('sacrificed-mc').innerHTML = Shop.boost('sacrifice-mc').getPower();
 
         document.getElementById('ticks-per-second').innerHTML = Display.framesPerSecond();
+
+        document.getElementById('ephemeralDeaths').innerHTML = Shop.boost('anchor').getPower();
     }
 
 })(gameObjects.Game, gameObjects.Shop, gameObjects.Display, gameObjects.Stats);
