@@ -198,16 +198,32 @@
 	Boosts.newBoost({
 		name: 'MM Sacrifice',
 		icon: 'sun',
-		getDescription: function() { return 'Immediately gain 50% of required MC xp for your current MC level (' + (Game.currency('MC').xpRequiredForNextLevel() / 2) + ')'; },
+		getDescription: function() { return 'Immediately gain ' + (this.getSacrificeRatio() * 100) + '%  of required MC xp for your current MC level (' + Display.beautify(Game.currency('MC').xpRequiredForNextLevel() * this.getSacrificeRatio()) + ')'; },
 		shortName: 'sacrifice-mm',
 		cost: {
 			levels: {
 				MM: 1
 			}
 		},
+		getSacrificeRatio: function() {
+			let sacrificeRatio = 0.5;
+			let knifeparts = [ 'serratedblade', 'rubypommel',  'dragongrip', 'diamondbladetip', 'cheatersscabbard' ];
+			knifeparts.forEach((part) => {
+				if (Shop.has(part)) sacrificeRatio += 0.1;
+			});
+			sacrificeRatio = sacrificeRatio.toFixed(2);
+			return sacrificeRatio;
+		},
 		buy: function(me) {
 			me.saveableState.power++;
-			Game.acquireXp('MC', Game.currency('MC').xpRequiredForNextLevel() / 2);
+			let sacrificeRatio = 0.5;
+			let knifeparts = [ 'serratedblade', 'rubypommel',  'dragongrip', 'diamondbladetip', 'cheatersscabbard' ];
+			knifeparts.forEach((part) => {
+				if (Shop.has(part)) sacrificeRatio += 0.1;
+			});
+			sacrificeRatio = sacrificeRatio.toFixed(2);
+			Game.acquireXp('MC', Game.currency('MC').xpRequiredForNextLevel() * sacrificeRatio);
+			Display.notify('You won ' + (sacrificeRatio * 100) + '% required MC xp', 'generic');
 			Shop.lock('sacrifice-mm');
 			Loot.tryLootCategory('knifepart');
 		},
@@ -217,16 +233,27 @@
 	Boosts.newBoost({
 		name: 'MC Sacrifice',
 		icon: 'moon',
-		getDescription: function() { return 'Immediately gain 50% of required MM xp for your current MM level (' + (Game.currency('MM').xpRequiredForNextLevel() / 2) + ')'; },
+		getDescription: function() { return 'Immediately gain ' + (this.getSacrificeRatio() * 100)+ '% of required MM xp for your current MM level (' + Display.beautify(Game.currency('MM').xpRequiredForNextLevel() * this.getSacrificeRatio()) + ')'; },
 		shortName: 'sacrifice-mc',
 		cost: {
 			levels: {
 				MC: 1
 			}
 		},
+		getSacrificeRatio: function() {
+			let sacrificeRatio = 0.5;
+			let knifeparts = [ 'serratedblade', 'rubypommel',  'dragongrip', 'diamondbladetip', 'cheatersscabbard' ];
+			knifeparts.forEach((part) => {
+				if (Shop.has(part)) sacrificeRatio += 0.1;
+			});
+			sacrificeRatio = sacrificeRatio.toFixed(2);
+			return sacrificeRatio;
+		},
 		buy: function(me) {
 			me.saveableState.power++;
-			Game.acquireXp('MM', Game.currency('MM').xpRequiredForNextLevel() / 2);
+			let sacrificeRatio = this.getSacrificeRatio();
+			Game.acquireXp('MM', Game.currency('MM').xpRequiredForNextLevel() * sacrificeRatio);
+			Display.notify('You won ' + (sacrificeRatio * 100) + '% required MM xp', 'generic');
 			Shop.lock('sacrifice-mc');
 			Loot.tryLootCategory('knifepart');
 		},
@@ -247,6 +274,7 @@
 	});
 	Boosts.newBoost({
 		name: 'Serrated blade',
+		icon: 'serratedblade',
 		getDescription: function() { return 'A part of a nice knife. Your sacrifices yield +10% of xp required for next level.'; },
 		shortName: 'serratedblade',
 		cost: {
@@ -258,6 +286,7 @@
 	});
 	Boosts.newBoost({
 		name: 'Ruby pommel',
+		icon: 'rubypommel',
 		getDescription: function() { return 'A part of a nice knife. Your sacrifices yield +10% of xp required for next level.'; },
 		shortName: 'rubypommel',
 		cost: {
@@ -269,6 +298,7 @@
 	});
 	Boosts.newBoost({
 		name: 'Sculpted Dragon Grip',
+		icon: 'dragongrip',
 		getDescription: function() { return 'A part of a nice knife. Your sacrifices yield +10% of xp required for next level.'; },
 		shortName: 'dragongrip',
 		cost: {
@@ -280,6 +310,7 @@
 	});
 	Boosts.newBoost({
 		name: 'Diamond Blade-Tip',
+		icon: 'diamondbladetip',
 		getDescription: function() { return 'A part of a nice knife. Your sacrifices yield +10% of xp required for next level.'; },
 		shortName: 'diamondbladetip',
 		cost: {
@@ -291,6 +322,7 @@
 	});
 	Boosts.newBoost({
 		name: 'Cheater\'s scabbard',
+		icon: 'cheatersscabbard',
 		getDescription: function() { return 'A part of a nice knife. Your sacrifices yield +10% of xp required for next level.'; },
 		shortName: 'cheatersscabbard',
 		cost: {

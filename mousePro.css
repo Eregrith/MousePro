@@ -398,20 +398,3 @@ ul {
 .outer-glow {
 	text-shadow: 0px 0px 5px gold;
 }
-
-.fa-kriss {
-	content: url('img/kriss.png');
-	transform: rotate(-15deg);
-	width: 20px;
-	position: relative;
-	top: -40px;
-	right: 10px;
-}
-
-body[gameFont=Helvetica] .fa-kriss {
-	top: 0;
-}
-
-.dark-theme .fa-kriss {
-	content: url('img/kriss-dark.png');
-}
