@@ -5,7 +5,7 @@
 * Currencies.js
 */
 
-(function(Game, Display, Shop, Currencies) {
+(function(Game, Display, Currencies) {
     
     Currencies.newCurrency = function(settings) {
         let currency = {
@@ -15,6 +15,7 @@
                 level: 0,
                 highestLevelAttained: 0
             },
+            isToBeDisplayedNormally: settings.isToBeDisplayedNormally === undefined ? true : settings.isToBeDisplayedNormally,
             getLevel: function() {
                 return this.saveableState.level;
             },
@@ -67,4 +68,4 @@
         Game.currencies.push(currency);
     }
 
-})(gameObjects.Game, gameObjects.Display, gameObjects.Shop, gameObjects.Currencies);
+})(gameObjects.Game, gameObjects.Display, gameObjects.Currencies);

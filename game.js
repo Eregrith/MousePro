@@ -103,6 +103,13 @@
 			Shop.unlock('posters');
 			Achievements.gain('cutting');
 		}
+		if ((Shop.boost('sacrifice-mm').getPower() + Shop.boost('sacrifice-mc').getPower()) >= 5 && !Achievements.has('cutting')) {
+			Shop.unlock('posters');
+			Achievements.gain('cutting');
+		}
+		Game.modules.forEach((mod) => {
+			mod.gameModule.checkUnlocks();
+		});
 	}
 	
 	Game.tick = function() {

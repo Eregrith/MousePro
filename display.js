@@ -18,7 +18,7 @@
 	}
 	
 	Display.updateCurrencies = function() {
-		Game.currencies.forEach(Display.updateCurrency);
+		Game.currencies.filter(c => c.isToBeDisplayedNormally).forEach(Display.updateCurrency);
 	}
 	
 	Display.updateCurrency = function(currency) {
@@ -70,6 +70,7 @@
 	Display.tick = function() {
 		Display.updateCurrencies();
 		Display.updateNotifs();
+		Display.refreshDisplayModules();
 		Display.ticks++;
 		if (Display.ticks == 50 || Display.needsRepaintImmediate) {
 			Display.ticks = 0;
@@ -112,7 +113,7 @@
 	Display.displayCurrencies = function () {
 		let ul = document.getElementById('currencies');
 		
-		Game.currencies.forEach((currency) => {
+		Game.currencies.filter(c => c.isToBeDisplayedNormally).forEach((currency) => {
 			let currencyDiv = this.buildDisplayItemForCurrency(currency);
 			ul.appendChild(currencyDiv);
 		});
@@ -172,6 +173,12 @@
 			let achievementItem = Display.buildDisplayItemForAchievement(achievement);
 			ul.appendChild(achievementItem);
 		});
+	}
+
+	Display.refreshDisplayModules = function() {
+		Display.modules.forEach((mod) => {
+			mod.displayModule.refresh();
+		})
 	}
 
 	Display.buildDisplayItemForAchievement = function(achievement) {

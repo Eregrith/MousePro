@@ -25,7 +25,10 @@
 	Boosts.newBoost({
 		name: 'MM Sacrifice',
 		icon: 'sun',
-		getDescription: function() { return 'Immediately gain ' + (this.getSacrificeRatio() * 100) + '%  of required MC xp for your current MC level (' + Display.beautify(Game.currency('MC').xpRequiredForNextLevel() * this.getSacrificeRatio()) + ')'; },
+		getDescription: function() {
+			return 'Immediately gain ' + (Game.getModule('bip').getSacrificeRatio() * 100) + '%  of required MC xp for your current MC level '
+				+ '(' + Display.beautify(Game.currency('MC').xpRequiredForNextLevel() * Game.getModule('bip').getSacrificeRatio()) + ')';
+		},
 		shortName: 'sacrifice-mm',
 		cost: {
 			levels: {
@@ -42,17 +45,7 @@
 			return sacrificeRatio;
 		},
 		buy: function(me) {
-			me.saveableState.power++;
-			let sacrificeRatio = 0.5;
-			let knifeparts = [ 'serratedblade', 'rubypommel',  'dragongrip', 'diamondbladetip', 'cheatersscabbard' ];
-			knifeparts.forEach((part) => {
-				if (Shop.has(part)) sacrificeRatio += 0.1;
-			});
-			sacrificeRatio = sacrificeRatio.toFixed(2);
-			Game.acquireXp('MC', Game.currency('MC').xpRequiredForNextLevel() * sacrificeRatio);
-			Display.notify('You won ' + (sacrificeRatio * 100) + '% required MC xp', 'generic');
-			Shop.lock('sacrifice-mm');
-			Loot.tryLootCategory('knifepart');
+			Game.getModule('bip').sacrifice(me, 'MC');
 		},
 		ephemeral: true,
 		lifeDurationInTicks: 1000
@@ -60,29 +53,18 @@
 	Boosts.newBoost({
 		name: 'MC Sacrifice',
 		icon: 'moon',
-		getDescription: function() { return 'Immediately gain ' + (this.getSacrificeRatio() * 100)+ '% of required MM xp for your current MM level (' + Display.beautify(Game.currency('MM').xpRequiredForNextLevel() * this.getSacrificeRatio()) + ')'; },
+		getDescription: function() {
+			return 'Immediately gain ' + (Game.getModule('bip').getSacrificeRatio() * 100)+ '% of required MM xp for your current MM level '
+				+ '(' + Display.beautify(Game.currency('MM').xpRequiredForNextLevel() * Game.getModule('bip').getSacrificeRatio()) + ')';
+		},
 		shortName: 'sacrifice-mc',
 		cost: {
 			levels: {
 				MC: 1
 			}
 		},
-		getSacrificeRatio: function() {
-			let sacrificeRatio = 0.5;
-			let knifeparts = [ 'serratedblade', 'rubypommel',  'dragongrip', 'diamondbladetip', 'cheatersscabbard' ];
-			knifeparts.forEach((part) => {
-				if (Shop.has(part)) sacrificeRatio += 0.1;
-			});
-			sacrificeRatio = sacrificeRatio.toFixed(2);
-			return sacrificeRatio;
-		},
 		buy: function(me) {
-			me.saveableState.power++;
-			let sacrificeRatio = this.getSacrificeRatio();
-			Game.acquireXp('MM', Game.currency('MM').xpRequiredForNextLevel() * sacrificeRatio);
-			Display.notify('You won ' + (sacrificeRatio * 100) + '% required MM xp', 'generic');
-			Shop.lock('sacrifice-mc');
-			Loot.tryLootCategory('knifepart');
+			Game.getModule('bip').sacrifice(me, 'MC');
 		},
 		ephemeral: true,
 		lifeDurationInTicks: 1000
@@ -156,6 +138,18 @@
 			levels: {
 				MM: 18, 
 				MC: 18
+			}
+		}
+	});
+	Boosts.newBoost({
+		name: 'True kriss',
+		icon: 'truekriss',
+		getDescription: function() { return 'A nice knife. I bet you can <i>harvest</i> things with it.'; },
+		shortName: 'truekriss',
+		cost: {
+			levels: {
+				MM: 22, 
+				MC: 22
 			}
 		}
 	});

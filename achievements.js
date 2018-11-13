@@ -105,6 +105,12 @@ Achievements = {};
 			shortName: 'ephemeral',
 			description: 'Miss 10 ephemeral boosts by letting them die',
 			acquired: false
+		},
+		{
+			name: 'Blood Is Power',
+			shortName: 'truekriss',
+			description: 'Happy harvesting',
+			acquired: false
 		}
 	];
 	

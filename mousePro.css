@@ -57,14 +57,14 @@ ul {
     CURRENCIES
 */
 #currencies {
-	width: 40%;
+	width: 25%;
 	display: inline-block;
 }
 
 .currency {
 	border: 1px solid var(--text-color);
 	border-radius: 5px;
-	width: 600px;
+	width: 97%;
 	margin: 3px;
 }
 
@@ -95,6 +95,7 @@ ul {
 	top: -2px;
 	position: relative;
 }
+
 /*
 	TABS
 */

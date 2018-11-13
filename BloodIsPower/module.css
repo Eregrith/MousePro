@@ -1,0 +1,149 @@
+#blood {
+	width: 10%;
+	display: inline-block;
+}
+
+#currency-blood {
+    width: 35px;
+    height: 101px;
+    border-width: 0px 3px 3px 3px;
+    border-color: var(--text-color);
+    border-style: solid;
+    position: relative;
+    top: 20px;
+    border-radius: 4px;
+}
+
+#currency-blood-bar {
+    background-color: darkred;
+    position: relative;
+    width: 39px;
+    left: -2px;
+    display: block;
+    z-index: -1;
+}
+
+#currency-blood-xp {
+    position: relative;
+    top: -40px;
+    left: 6px;
+    font-size: 10px;
+}
+
+/*
+//////// KNIFE PARTS ////////
+*/
+
+/*
+** Kriss
+*/
+.fa-kriss {
+	content: url('../img/kriss.png');
+	transform: rotate(-15deg);
+	width: 20px;
+	position: relative;
+	top: -40px;
+	right: 10px;
+}
+
+body[gameFont=Helvetica] .fa-kriss {
+	top: 0;
+}
+
+.dark-theme .fa-kriss {
+	content: url('../img/kriss-dark.png');
+}
+
+/*
+** Serrated Blade
+*/
+.fa-serratedblade {
+	content: url('../img/serratedblade.png');
+    transform: rotate(40deg);
+    width: 60px;
+    position: relative;
+    top: -27px;
+    right: 0px;
+}
+
+body[gameFont=Helvetica] .fa-serratedblade {
+	top: 0;
+    right: -5px;
+    transform: rotate(53deg);
+}
+
+.dark-theme .fa-serratedblade {
+	content: url('../img/serratedblade-dark.png');
+}
+
+/*
+** Ruby Pommel
+*/
+.fa-rubypommel {
+	content: url('../img/rubypommel.png');
+    transform: rotate(0deg);
+    width: 23px;
+    position: relative;
+    top: -23px;
+    right: 1px;
+}
+
+body[gameFont=Helvetica] .fa-rubypommel {
+	top: 4px;
+}
+
+/*
+** Dragon Sculpted Grip
+*/
+.fa-dragongrip {
+	content: url('../img/dragongrip.png');
+    transform: rotate(0deg);
+    width: 35px;
+    position: relative;
+    top: -39px;
+    right: 0px;
+}
+
+body[gameFont=Helvetica] .fa-dragongrip {
+	top: -35px;
+}
+
+/*
+** Diamond Blade Tip
+*/
+.fa-diamondbladetip {
+	content: url('../img/diamondbladetip.png');
+    transform: rotate(0deg);
+    width: 25px;
+    position: relative;
+    top: -42px;
+    right: 0px;
+}
+
+body[gameFont=Helvetica] .fa-diamondbladetip {
+	top: -36px;
+}
+
+.dark-theme .fa-diamondbladetip {
+	content: url('../img/diamondbladetip-dark.png');
+}
+
+/*
+** Cheater's Scabbard
+*/
+.fa-cheatersscabbard {
+	content: url('../img/cheatersscabbard.png');
+    transform: rotate(-11deg);
+    width: 25px;
+    position: relative;
+    top: -42px;
+    right: 7px;
+}
+
+body[gameFont=Helvetica] .fa-cheatersscabbard {
+	top: -36px;
+}
+
+.dark-theme .fa-cheatersscabbard {
+	content: url('../img/cheatersscabbard-dark.png');
+}
