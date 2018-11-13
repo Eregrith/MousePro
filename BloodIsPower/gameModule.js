@@ -15,9 +15,9 @@
         color: 'red',
         iconTag: '<i class="fa fa-tint currency-icon"></i>',
         xpRequiredForNextLevel: 101,
-        acquireXp: function(me) {
-            if (me.saveableState.xp >= xpRequiredForNextLevel) {
-                me.saveableState.xp = xpRequiredForNextLevel - 1;
+        xpGained: function(me) {
+            if (me.saveableState.xp >= this.xpRequiredForNextLevel) {
+                me.saveableState.xp = this.xpRequiredForNextLevel - 1;
             }
         },
         isToBeDisplayedNormally: false
@@ -33,6 +33,8 @@
             Shop.unlock('truekriss');
             Achievements.gain('truekriss');
         }
+
+        
     }
 
     gameModule.getSacrificeRatio = function() {

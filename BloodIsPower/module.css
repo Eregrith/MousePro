@@ -1,13 +1,12 @@
 #blood {
-	width: 10%;
 	display: inline-block;
 }
 
 #currency-blood {
     width: 35px;
-    height: 101px;
+    height: 80px;
     border-width: 0px 3px 3px 3px;
-    border-color: var(--text-color);
+    border-color: darkred;
     border-style: solid;
     position: relative;
     top: 20px;
@@ -15,18 +14,30 @@
 }
 
 #currency-blood-bar {
-    background-color: darkred;
     position: relative;
     width: 39px;
     left: -2px;
     display: block;
     z-index: -1;
+    background:
+        radial-gradient(circle at 100% 50%, transparent 20%, rgba(255,255,255,.3) 13%, rgba(255,255,255,.3) 23%, transparent 35%, transparent),
+        radial-gradient(circle at 0% 50%, transparent 20%, rgba(255,255,255,.3) 13%, rgba(255,255,255,.3) 23%, transparent 35%, transparent) 0 -5px;
+    background-color: darkred;
+    background-size: 7px 10px;
+}
+
+#currency-blood-icon {
+    color: red;
+    position: relative;
+    top: -50px;
+    left: 14px;
 }
 
 #currency-blood-xp {
+    color: red;
     position: relative;
-    top: -40px;
-    left: 6px;
+    top: -30px;
+    left: 5px;
     font-size: 10px;
 }
 

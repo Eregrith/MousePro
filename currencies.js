@@ -35,7 +35,8 @@
             levelUp: function() {
                 this.saveableState.xp -= this.xpRequiredForNextLevel();
                 this.saveableState.level++;
-                settings.levelUp(this);
+                if (settings.levelUp)
+                    settings.levelUp(this);
                 Display.notifyLevelUp(this);
                 if (this.saveableState.highestLevelAttained == undefined
                     || this.saveableState.level > this.saveableState.highestLevelAttained)

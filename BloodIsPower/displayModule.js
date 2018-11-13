@@ -23,7 +23,7 @@
 		
 		let progressBar = document.getElementById('currency-' + currency.shortName + '-bar');
 		let progressPercent = currency.getXp();
-		progressBar.style = 'height: '+progressPercent+'px;bottom: -'+(101-progressPercent)+'px';
+		progressBar.style = 'height: '+progressPercent+'%;bottom: -'+(100-progressPercent)+'%';
     }
     
     displayModule.displayCurrency = function(currency) {
