@@ -61,7 +61,7 @@
 		if (postFixIndex != postFixes.length - 1)
 		{
 			let postFixData = postFixes[postFixIndex];
-			postFixedValue = Math.round(value / postFixData.divisor) + ' ' + postFixData.postFix;
+			postFixedValue = (value / postFixData.divisor).toFixed(2) + ' ' + postFixData.postFix;
 		}
 
 		return negative + postFixedValue;
