@@ -111,6 +111,12 @@ Achievements = {};
 			shortName: 'truekriss',
 			description: 'Happy harvesting',
 			acquired: false
+		},
+		{
+			name: 'Bloodthirst',
+			shortName: 'bloodthirst',
+			description: 'Maybe you shouldn\'t let him eat that',
+			acquired: false
 		}
 	];
 	

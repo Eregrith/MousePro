@@ -14,6 +14,7 @@
         shortName: 'blood',
         color: 'red',
         iconTag: '<i class="fa fa-tint currency-icon"></i>',
+        xpLabel: '%',
         xpRequiredForNextLevel: 101,
         xpGained: function(me) {
             if (me.saveableState.xp >= this.xpRequiredForNextLevel) {
@@ -34,7 +35,24 @@
             Achievements.gain('truekriss');
         }
 
-        
+        let sacrificeMM = Shop.boost('sacrifice-mm');
+        let sacrificeMC = Shop.boost('sacrifice-mc');
+
+        if (sacrificeMM.saveableState.power >= 20
+            && !Achievements.has('bloodthirst')) {
+            Shop.unlock('bloodthirstyaldo');
+            Achievements.gain('bloodthirst');
+        }
+        if (sacrificeMC.saveableState.power >= 20
+            && !Achievements.has('bloodthirst')) {
+            Shop.unlock('bloodthirstyaldo');
+            Achievements.gain('bloodthirst');
+        }
+        if (Shop.boost('truekriss').getPower() >= 20
+            && !Shop.isAvailable('biggerbuckets')) {
+            Shop.unlock('biggerbuckets');
+        }
+
     }
 
     gameModule.getSacrificeRatio = function() {
@@ -60,8 +78,24 @@
         Shop.lock('sacrifice-mm');
         Shop.lock('sacrifice-mc');
         Loot.tryLootCategory('knifepart');
-        if (Shop.has('truekriss'))
-            Game.acquireXp('blood', 1);
+        if (Shop.has('truekriss')) {
+            let blood = 1;
+            
+            if (Shop.has('biggerbuckets')) blood += 1;
+
+            Game.acquireXp('blood', blood);
+            Shop.boost('truekriss').saveableState.power++;
+        }
+    }
+
+    gameModule.toggleBoost = function(shortName) {
+        let boost = Shop.boost(shortName);
+        if (boost.isActive()) {
+            boost.deactivate();
+        } else {
+            boost.activate();
+        }
+        Display.needsRepaintImmediate = true;
     }
 
     Game.module('bip', gameModule);

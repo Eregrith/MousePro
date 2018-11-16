@@ -217,6 +217,17 @@
 			if (boost.length == 0) {
 				ul.removeChild(ownedBoost);
 				return;
+			} else {
+				boost = boost[0];
+				let descDiv = ownedBoost.getElementsByClassName('boost-desc')[0];
+				descDiv.innerHTML = boost.getDescription();
+				if (boost.isActive()) {
+					ownedBoost.classList.remove('inactive');
+					ownedBoost.classList.add('active');
+				} else {
+					ownedBoost.classList.add('inactive');
+					ownedBoost.classList.remove('active');
+				}
 			}
 		});
 		boosts.forEach((boost) => {
@@ -230,7 +241,10 @@
 
 	Display.buildDisplayItemForBoost = function(boost) {
 		let mainDiv = document.createElement('div');
-		mainDiv.className = 'boost';
+		mainDiv.classList = [ 'boost' ];
+		if (boost.isActivable) {
+			mainDiv.classList.add('activable');
+		}
 		mainDiv.id = 'boost-' + boost.shortName;
 		
 		let titleDiv = document.createElement('div');
@@ -306,15 +320,24 @@
 
 				let title = unlockedFriend.getElementsByClassName('friend-title')[0];
 				title.innerHTML = friend.getName();
-				
+
+				let iconDiv = unlockedFriend.getElementsByClassName('friend-icon')[0];		
+				if (Shop.has('bloodfull' + friend.shortName)) {
+					iconDiv.classList.add('red');
+					iconDiv.classList.add('red-glow');
+				}
+						
 				let desc = unlockedFriend.getElementsByClassName('friend-desc')[0];
 				desc.innerHTML = friend.getDescription();
-
+				
 				let buyButton = unlockedFriend.getElementsByClassName('friend-buy-btn')[0];
 				if (!Game.hasCurrency(friend.getCosts()))
 					buyButton.classList.add('disabled');
 				else 
 					buyButton.classList.remove('disabled');
+
+				let bloodDiv = unlockedFriend.getElementsByClassName('friend-blood-xp')[0];
+				bloodDiv.style.width = friend.getFullnessPercent() + '%';
 			}
 		});
 	}
@@ -332,6 +355,8 @@
 		if (friend.icon != undefined) {
 			let iconDiv = document.createElement('div');
 			iconDiv.className = 'friend-icon fa fa-' + friend.icon;
+			if (Shop.has('bloodfull' + friend.shortName))
+				iconDiv.className += ' red red-glow';
 			mainDiv.appendChild(iconDiv);
 		}
 		
@@ -353,6 +378,11 @@
 			buyButton.classList.add('disabled');
 		buyButton.onclick = function() { Friends.buy(friend.shortName) };
 		mainDiv.appendChild(buyButton);
+
+		let bloodDiv = document.createElement('div');
+		bloodDiv.className = 'friend-blood-xp';
+		bloodDiv.style.width = friend.getFullnessPercent() + '%';
+		mainDiv.appendChild(bloodDiv);
 		
 		return mainDiv;
 	}
@@ -366,7 +396,7 @@
 				if (cost.xp.hasOwnProperty(part)) {
 					let li = document.createElement('li');
 					let currency = Game.currency(part);
-					li.innerHTML = currency.iconTag + '&nbsp;' + part + ': ' + cost.xp[part] + ' xp';
+					li.innerHTML = currency.iconTag + '&nbsp;' + part + ': ' + cost.xp[part] + ' ' + currency.xpLabel;
 					ul.appendChild(li);
 				}
 			}

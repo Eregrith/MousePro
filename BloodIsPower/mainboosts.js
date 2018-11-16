@@ -64,7 +64,7 @@
 			}
 		},
 		buy: function(me) {
-			Game.getModule('bip').sacrifice(me, 'MC');
+			Game.getModule('bip').sacrifice(me, 'MM');
 		},
 		ephemeral: true,
 		lifeDurationInTicks: 1000
@@ -150,6 +150,58 @@
 			levels: {
 				MM: 22, 
 				MC: 22
+			}
+		}
+	});
+	Boosts.newBoost({
+		name: 'Aldo the Bloodthirsty',
+		icon: 'user-circle red',
+		isActivable: true,
+		getDescription: function() {
+			let desc = 'It looks like your friend get high on a viscous red substance.';
+			if (!this.isBought()) {
+				desc += '<br/>When turned on, this boost allows aldo to double its output at the cost of 1 blood per 100 activations.';
+			} else if (this.isActive()) {
+				desc += '<div class="btn" onclick="gameObjects.Game.getModule(\'bip\').toggleBoost(\'bloodthirstyaldo\')">Turn off</div> Allows aldo to double its output at the cost of 1 blood per 100 activations.';
+			} else {
+				desc += '<div class="btn" onclick="gameObjects.Game.getModule(\'bip\').toggleBoost(\'bloodthirstyaldo\')">Turn on</div> to allow aldo to double its output at the cost of 1 blood per 100 activations.'
+			}
+			return desc;
+		},
+		shortName: 'bloodthirstyaldo',
+		cost: {
+			xp: {
+				blood: 20,
+			}
+		}
+	});
+	Boosts.newBoost({
+		name: 'Bloodfull aldo',
+		icon: 'user-circle red red-glow',
+		getDescription: function() {
+			let desc = 'It looks like your friend has eaten well.<br/>'
+				+ 'Aldo gains a multiplicative ' + (this.getPower()*100) + '% bonus to output per MM sacrifice you have committed.<br/>';
+			return desc;
+		},
+		power: 0.05,
+		shortName: 'bloodfullaldo',
+		cost: {
+			xp: {
+				blood: 20,
+			}
+		}
+	});
+	Boosts.newBoost({
+		name: 'Bigger blood buckets',
+		icon: 'fill red',
+		getDescription: function() {
+			let desc = 'This will help you transporting blood from the sacrifice place to your storage.<br/>You get 1 more blood unit per sacrifice';
+			return desc;
+		},
+		shortName: 'biggerbuckets',
+		cost: {
+			xp: {
+				blood: 10,
 			}
 		}
 	});

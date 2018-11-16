@@ -13,7 +13,8 @@
             saveableState: {
                 buyable: false,
                 bought: false,
-                power: settings.power || 0
+                power: settings.power || 0,
+                active: false,
             },
             getCost: function () {
                 if (this.cost.xp == undefined)
@@ -52,6 +53,16 @@
             },
             isBought: function() {
                 return this.saveableState.bought;
+            },
+            isActivable: settings.isActivable || false,
+            isActive: function() {
+                return this.saveableState.active;
+            },
+            deactivate: function() {
+                this.saveableState.active = false;
+            },
+            activate: function() {
+                this.saveableState.active = true;
             },
             originalLifeDuration: settings.lifeDurationInTicks,
             tick: function() {

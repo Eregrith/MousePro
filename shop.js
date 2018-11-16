@@ -12,11 +12,14 @@
 	}
 	
 	Shop.has = function(shortName) {
-		return Shop.boost(shortName).isBought();
+		let boost = Shop.boost(shortName);
+		if (!boost) return false;
+		return boost.isBought();
 	}
 	
 	Shop.buy = function(shortName) {
 		let boost = Shop.boost(shortName);
+		if (!boost) return;
 		
 		if (!Game.hasCurrency(boost.getCost())) return;
 		
@@ -27,14 +30,23 @@
 	
 	Shop.unlock = function(shortName) {
 		let boost = Shop.boost(shortName);
+		if (!boost) return;
 		boost.unlock();
 		Display.needsRepaintImmediate = true;
 	}
 	
 	Shop.lock = function(shortName) {
 		let boost = Shop.boost(shortName);
+		if (!boost) return;
 		boost.lock();
 		Display.needsRepaintImmediate = true;
+	}
+
+	Shop.isAvailable = function(shortName) {
+		let boost = Shop.boost(shortName);
+		if (!boost) return false;
+
+		return boost.isUnlocked() || boost.isBought();
 	}
 
 })(gameObjects.Game, gameObjects.Boosts, gameObjects.Friends, gameObjects.Display, gameObjects.Shop, gameObjects.Loot, gameObjects.Tabs);

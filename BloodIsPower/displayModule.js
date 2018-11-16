@@ -19,7 +19,7 @@
         displayModule.displayCurrency(currency);
 
 		let xpDiv = document.getElementById('currency-'+currency.shortName+'-xp');
-		xpDiv.innerHTML = Display.beautify(currency.getXp()) + '%';
+		xpDiv.innerHTML = currency.getXp().toFixed(2) + '%';
 		
 		let progressBar = document.getElementById('currency-' + currency.shortName + '-bar');
 		let progressPercent = currency.getXp();
