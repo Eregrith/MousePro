@@ -205,5 +205,20 @@
 			}
 		}
 	});
+	Boosts.newBoost({
+		name: 'Unritualistic Sacrifice',
+		icon: '',
+		getDescription: function() {
+			let desc = 'These annoying little lambs are using up the space in your warehouse and you don\'t want to sacrifice them ?<br/>'
+					 + 'Why don\'t you just go on simply killing them for their blood ?';
+			return desc;
+		},
+		shortName: 'unritualisticsacrifice',
+		cost: {
+			xp: {
+				blood: 10,
+			}
+		}
+	});
 	
 })(gameObjects.Game, gameObjects.Boosts, gameObjects.Display, gameObjects.Shop, gameObjects.Loot);

@@ -66,7 +66,7 @@
         icon: 'user-circle',
         getDescription: function() {
             return 'This little man will help you by moving his mouse as well!<br>Yay!<br>'
-                + (this.getXpPerActivation() > 0 ? 'Gives ' + this.getXpPerActivation().toFixed(2) + ' MM xp per activation' + (Shop.has('bloodthirstyaldo') ? ' (Before multipliers)' : '') + '.' : '') + '<br>'
+                + (this.getXpPerActivation() > 0 ? 'Gives ' + Display.beautify(this.getXpPerActivation()) + ' MM xp per activation' + (Shop.has('bloodthirstyaldo') ? ' (Before multipliers)' : '') + '.' : '') + '<br>'
                 + this.getActivationFrequencyDescription();
         },
         baseTicksPerMove: 10,

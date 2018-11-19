@@ -69,17 +69,26 @@
                 if (this.ephemeral == true && this.isUnlocked()) {
                     this.lifeDurationInTicks--;
                     if (this.lifeDurationInTicks <= 0) {
-                        this.lifeDurationInTicks = this.originalLifeDuration * (Shop.has('anchor') ? 2 : 1);
-                        this.lock();
-                        Game.ephemeralDeath(this);
+                        this.die();
                     }
                 }
             },
+            die: function() {
+                this.lifeDurationInTicks = this.originalLifeDuration * (Shop.has('anchor') ? 2 : 1);
+                this.lock();
+                Game.ephemeralDeath(this);
+            },
             getEphemeralDescription: function(Display) {
                 let lifeInSeconds = Math.round(boost.lifeDurationInTicks / Display.framesPerSecond());
-                return 'This boost is ephemeral. It will only stay for '
+                let desc = 'This boost is ephemeral. It will only stay for '
                         + lifeInSeconds
                         + ' sec before being locked again.';
+
+                if (Shop.has('unritualisticsacrifice')) {
+                    desc += '<br/>Or, you can just <a class="red-glow" onclick="gameObjects.Game.getModule(\'bip\').kill(\'' + this.shortName + '\')">kill it</a> now for its blood.';
+                }
+                
+                return desc;
             }
         }
 

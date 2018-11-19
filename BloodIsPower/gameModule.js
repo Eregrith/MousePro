@@ -79,12 +79,23 @@
         Shop.lock('sacrifice-mc');
         Loot.tryLootCategory('knifepart');
         if (Shop.has('truekriss')) {
-            let blood = 1;
-            
-            if (Shop.has('biggerbuckets')) blood += 1;
-
-            Game.acquireXp('blood', blood);
+            gameModule.harvestBlood(1);
             Shop.boost('truekriss').saveableState.power++;
+        }
+    }
+
+    gameModule.harvestBlood = function(blood) {
+        if (Shop.has('biggerbuckets')) blood += 1;
+
+        Game.acquireXp('blood', blood);
+    }
+
+    gameModule.kill = function(shortName) {
+        let boost = Shop.boost(shortName);
+
+        if (boost.ephemeral && boost.isUnlocked()) {
+            boost.die();
+            gameModule.harvestBlood(1);
         }
     }
 

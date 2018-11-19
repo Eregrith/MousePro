@@ -66,6 +66,15 @@
 
 
 /*
+** Action links
+*/
+
+a, a:visited {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+/*
 //////// KNIFE PARTS ////////
 */
 
