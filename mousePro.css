@@ -156,12 +156,22 @@ ul {
 }
 .boost-desc {
 	padding: 5px;
+}
+body[gameFont=ObelixPro] .boost-desc {
+	font-size: 10px;
+}
+body[gameFont=Helvetica] .boost-desc {
 	font-size: 13px;
 }
 .boost-ephemeral {
 	padding: 5px;
-	font-size: 9px;
 	font-style: italic;
+}
+body[gameFont=ObelixPro] .boost-ephemeral {
+	font-size: 7px;
+}
+body[gameFont=Helvetica] .boost-ephemeral {
+	font-size: 9px;
 }
 .boost-cost {
 	font-size: 12px;
@@ -242,6 +252,11 @@ ul {
 }
 .friend-desc {
 	padding: 5px;
+}
+body[gameFont=ObelixPro] .friend-desc {
+	font-size: 10px;
+}
+body[gameFont=Helvetica] .friend-desc {
 	font-size: 13px;
 }
 .friend-cost {

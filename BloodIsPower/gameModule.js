@@ -52,7 +52,10 @@
             && !Shop.isAvailable('biggerbuckets')) {
             Shop.unlock('biggerbuckets');
         }
-
+        if (Shop.boost('anchor').getPower() >= 300
+            && !Shop.isAvailable('unritualisticsacrifice')) {
+            Shop.unlock('unritualisticsacrifice');
+        }
     }
 
     gameModule.getSacrificeRatio = function() {
@@ -96,6 +99,7 @@
         if (boost.ephemeral && boost.isUnlocked()) {
             boost.die();
             gameModule.harvestBlood(1);
+            Display.needsRepaintImmediate = true;
         }
     }
 
