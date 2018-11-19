@@ -74,6 +74,14 @@ a, a:visited {
     cursor: pointer;
 }
 
+body[gameFont=ObelixPro] .kill-ethereal {
+    font-size: 9px;
+}
+
+body[gameFont=Helvetica] .kill-ethereal {
+    font-size: 11px;
+}
+
 /*
 //////// KNIFE PARTS ////////
 */

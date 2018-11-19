@@ -85,7 +85,7 @@
                         + ' sec before being locked again.';
 
                 if (Shop.has('unritualisticsacrifice')) {
-                    desc += '<br/>Or, you can just <a class="red-glow" onclick="gameObjects.Game.getModule(\'bip\').kill(\'' + this.shortName + '\')">kill it</a> now for its blood.';
+                    desc += '<br/>Or, you can just <a class="kill-ethereal red-glow" onclick="gameObjects.Game.getModule(\'bip\').kill(\'' + this.shortName + '\')">kill it</a> now for its blood.';
                 }
                 
                 return desc;

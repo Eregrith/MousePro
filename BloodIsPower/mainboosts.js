@@ -158,7 +158,7 @@
 		icon: 'user-circle red',
 		isActivable: true,
 		getDescription: function() {
-			let desc = 'It looks like your friend get high on a viscous red substance.';
+			let desc = 'It looks like your friend gets high on a viscous red substance.';
 			if (!this.isBought()) {
 				desc += '<br/>When turned on, this boost allows aldo to double its output at the cost of 1 blood per 100 activations.';
 			} else if (this.isActive()) {
@@ -176,6 +176,28 @@
 		}
 	});
 	Boosts.newBoost({
+		name: 'Bloodthirsty Barnabeus',
+		icon: 'user-circle fa-lighter red red-glow',
+		isActivable: true,
+		getDescription: function() {
+			let desc = 'It looks like your other friend gets high on a viscous red substance.';
+			if (!this.isBought()) {
+				desc += '<br/>When turned on, this boost allows barnabeus to double its output at the cost of 1 blood per 10 activations.';
+			} else if (this.isActive()) {
+				desc += '<div class="btn" onclick="gameObjects.Game.getModule(\'bip\').toggleBoost(\'bloodthirstybarnabeus\')">Turn off</div> Allows barnabeus to double its output at the cost of 1 blood per 10 activations.';
+			} else {
+				desc += '<div class="btn" onclick="gameObjects.Game.getModule(\'bip\').toggleBoost(\'bloodthirstybarnabeus\')">Turn on</div> to allow barnabeus to double its output at the cost of 1 blood per 10 activations.'
+			}
+			return desc;
+		},
+		shortName: 'bloodthirstybarnabeus',
+		cost: {
+			xp: {
+				blood: 10,
+			}
+		}
+	});
+	Boosts.newBoost({
 		name: 'Bloodfull aldo',
 		icon: 'user-circle red red-glow',
 		getDescription: function() {
@@ -183,8 +205,24 @@
 				+ 'Aldo gains a multiplicative ' + (this.getPower()*100) + '% bonus to output per MM sacrifice you have committed.<br/>';
 			return desc;
 		},
-		power: 0.05,
+		power: 0.10,
 		shortName: 'bloodfullaldo',
+		cost: {
+			xp: {
+				blood: 20,
+			}
+		}
+	});
+	Boosts.newBoost({
+		name: 'Bloodfull barnabeus',
+		icon: 'user-circle fa-lighter red red-glow',
+		getDescription: function() {
+			let desc = 'It looks like your friend has eaten well.<br/>'
+				+ 'Barnabeus gains a multiplicative ' + (this.getPower()*100) + '% bonus to output per MC sacrifice you have committed.<br/>';
+			return desc;
+		},
+		power: 0.10,
+		shortName: 'bloodfullbarnabeus',
 		cost: {
 			xp: {
 				blood: 20,

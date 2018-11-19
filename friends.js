@@ -26,6 +26,7 @@
                 }
             },
             getFullnessPercent: function() {
+                if (!this.saveableState.bloodEaten) return 0;
                 if (!this.bloodNeededToBeFull) return 0;
                 if (this.saveableState.bloodEaten >= this.bloodNeededToBeFull) return 100;
                 return (this.saveableState.bloodEaten / this.bloodNeededToBeFull) * 100;
@@ -107,7 +108,7 @@
         icon: 'user-circle fa-lighter',
         getDescription: function() {
             return 'This little man will help you by clicking his mouse as well!<br>Yay!<br>'
-                + (this.getXpPerActivation() > 0 ? 'Gives ' + this.getXpPerActivation().toFixed(2) + ' MC xp per activation.' : '') + '<br>'
+                + (this.getXpPerActivation() > 0 ? 'Gives ' + Display.beautify(this.getXpPerActivation()) + ' MC xp per activation.' + (Shop.has('bloodthirstyaldo') ? ' (Before multipliers)' : '') + '.' : '') + '<br>'
                 + this.getActivationFrequencyDescription();
         },
         baseTicksPerMove: 50,
@@ -117,8 +118,26 @@
                 MC: 2
             }
         },
+        applyXpBonus: function(baseXp) {
+            if (Shop.has('bloodfullbarnabeus')) {
+                baseXp *= 1 + Math.pow(1 + Shop.boost('bloodfullbarnabeus').getPower(), Shop.boost('sacrifice-mc').getPower());
+            }
+            return baseXp;
+        },
+        bloodNeededToBeFull: 50,
         activate: function() {
-            Game.acquireXp('MC', this.getXpPerActivation());
+            let xp = this.getXpPerActivation();
+            if (Shop.has('bloodthirstybarnabeus') && Shop.boost('bloodthirstybarnabeus').isActive()) {
+                if (Game.hasCurrency({ xp: { blood: 0.1 } })) {
+                    Game.spend({ xp: { blood: 0.1 } });
+                    this.hasEatenBlood(0.1);
+                    xp *= 2;
+                }
+            }
+            Game.acquireXp('MC', xp);
+        },
+        isFullOfBlood: function() {
+            Shop.unlock('bloodfullbarnabeus');
         },
         onBuy: function() {
             if (this.bought >= 5) {

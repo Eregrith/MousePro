@@ -5,7 +5,7 @@
 * Game Module.js
 */
 
-(function (Game, Shop, Achievements, Display, Currencies, Loot) {
+(function (Game, Shop, Achievements, Display, Currencies, Friends, Loot) {
 
     let gameModule = {};
 
@@ -55,6 +55,10 @@
         if (Shop.boost('anchor').getPower() >= 300
             && !Shop.isAvailable('unritualisticsacrifice')) {
             Shop.unlock('unritualisticsacrifice');
+        }
+        if (Friends.friend('aldo').getXpPerActivation() > 10000
+           && !Shop.isAvailable('bloodthirstybarnabeus')) {
+            Shop.unlock('bloodthirstybarnabeus');
         }
     }
 
@@ -115,4 +119,4 @@
 
     Game.module('bip', gameModule);
 
-})(gameObjects.Game, gameObjects.Shop, gameObjects.Achievements, gameObjects.Display, gameObjects.Currencies, gameObjects.Loot);
+})(gameObjects.Game, gameObjects.Shop, gameObjects.Achievements, gameObjects.Display, gameObjects.Currencies, gameObjects.Friends, gameObjects.Loot);
