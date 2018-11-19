@@ -258,5 +258,21 @@
 			}
 		}
 	});
+	Boosts.newBoost({
+		name: 'Rat scavengers',
+		icon: 'rat',
+		power: 0,
+		getDescription: function() {
+			let desc = 'You could use these little creatures to get the blood in these lambs after they\'re done for.'
+				+ '<br/>These will scavenge a bit of blood after an ephemeral boost dies.';
+			return desc;
+		},
+		shortName: 'ratscavengers',
+		cost: {
+			xp: {
+				blood: 13,
+			}
+		}
+	});
 	
 })(gameObjects.Game, gameObjects.Boosts, gameObjects.Display, gameObjects.Shop, gameObjects.Loot);

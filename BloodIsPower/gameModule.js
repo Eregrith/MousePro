@@ -60,6 +60,11 @@
            && !Shop.isAvailable('bloodthirstybarnabeus')) {
             Shop.unlock('bloodthirstybarnabeus');
         }
+        if ((Friends.friend('aldo').getXpPerActivation() > 5000000
+            || Friends.friend('barnabeus').getXpPerActivation() > 5000000)
+           && !Shop.isAvailable('ratscavengers')) {
+            Shop.unlock('ratscavengers');
+        }
     }
 
     gameModule.getSacrificeRatio = function() {

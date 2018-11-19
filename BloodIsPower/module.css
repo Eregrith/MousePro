@@ -199,3 +199,21 @@ body[gameFont=Helvetica] .fa-cheatersscabbard {
 .dark-theme .fa-cheatersscabbard {
 	content: url('../img/cheatersscabbard-dark.png');
 }
+
+/*
+** Rat
+*/
+.fa-rat {
+    content: url('../img/rat.png');
+    width: 30px;
+    position: relative;
+    top: -44px;
+    right: 2px;
+}
+body[gameFont=Helvetica] .fa-rat {
+	top: 2px;
+}
+
+.dark-theme .fa-rat {
+	content: url('../img/rat-dark.png');
+}

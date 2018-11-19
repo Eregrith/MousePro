@@ -184,6 +184,10 @@
 			Shop.unlock('anchor');
 			Achievements.gain('ephemeral');
 		}
+		if (Shop.has('ratscavengers')) {
+			Game.acquireXp('blood', 0.5);
+			Shop.boost('ratscavengers').saveableState.power++;
+		}
 	}
 	
 	Game.lastMouseDown = {};
