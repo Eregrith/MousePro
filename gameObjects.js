@@ -21,5 +21,6 @@ let gameObjects = {
 	},
 	Currencies: {},
 	Save: {},
-	Stats: {}
+	Stats: {},
+	Loot: {}
 };

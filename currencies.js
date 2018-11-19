@@ -5,7 +5,7 @@
 * Currencies.js
 */
 
-(function(Game, Display, Shop, Currencies) {
+(function(Game, Display, Currencies) {
     
     Currencies.newCurrency = function(settings) {
         let currency = {
@@ -15,6 +15,8 @@
                 level: 0,
                 highestLevelAttained: 0
             },
+            xpLabel: settings.xpLabel || 'xp',
+            isToBeDisplayedNormally: settings.isToBeDisplayedNormally === undefined ? true : settings.isToBeDisplayedNormally,
             getLevel: function() {
                 return this.saveableState.level;
             },
@@ -34,7 +36,8 @@
             levelUp: function() {
                 this.saveableState.xp -= this.xpRequiredForNextLevel();
                 this.saveableState.level++;
-                settings.levelUp(this);
+                if (settings.levelUp)
+                    settings.levelUp(this);
                 Display.notifyLevelUp(this);
                 if (this.saveableState.highestLevelAttained == undefined
                     || this.saveableState.level > this.saveableState.highestLevelAttained)
@@ -67,4 +70,4 @@
         Game.currencies.push(currency);
     }
 
-})(gameObjects.Game, gameObjects.Display, gameObjects.Shop, gameObjects.Currencies);
+})(gameObjects.Game, gameObjects.Display, gameObjects.Currencies);

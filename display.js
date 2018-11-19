@@ -18,20 +18,7 @@
 	}
 	
 	Display.updateCurrencies = function() {
-		Game.currencies.forEach(Display.updateCurrency);
-	}
-	
-	Display.updateNotifs = function() {
-		if (Display.notifQueue.length === 0) return;
-		
-		let now = new Date();
-		if (!Display.nextNotifAvailableOn
-		|| now.getTime() >= Display.nextNotifAvailableOn)
-		{
-			notif = Display.notifQueue.shift();
-			Display.animateNotif(notif);
-			Display.nextNotifAvailableOn = now.getTime() + 400;
-		}
+		Game.currencies.filter(c => c.isToBeDisplayedNormally).forEach(Display.updateCurrency);
 	}
 	
 	Display.updateCurrency = function(currency) {
@@ -39,7 +26,7 @@
 		xpDiv.innerHTML = Display.beautify(currency.getXp()) + ' / ' + Display.beautify(currency.xpRequiredForNextLevel());
 		
 		let currencyLevel = document.getElementById('currency-'+currency.shortName+'-level');
-		currencyLevel.innerHTML = '<span>' + currency.shortName + ' (' + currency.getLevel() + ') XP:</span>';
+		currencyLevel.innerHTML = '<span>' + currency.iconTag + '&nbsp;' + currency.shortName + ' (' + currency.getLevel() + ') XP:</span>';
 		
 		let progressBar = document.getElementById('currency-' + currency.shortName + '-bar');
 		let progressPercent = Game.currencyProgressPercent(currency.shortName);
@@ -74,7 +61,7 @@
 		if (postFixIndex != postFixes.length - 1)
 		{
 			let postFixData = postFixes[postFixIndex];
-			postFixedValue = Math.round(value / postFixData.divisor) + ' ' + postFixData.postFix;
+			postFixedValue = (value / postFixData.divisor).toFixed(2) + ' ' + postFixData.postFix;
 		}
 
 		return negative + postFixedValue;
@@ -83,6 +70,7 @@
 	Display.tick = function() {
 		Display.updateCurrencies();
 		Display.updateNotifs();
+		Display.refreshDisplayModules();
 		Display.ticks++;
 		if (Display.ticks == 50 || Display.needsRepaintImmediate) {
 			Display.ticks = 0;
@@ -119,13 +107,13 @@
 				Achievements.gain('again');
 			msg += ' ... again';
 		}
-		Display.notify(msg);
+		Display.notify(msg, 'levelup'+currency.shortName);
 	}
 	
 	Display.displayCurrencies = function () {
 		let ul = document.getElementById('currencies');
 		
-		Game.currencies.forEach((currency) => {
+		Game.currencies.filter(c => c.isToBeDisplayedNormally).forEach((currency) => {
 			let currencyDiv = this.buildDisplayItemForCurrency(currency);
 			ul.appendChild(currencyDiv);
 		});
@@ -187,6 +175,12 @@
 		});
 	}
 
+	Display.refreshDisplayModules = function() {
+		Display.modules.forEach((mod) => {
+			mod.displayModule.refresh();
+		})
+	}
+
 	Display.buildDisplayItemForAchievement = function(achievement) {
 		let mainDiv = document.createElement('div');
 		mainDiv.classList = ['achievement'];
@@ -223,6 +217,17 @@
 			if (boost.length == 0) {
 				ul.removeChild(ownedBoost);
 				return;
+			} else {
+				boost = boost[0];
+				let descDiv = ownedBoost.getElementsByClassName('boost-desc')[0];
+				descDiv.innerHTML = boost.getDescription();
+				if (boost.isActive()) {
+					ownedBoost.classList.remove('inactive');
+					ownedBoost.classList.add('active');
+				} else {
+					ownedBoost.classList.add('inactive');
+					ownedBoost.classList.remove('active');
+				}
 			}
 		});
 		boosts.forEach((boost) => {
@@ -236,18 +241,26 @@
 
 	Display.buildDisplayItemForBoost = function(boost) {
 		let mainDiv = document.createElement('div');
-		mainDiv.className = 'boost';
+		mainDiv.classList = [ 'boost' ];
+		if (boost.isActivable) {
+			mainDiv.classList.add('activable');
+		}
 		mainDiv.id = 'boost-' + boost.shortName;
 		
 		let titleDiv = document.createElement('div');
 		titleDiv.className = 'boost-title';
 		titleDiv.innerHTML = boost.name;
+		mainDiv.appendChild(titleDiv);
+
+		if (boost.icon != undefined) {
+			let iconDiv = document.createElement('div');
+			iconDiv.className = 'boost-icon fa fa-' + boost.icon;
+			mainDiv.appendChild(iconDiv);
+		}
 		
 		let descDiv = document.createElement('div');
 		descDiv.className = 'boost-desc';
 		descDiv.innerHTML = boost.getDescription();
-		
-		mainDiv.appendChild(titleDiv);
 		mainDiv.appendChild(descDiv);
 
 		if (boost.ephemeral == true) {
@@ -307,15 +320,24 @@
 
 				let title = unlockedFriend.getElementsByClassName('friend-title')[0];
 				title.innerHTML = friend.getName();
-				
+
+				let iconDiv = unlockedFriend.getElementsByClassName('friend-icon')[0];		
+				if (Shop.has('bloodfull' + friend.shortName)) {
+					iconDiv.classList.add('red');
+					iconDiv.classList.add('red-glow');
+				}
+						
 				let desc = unlockedFriend.getElementsByClassName('friend-desc')[0];
 				desc.innerHTML = friend.getDescription();
-
+				
 				let buyButton = unlockedFriend.getElementsByClassName('friend-buy-btn')[0];
 				if (!Game.hasCurrency(friend.getCosts()))
 					buyButton.classList.add('disabled');
 				else 
 					buyButton.classList.remove('disabled');
+
+				let bloodDiv = unlockedFriend.getElementsByClassName('friend-blood-xp')[0];
+				bloodDiv.style.width = friend.getFullnessPercent() + '%';
 			}
 		});
 	}
@@ -328,15 +350,26 @@
 		let titleDiv = document.createElement('div');
 		titleDiv.className = 'friend-title';
 		titleDiv.innerHTML = friend.getName();
+		mainDiv.appendChild(titleDiv);
+
+		if (friend.icon != undefined) {
+			let iconDiv = document.createElement('div');
+			iconDiv.className = 'friend-icon fa fa-' + friend.icon;
+			if (Shop.has('bloodfull' + friend.shortName))
+				iconDiv.className += ' red red-glow';
+			mainDiv.appendChild(iconDiv);
+		}
 		
 		let descDiv = document.createElement('div');
 		descDiv.className = 'friend-desc';
 		descDiv.innerHTML = friend.getDescription();
+		mainDiv.appendChild(descDiv);
 		
 		let costDiv = document.createElement('div');
 		costDiv.className = 'friend-cost';
 		costDiv.innerHTML = 'Cost:';
 		costDiv.appendChild(Display.buildCostListForCost(friend.getCosts()));
+		mainDiv.appendChild(costDiv);
 		
 		let buyButton = document.createElement('div');
 		buyButton.classList = ['friend-buy-btn'];
@@ -344,11 +377,12 @@
 		if (!Game.hasCurrency(friend.getCosts()))
 			buyButton.classList.add('disabled');
 		buyButton.onclick = function() { Friends.buy(friend.shortName) };
-		
-		mainDiv.appendChild(titleDiv);
-		mainDiv.appendChild(descDiv);
-		mainDiv.appendChild(costDiv);
 		mainDiv.appendChild(buyButton);
+
+		let bloodDiv = document.createElement('div');
+		bloodDiv.className = 'friend-blood-xp';
+		bloodDiv.style.width = friend.getFullnessPercent() + '%';
+		mainDiv.appendChild(bloodDiv);
 		
 		return mainDiv;
 	}
@@ -361,7 +395,8 @@
 			for (let part in cost.xp) {
 				if (cost.xp.hasOwnProperty(part)) {
 					let li = document.createElement('li');
-					li.innerHTML = part + ': ' + cost.xp[part] + ' xp';
+					let currency = Game.currency(part);
+					li.innerHTML = currency.iconTag + '&nbsp;' + part + ': ' + cost.xp[part] + ' ' + currency.xpLabel;
 					ul.appendChild(li);
 				}
 			}
@@ -370,7 +405,8 @@
 			for (let part in cost.levels) {
 				if (cost.levels.hasOwnProperty(part)) {
 					let li = document.createElement('li');
-					li.innerHTML = part + ': ' + cost.levels[part] + ' levels';
+					let currency = Game.currency(part);
+					li.innerHTML = currency.iconTag + '&nbsp;' +part + ': ' + cost.levels[part] + ' levels';
 					ul.appendChild(li);
 				}
 			}
@@ -471,19 +507,24 @@
 	Display.notifyAchievementGained = function(ach) {
 		let achievementGainedMsg = "You gained an achievement ! ";
 		achievementGainedMsg += ach.name + ": " + ach.description;
-		Display.notify(achievementGainedMsg);
+		Display.notify(achievementGainedMsg, 'achievement');
+	}
+	
+	Display.notifyLoot = function() {
+		Display.notify('You found something', 'loot');
 	}
 	
 	Display.notifs = [];
 	Display.notifsY = 0;
 	Display.notifsX = 0;
 	Display.logArchive = {};
-	Display.notify = function(msg) {
+	Display.notify = function(msg, category) {
 
 		let x = Math.floor(window.innerWidth / 2);
 		let y = Math.floor(window.innerHeight * 0.95);
 
 		let notif = {
+			category: category,
 			targetX: x,
 			targetY: y - 75,
 			opacity: 100,
@@ -502,14 +543,36 @@
 	}
 	
 	Display.notifQueue = [];
+	Display.animatedNotifs = [];
 	Display.nextNotifAvailableOn = undefined;
 	Display.queueNotif = function(notif) {
+		Display.notifQueue = Display.notifQueue.filter(n => n.category != notif.category);
+		Display.animatedNotifs = Display.animatedNotifs.filter(n => n.category != notif.category);
 		Display.notifQueue.push(notif);
 		if (Display.notifQueue.length > 50)
 			Display.notifQueue.shift();
 	}
 	
+	Display.updateNotifs = function() {
+		if (Display.notifQueue.length === 0) return;
+		
+		let now = new Date();
+		if (!Display.nextNotifAvailableOn
+			|| now.getTime() >= Display.nextNotifAvailableOn)
+		{
+			notif = Display.notifQueue.shift();
+			Display.animatedNotifs.push(notif);
+			Display.animateNotif(notif);
+			Display.nextNotifAvailableOn = now.getTime() + 400;
+		}
+	}
+	
 	Display.animateNotif = function(notif) {
+
+		if (Display.animatedNotifs.indexOf(notif) == -1) {
+			document.getElementsByTagName('body')[0].removeChild(notif.div);
+			return;
+		}
 		
 		let xSway = 25;
 
@@ -557,6 +620,14 @@
 		mainDiv.style.display = 'none';
 	}
 	
+	Display.changeFont = function() {
+		let body = document.getElementsByTagName('body')[0];
+
+		let gameFont = document.getElementById('gameFont').value;
+
+		body.setAttribute('gameFont', gameFont);
+	}
+
 	Display.initialize();
 	
 	Display.startTicking();

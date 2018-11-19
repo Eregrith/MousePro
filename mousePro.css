@@ -1,7 +1,6 @@
 @font-face {
-	font-family: gameFont;
+	font-family: ObelixPro;
 	src: url(ObelixPro-cyr.ttf);
-    /* src: url(AldotheApache.ttf); */
 }
 
 .origin-theme {
@@ -18,9 +17,7 @@
 	--inactive-color : #606070;
 }
 
-
 body {
-	font-family: gameFont;
 	-moz-user-select: none;
 	-webkit-user-select: none;
 	-ms-user-select: none;
@@ -28,6 +25,14 @@ body {
 	-o-user-select: none;
 	background-color: var(--background-color);
 	color: var(--text-color);
+}
+
+body[gameFont=ObelixPro] {
+	font-family: ObelixPro;
+}
+
+body[gameFont=Helvetica] {
+	font-family: Helvetica;
 }
 
 ul {
@@ -52,14 +57,14 @@ ul {
     CURRENCIES
 */
 #currencies {
-	width: 40%;
+	width: 25%;
 	display: inline-block;
 }
 
 .currency {
 	border: 1px solid var(--text-color);
 	border-radius: 5px;
-	width: 600px;
+	width: 97%;
 	margin: 3px;
 }
 
@@ -84,6 +89,11 @@ ul {
 	position: relative;
 	left: -20px;
 	float: right;
+}
+
+.currency-icon {
+	top: -2px;
+	position: relative;
 }
 
 /*
@@ -131,18 +141,37 @@ ul {
 	vertical-align: top;
 }
 .boost-title {
+	display: inline-block;
 	text-decoration: underline;
     font-size: 15px;
 	padding: 3px;
+	max-width: 125px;
+}
+.boost-icon {
+	display: block;
+    top: 4px;
+    position: relative;
+    right: 4px;
+    float: right;
 }
 .boost-desc {
 	padding: 5px;
+}
+body[gameFont=ObelixPro] .boost-desc {
+	font-size: 10px;
+}
+body[gameFont=Helvetica] .boost-desc {
 	font-size: 13px;
 }
 .boost-ephemeral {
 	padding: 5px;
-	font-size: 9px;
 	font-style: italic;
+}
+body[gameFont=ObelixPro] .boost-ephemeral {
+	font-size: 7px;
+}
+body[gameFont=Helvetica] .boost-ephemeral {
+	font-size: 9px;
 }
 .boost-cost {
 	font-size: 12px;
@@ -208,12 +237,26 @@ ul {
 	vertical-align: top;
 }
 .friend-title {
+	display: inline-block;
 	text-decoration: underline;
     font-size: 15px;
 	padding: 3px;
+	max-width: 120px;
+}
+.friend-icon {
+	display: block;
+    top: 4px;
+    position: relative;
+    right: 4px;
+    float: right;
 }
 .friend-desc {
 	padding: 5px;
+}
+body[gameFont=ObelixPro] .friend-desc {
+	font-size: 10px;
+}
+body[gameFont=Helvetica] .friend-desc {
 	font-size: 13px;
 }
 .friend-cost {
@@ -362,4 +405,12 @@ ul {
 	height: 90%;
 	min-height: 90%;
 	max-height: 90%;
+}
+
+.fa-lighter {
+	font-weight: 400;
+}
+
+.outer-glow {
+	text-shadow: 0px 0px 5px gold;
 }

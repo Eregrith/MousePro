@@ -99,6 +99,24 @@ Achievements = {};
 			shortName: 'again',
 			description: 'Reach a level you already had reached before',
 			acquired: false
+		},
+		{
+			name: 'Died of old age',
+			shortName: 'ephemeral',
+			description: 'Miss 10 ephemeral boosts by letting them die',
+			acquired: false
+		},
+		{
+			name: 'Blood Is Power',
+			shortName: 'truekriss',
+			description: 'Happy harvesting',
+			acquired: false
+		},
+		{
+			name: 'Bloodthirst',
+			shortName: 'bloodthirst',
+			description: 'Maybe you shouldn\'t let him eat that',
+			acquired: false
 		}
 	];
 	

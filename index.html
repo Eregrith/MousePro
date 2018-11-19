@@ -1,9 +1,18 @@
 <head>
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css" integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns" crossorigin="anonymous">
 	<link rel="stylesheet" href="mousePro.css" />
+	<link rel="stylesheet" href="BloodIsPower/module.css" />
 </head>
 
-<body class="origin-theme">
+<body class="origin-theme" gameFont="ObelixPro">
 	<ul id="currencies"></ul>
+	<div id="blood" style="display:none">
+		<div id="currency-blood">
+			<div id="currency-blood-bar"></div>
+		</div>
+		<div id="currency-blood-icon"><i class="fa fa-tint"></i></div>
+		<div id="currency-blood-xp"></div>
+	</div>
 	<ul id="tabs"></ul>
 	
 	<div class="tab tab-active" id="tab-game">
@@ -32,6 +41,12 @@
 				<li><div class="btn" onclick="gameObjects.Save.exportSave()">Export</div></li>
 				<li><div class="btn" onclick="gameObjects.Save.importSave()">Import</div></li>
 				<li><div class="btn" onclick="gameObjects.Display.switchMode()">Switch display mode</div></li>
+				<li>Game font:
+					<select onchange="gameObjects.Display.changeFont()" id="gameFont">
+						<option value="ObelixPro">Obelix Pro</option>
+						<option value="Helvetica">Helvetica</option>
+					</select>
+				</li>
 			</ul>
 		</div>
 	</div>
@@ -43,7 +58,7 @@
 	<div class="tab" id="tab-stats">
 		<div class="stats">
 			<ul id="stats">
-				<li>Game version: 1.0 - The beginning</li>
+				<li>Game version: 1.1 - Blood is power <i class="fa fa-tint" style="color:red"></i></li>
 				<li>&nbsp;</li>
 				<li>Highest MM level: <span id="highest-mm"></span></li>
 				<li>Highest MC level: <span id="highest-mc"></span></li>
@@ -51,7 +66,9 @@
 				<li>You sacrificed MM <span id="sacrificed-mm"></span> times</li>
 				<li>You sacrificed MC <span id="sacrificed-mc"></span> times</li>
 				<li>&nbsp;</li>
-				<li><span id="ticks-per-second"></span> ticks per second</li>
+				<li><span id="ephemeralDeaths"></span> ephemeral boosts have died without being used.</li>
+				<li>&nbsp;</li>
+				<li>Game is running at <span id="ticks-per-second"></span> ticks per second</li>
 			</ul>
 		</div>
 	</div>
@@ -60,15 +77,22 @@
 		<div class="saveExportClose" onclick="gameObjects.Display.closeSaveExport()">X</div>
 		<textarea class="saveExportText" id="saveExportText"></textarea>
 	</div>
+	<script type="text/javascript" src="lib/color_interpolation.js"></script>
 	<script type="text/javascript" src="gameObjects.js"></script>
+	<script type="text/javascript" src="modules.js"></script>
 	<script type="text/javascript" src="tabs.js"></script>
 	<script type="text/javascript" src="achievements.js"></script>
 	<script type="text/javascript" src="boosts.js"></script>
 	<script type="text/javascript" src="currencies.js"></script>
+	<script type="text/javascript" src="mainboosts.js"></script>
+	<script type="text/javascript" src="BloodIsPower/gameModule.js"></script>
+	<script type="text/javascript" src="BloodIsPower/displayModule.js"></script>
+	<script type="text/javascript" src="BloodIsPower/mainboosts.js"></script>
 	<script type="text/javascript" src="shop.js"></script>
 	<script type="text/javascript" src="friends.js"></script>
 	<script type="text/javascript" src="game.js"></script>
 	<script type="text/javascript" src="display.js"></script>
 	<script type="text/javascript" src="save.js"></script>
 	<script type="text/javascript" src="stats.js"></script>
+	<script type="text/javascript" src="loot.js"></script>
 </body>

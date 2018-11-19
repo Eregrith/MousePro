@@ -51,7 +51,7 @@
 
         localStorage.setItem('saveGame', JSON.stringify(saveGame));
 
-        Display.notify('Game saved');
+        Display.notify('Game saved', 'save');
     }
 
     Save.loadGame = function() {
@@ -95,7 +95,7 @@
         Display.displayActiveTab();
         Display.refreshFriends();
         Display.refreshBoostsOwned();
-        Display.notify('Game loaded');
+        Display.notify('Game loaded', 'save');
     }
 
     Save.resetSave = function() {

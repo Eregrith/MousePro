@@ -5,7 +5,7 @@
 * Game.js
 */
 
-(function (Game, Currencies, Achievements, Friends, Shop, Save, Tabs) {
+(function (Game, Currencies, Achievements, Friends, Shop, Stats) {
 	
 	EventNode = document.getElementById('eventNode');
 
@@ -13,6 +13,7 @@
 			name: 'Mouse Mover',
 			shortName: 'MM',
 			color: 'gray',
+			iconTag: '<i class="fa fa-sun currency-icon"></i>',
 			xpRequiredForNextLevel: 100,
 			levelUp: function(me) {
 				if (Shop.has('bootloader')) {
@@ -39,6 +40,7 @@
 			name: 'Mouse Clicker',
 			shortName: 'MC',
 			color: 'green',
+			iconTag: '<i class="fa fa-moon currency-icon"></i>',
 			xpRequiredForNextLevel: 10,
 			levelUp: function(me) {
 				if (Shop.has('bootloader')) {
@@ -101,6 +103,13 @@
 			Shop.unlock('posters');
 			Achievements.gain('cutting');
 		}
+		if ((Shop.boost('sacrifice-mm').getPower() + Shop.boost('sacrifice-mc').getPower()) >= 5 && !Achievements.has('cutting')) {
+			Shop.unlock('posters');
+			Achievements.gain('cutting');
+		}
+		Game.modules.forEach((mod) => {
+			mod.gameModule.checkUnlocks();
+		});
 	}
 	
 	Game.tick = function() {
@@ -167,6 +176,19 @@
 			}
 		}
 	}
+
+	Game.ephemeralDeath = function(boost) {
+		let anchor = Shop.boost('anchor');
+		anchor.saveableState.power++;
+		if (anchor.saveableState.power >= 10 && !Achievements.has('ephemeral')) {
+			Shop.unlock('anchor');
+			Achievements.gain('ephemeral');
+		}
+		if (Shop.has('ratscavengers')) {
+			Game.acquireXp('blood', 0.5);
+			Shop.boost('ratscavengers').saveableState.power++;
+		}
+	}
 	
 	Game.lastMouseDown = {};
 	
@@ -181,4 +203,4 @@
 		}
 	}
 	
-})(gameObjects.Game, gameObjects.Currencies, gameObjects.Achievements, gameObjects.Friends, gameObjects.Shop);
+})(gameObjects.Game, gameObjects.Currencies, gameObjects.Achievements, gameObjects.Friends, gameObjects.Shop, gameObjects.Stats);
