@@ -65,6 +65,11 @@
            && !Shop.isAvailable('ratscavengers')) {
             Shop.unlock('ratscavengers');
         }
+        if (Friends.friend('aldo').getLevel() == 10
+            && Friends.friend('barnabeus').getLevel() == 10
+            && !Shop.isAvailable('zbglobloodinjector')) {
+            Shop.unlock('zbglobloodinjector');
+        }
     }
 
     gameModule.getSacrificeRatio = function() {

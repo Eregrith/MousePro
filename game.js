@@ -27,6 +27,9 @@
 					if (Shop.has('outerglo')) {
 						xp *= Friends.friend('aldo').getLevel();
 					}
+					if (Shop.has('zbglobloodinjector')) {
+						xp *= 1 + Math.pow(1 + Shop.boost('zbglobloodinjector').getPower(), Shop.boost('sacrifice-mm').getPower());
+					}
 					xp *= (Shop.has('addonenhancer') ? Shop.boost('addonenhancer').saveableState.power : 1);
 					Game.acquireXp('MC', xp);
 				}
@@ -53,6 +56,9 @@
 					}
 					if (Shop.has('outerglo')) {
 						xp *= Friends.friend('barnabeus').getLevel();
+					}
+					if (Shop.has('zbglobloodinjector')) {
+						xp *= 1 + Math.pow(1 + Shop.boost('zbglobloodinjector').getPower(), Shop.boost('sacrifice-mc').getPower());
 					}
 					xp *= (Shop.has('addonenhancer') ? Shop.boost('addonenhancer').saveableState.power : 1);
 					Game.acquireXp('MM', xp);

@@ -274,5 +274,21 @@
 			}
 		}
 	});
+	Boosts.newBoost({
+		name: 'ZB-GLO Blood injector',
+		icon: 'exchange-alt fa-rotate-90 red red-glow',
+		power: 0.10,
+		getDescription: function() {
+			let desc = 'Blood exchange is a good way to improve your efficacy.'
+				+ '<br/>Improves ZB-GLO transfer effect by a multiplicative ' + (this.getPower()*100) + '% bonus per corresponding sacrifice you have committed.';
+			return desc;
+		},
+		shortName: 'zbglobloodinjector',
+		cost: {
+			xp: {
+				blood: 30,
+			}
+		}
+	});
 	
 })(gameObjects.Game, gameObjects.Boosts, gameObjects.Display, gameObjects.Shop, gameObjects.Loot);

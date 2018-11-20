@@ -67,7 +67,7 @@
         icon: 'user-circle',
         getDescription: function() {
             return 'This little man will help you by moving his mouse as well!<br>Yay!<br>'
-                + (this.getXpPerActivation() > 0 ? 'Gives ' + Display.beautify(this.getXpPerActivation()) + ' MM xp per activation' + (Shop.has('bloodthirstyaldo') ? ' (Before multipliers)' : '') + '.' : '') + '<br>'
+                + (this.getXpPerActivation() > 0 ? 'Gives ' + Display.beautify(this.getXpPerActivation()) + ' ' +Game.currency('MM').iconTag + 'MM xp per activation' + (Shop.has('bloodthirstyaldo') ? ' (Before multipliers)' : '') + '.' : '') + '<br>'
                 + this.getActivationFrequencyDescription();
         },
         baseTicksPerMove: 10,
@@ -108,7 +108,7 @@
         icon: 'user-circle fa-lighter',
         getDescription: function() {
             return 'This little man will help you by clicking his mouse as well!<br>Yay!<br>'
-                + (this.getXpPerActivation() > 0 ? 'Gives ' + Display.beautify(this.getXpPerActivation()) + ' MC xp per activation.' + (Shop.has('bloodthirstyaldo') ? ' (Before multipliers)' : '') + '.' : '') + '<br>'
+                + (this.getXpPerActivation() > 0 ? 'Gives ' + Display.beautify(this.getXpPerActivation()) + ' ' +Game.currency('MC').iconTag + 'MC xp per activation.' + (Shop.has('bloodthirstyaldo') ? ' (Before multipliers)' : '') + '.' : '') + '<br>'
                 + this.getActivationFrequencyDescription();
         },
         baseTicksPerMove: 50,
