@@ -50,7 +50,7 @@
 					Game.acquireXp('MC', 10);
 				}
 				if (Shop.has('zbglo')) {
-					let xp = 5;
+					let xp = Shop.boost('zbglo').bonusXp;
 					if (Shop.has('zbgloinjectorup')) {
 						xp += me.saveableState.level;
 					}
