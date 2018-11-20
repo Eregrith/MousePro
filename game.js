@@ -20,7 +20,7 @@
 					Game.acquireXp('MM', 10);
 				}
 				if (Shop.has('zbglo')) {
-					let xp = 5;
+					let xp = Shop.boost('zbglo').bonusXp;
 					if (Shop.has('zbgloinjectordown')) {
 						xp += me.saveableState.level;
 					}
