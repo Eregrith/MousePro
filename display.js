@@ -245,6 +245,9 @@
 		if (boost.isActivable) {
 			mainDiv.classList.add('activable');
 		}
+		if (boost.ephemeral) {
+			mainDiv.classList.add('ephemeral');
+		}
 		mainDiv.id = 'boost-' + boost.shortName;
 		
 		let titleDiv = document.createElement('div');

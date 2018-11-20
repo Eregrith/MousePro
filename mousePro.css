@@ -191,6 +191,28 @@ body[gameFont=Helvetica] .boost-ephemeral {
 	color: var(--inactive-color);
 	cursor: default;
 }
+.ephemeral {
+	background-color:var(--background-color);
+	background-image:
+	radial-gradient(red, rgba(255,0,0,0.4) 0px, transparent 40px),
+	radial-gradient(red, rgba(255,0,0,.25) 1px, transparent 30px),
+	radial-gradient(red, rgba(255,0,0,.3) 1px, transparent 40px),
+	radial-gradient(rgba(255,0,0,.4), rgba(255,0,0,.1) 2px, transparent 30px);
+	background-size: 352px 534px, 368px 343px, 185px 250px, 150px 150px;
+	background-position: 0 0, 40px 60px, 141px 279px, 50px 116px;
+}
+
+@keyframes flash {
+	0% 		{ opacity: 0.6 }
+	33% 	{ opacity : 1 }
+	50% 	{ opacity : 1 }
+	66% 	{ opacity : 1 }
+	100% 	{ opacity : 0.6 }
+}
+
+.ephemeral {
+	animation: flash 1s 0s infinite;
+}
 
 /*
     SHOP
