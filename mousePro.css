@@ -203,15 +203,13 @@ body[gameFont=Helvetica] .boost-ephemeral {
 }
 
 @keyframes flash {
-	0% 		{ opacity: 0.6 }
-	33% 	{ opacity : 1 }
-	50% 	{ opacity : 1 }
-	66% 	{ opacity : 1 }
-	100% 	{ opacity : 0.6 }
+	0% 		{ background-position: 0 0, 40px 60px, 141px 279px, 50px 116px;  }
+	50% 	{ background-position: 0 0, 40px -200px, 141px 154px, 50px 66px; }
+	100% 	{ background-position: 0 0, 40px -200px, 141px 28px, 50px -34px; }
 }
 
 .ephemeral {
-	animation: flash 1s 0s infinite;
+	animation: flash 3s 0s infinite linear;
 }
 
 /*
