@@ -27,7 +27,7 @@
                 return this.saveableState.xp;
             },
             setXp: function(xp) {
-                this.saveableState.xp = xp;
+                this.saveableState.xp = Math.round(xp * 100) / 100;
             },
 			xpIncreaseFactor: settings.xpIncreaseFactor || 1.2,
             xpRequiredForNextLevel: function () {
@@ -53,6 +53,7 @@
             },
             acquireXp: function(amount) {
                 this.saveableState.xp += amount;
+                this.saveableState.xp = Math.round(this.saveableState.xp * 100) / 100;
                 if (settings.xpGained)
                     settings.xpGained(this);
                 this.checkLevelUps();
