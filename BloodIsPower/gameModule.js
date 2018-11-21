@@ -15,10 +15,10 @@
         color: 'red',
         iconTag: '<i class="fa fa-tint currency-icon"></i>',
         xpLabel: '%',
-        xpRequiredForNextLevel: 101,
+        xpRequiredForNextLevel: 100,
         xpGained: function(me) {
             if (me.saveableState.xp >= this.xpRequiredForNextLevel) {
-                me.saveableState.xp = this.xpRequiredForNextLevel - 1;
+                me.saveableState.xp = this.xpRequiredForNextLevel;
             }
         },
         isToBeDisplayedNormally: false
