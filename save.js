@@ -40,7 +40,8 @@
             Boosts: saveBoosts,
             Friends: saveFriends,
             AcquiredAchievements: acquiredAchievements,
-            DisplayMode: document.getElementsByTagName('body')[0].className
+            DisplayMode: document.getElementsByTagName('body')[0].className,
+            GameFont: document.getElementById('gameFont').value
         };
 
         return saveGame;
@@ -89,6 +90,11 @@
         });
         if (saveGame.DisplayMode != undefined)
             document.getElementsByTagName('body')[0].className = saveGame.DisplayMode;
+
+        if (saveGame.GameFont != undefined) {
+            document.getElementById('gameFont').value = saveGame.GameFont;
+            Display.changeFont();
+        }
 
         Display.refreshShop();
         Display.refreshTabs();
