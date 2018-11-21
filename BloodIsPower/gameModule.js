@@ -60,6 +60,10 @@
            && !Shop.isAvailable('bloodthirstybarnabeus')) {
             Shop.unlock('bloodthirstybarnabeus');
         }
+        if (Friends.friend('aldo').getXpPerActivation() > 100000
+           && !Shop.isAvailable('deepcuts')) {
+            Shop.unlock('deepcuts');
+        }
         if ((Friends.friend('aldo').getXpPerActivation() > 5000000
             || Friends.friend('barnabeus').getXpPerActivation() > 5000000)
            && !Shop.isAvailable('ratscavengers')) {
@@ -69,6 +73,10 @@
             && Friends.friend('barnabeus').getLevel() == 10
             && !Shop.isAvailable('zbglobloodinjector')) {
             Shop.unlock('zbglobloodinjector');
+        }
+        if (Shop.has('deepcuts')
+            && !Shop.isAvailable('somuchblood')) {
+            Shop.unlock('somuchblood');
         }
     }
 

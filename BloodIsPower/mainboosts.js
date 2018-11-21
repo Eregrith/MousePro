@@ -290,5 +290,33 @@
 			}
 		}
 	});
+	Boosts.newBoost({
+		name: 'Deep Cuts',
+		icon: 'tint red',
+		getDescription: function() {
+			let desc = 'If you cut your friends good, they will bleed nicely. They have a chance to leak blood each time they activate.';
+			return desc;
+		},
+		shortName: 'deepcuts',
+		cost: {
+			xp: {
+				blood: 42,
+			}
+		}
+	});
+	Boosts.newBoost({
+		name: 'So Much Blood',
+		icon: 'tint red red-glow',
+		getDescription: function() {
+			let desc = '<span class="red red-glow">Blood is power</span><br/>Each 1% of blood you are adds to the output multiplier of your bloodfull friends';
+			return desc;
+		},
+		shortName: 'somuchblood',
+		cost: {
+			xp: {
+				blood: 100,
+			}
+		}
+	});
 	
 })(gameObjects.Game, gameObjects.Boosts, gameObjects.Display, gameObjects.Shop, gameObjects.Loot);

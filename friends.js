@@ -80,11 +80,20 @@
         applyXpBonus: function(baseXp) {
             if (Shop.has('bloodfullaldo')) {
                 baseXp *= 1 + Math.pow(1 + Shop.boost('bloodfullaldo').getPower(), Shop.boost('sacrifice-mm').getPower());
+                if (Shop.has('somuchblood')) {
+                    baseXp *= Math.floor(Game.currency('blood').getXp());
+                }
             }
             return baseXp;
         },
         activate: function() {
             let xp = this.getXpPerActivation();
+            if (Shop.has('deepcuts')) {
+                let chance = 0.10;
+                if (chance >= Math.random()) {
+                    Game.acquireXp('blood', 0.1);
+                }
+            }
             if (Shop.has('bloodthirstyaldo') && Shop.boost('bloodthirstyaldo').isActive()) {
                 if (Game.hasCurrency({ xp: { blood: 0.01 } })) {
                     Game.spend({ xp: { blood: 0.01 } });
@@ -121,12 +130,21 @@
         applyXpBonus: function(baseXp) {
             if (Shop.has('bloodfullbarnabeus')) {
                 baseXp *= 1 + Math.pow(1 + Shop.boost('bloodfullbarnabeus').getPower(), Shop.boost('sacrifice-mc').getPower());
+                if (Shop.has('somuchblood')) {
+                    baseXp *= Math.floor(Game.currency('blood').getXp());
+                }
             }
             return baseXp;
         },
         bloodNeededToBeFull: 50,
         activate: function() {
             let xp = this.getXpPerActivation();
+            if (Shop.has('deepcuts')) {
+                let chance = 0.10;
+                if (chance >= Math.random()) {
+                    Game.acquireXp('blood', 1);
+                }
+            }
             if (Shop.has('bloodthirstybarnabeus') && Shop.boost('bloodthirstybarnabeus').isActive()) {
                 if (Game.hasCurrency({ xp: { blood: 0.1 } })) {
                     Game.spend({ xp: { blood: 0.1 } });
