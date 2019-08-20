@@ -8,10 +8,10 @@
 (function (Game, Boosts, Friends, Shop, Tabs) {
 
 	Boosts.newBoost({
-		name: 'Mouse mover XT-PRO',
+		name: 'Redundant Mouse Mover',
 		icon: 'mouse-pointer',
-		getDescription: function() { return 'This awesome mouse-addon gives you ' + this.bonusXp + ' MM XP every 5 points of MM XP' },
-		shortName: 'xtpro',
+		getDescription: function() { return 'This awesome mouse-addon gives you ' + this.bonusXp + ' MM XP when MM XP ends in 0 or 5' },
+		shortName: 'rmm',
 		cost: {
 			xp: {
 				MM: 110,
@@ -21,10 +21,10 @@
 		bonusXp: 3
 	});
 	Boosts.newBoost({
-		name: 'Mouse clicker DM-BLU',
+		name: 'Redundant Mouse clicker',
 		icon: 'mouse-pointer',
-		getDescription: function() { return 'This awesome mouse-addon gives you ' + this.bonusXp + ' MC XP every 5 points of MC XP'; },
-		shortName: 'dmblu',
+		getDescription: function() { return 'This awesome mouse-addon gives you ' + this.bonusXp + ' MC XP when MC XP ends in 0 or 5'; },
+		shortName: 'rmc',
 		cost: {
 			xp: {
 				MM: 85,
@@ -34,10 +34,10 @@
 		bonusXp: 3
 	});
 	Boosts.newBoost({
-		name: 'Mouse XP transfer ZB-GLO',
+		name: 'Redundant XP Transfer',
 		icon: 'exchange-alt fa-rotate-90',
 		getDescription: function() { return 'This awesome mouse-addon gives you ' + this.bonusXp + ' XP in the other proficiency when you level up one'; },
-		shortName: 'zbglo',
+		shortName: 'rxt',
 		cost: {
 			xp: {
 				MM: 299,
@@ -67,8 +67,8 @@
 		name: 'Addon Enhancer',
 		icon: 'star',
 		getDescription: function() {
-			return 'This little device multiplies the effects of XT-PRO, DM-BLU and ZB-GLO addons by ' + this.getPower()
-				+ (this.canBuy() ? '<br/>When bought, this effect doubles.' : '');
+			return 'This little device multiplies the effects of Redundant Mouse Mover, Redundant Mouse Clicker and Redundant XP Transfer addons by '
+				+ (this.isUnlocked() ? this.getPower() * 2 :  this.getPower());
 		},
 		shortName: 'addonenhancer',
 		cost: {
@@ -100,10 +100,10 @@
 		}
 	});
 	Boosts.newBoost({
-		name: 'ZB-GLO Injector - Down',
+		name: 'RXT Injector - Down',
 		icon: 'arrow-down',
-		getDescription: function() { return 'Mouse XP transfer ZB-GLO will give MC xp based on the MM level attained when it triggers.'; },
-		shortName: 'zbgloinjectordown',
+		getDescription: function() { return 'Redundant XP Transfer will give MC XP based on the MM level attained when it triggers.'; },
+		shortName: 'rxtinjectordown',
 		cost: {
 			levels: {
 				MM: 15,
@@ -112,10 +112,10 @@
 		}
 	});
 	Boosts.newBoost({
-		name: 'ZB-GLO Injector - Up',
+		name: 'RXT Injector - Up',
 		icon: 'arrow-up',
-		getDescription: function() { return 'Mouse XP transfer ZB-GLO will give MM xp based on the MC level attained when it triggers.'; },
-		shortName: 'zbgloinjectorup',
+		getDescription: function() { return 'Redundant XP Transfer will give MM XP based on the MC level attained when it triggers.'; },
+		shortName: 'rxtinjectorup',
 		cost: {
 			levels: {
 				MM: 15,
@@ -151,9 +151,9 @@
 		}
 	});
 	Boosts.newBoost({
-		name: 'Outer GLO',
+		name: 'Outer glow',
 		icon: 'lightbulb outer-glow fa-lighter',
-		getDescription: function() { return 'Multiplies the effect of ZB-GLO by the corresponding friend\'s level. Can only be bought when MC xp is even.'; },
+		getDescription: function() { return 'Multiplies the effect of Redundant XP Transfer by the corresponding friend\'s level. Can only be bought when MC xp is even.'; },
 		shortName: 'outerglo',
 		cost: {
 			levels: {
@@ -183,7 +183,18 @@
 	Boosts.newBoost({
 		name: 'Ephemeral Anchor',
 		icon: 'anchor',
-		getDescription: function() { return 'Ephemeral boosts live for twice as long before disappearing.'; },
+		isActivable: true,
+		getDescription: function() {
+			let desc = 'Ephemeral boosts live for twice as long before disappearing.'; 
+			if (!this.isBought()) {
+				desc += '<br/>Toggleable on/off.';
+			} else if (this.isActive()) {
+				desc += '<div class="btn" onclick="gameObjects.Game.getModule(\'bip\').toggleBoost(\'anchor\')">Turn off</div>';
+			} else {
+				desc += '<div class="btn" onclick="gameObjects.Game.getModule(\'bip\').toggleBoost(\'anchor\')">Turn on</div>'
+			}
+			return desc;
+		},
 		shortName: 'anchor',
 		cost: {
 			xp: {

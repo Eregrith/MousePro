@@ -19,24 +19,24 @@
 				if (Shop.has('bootloader')) {
 					Game.acquireXp('MM', 10);
 				}
-				if (Shop.has('zbglo')) {
-					let xp = Shop.boost('zbglo').bonusXp;
-					if (Shop.has('zbgloinjectordown')) {
+				if (Shop.has('rxt')) {
+					let xp = Shop.boost('rxt').bonusXp;
+					if (Shop.has('rxtinjectordown')) {
 						xp += me.saveableState.level;
 					}
 					if (Shop.has('outerglo')) {
 						xp *= Friends.friend('aldo').getLevel();
 					}
-					if (Shop.has('zbglobloodinjector')) {
-						xp *= 1 + Math.pow(1 + Shop.boost('zbglobloodinjector').getPower(), Shop.boost('sacrifice-mm').getPower());
+					if (Shop.has('rxtbloodinjector')) {
+						xp *= 1 + Math.pow(1 + Shop.boost('rxtbloodinjector').getPower(), Shop.boost('sacrifice-mm').getPower());
 					}
 					xp *= (Shop.has('addonenhancer') ? Shop.boost('addonenhancer').saveableState.power : 1);
 					Game.acquireXp('MC', xp);
 				}
 			},
 			xpGained: function(currency) {
-				if (Shop.has('xtpro') && currency.getXp() % 5 === 0)
-					currency.setXp(currency.getXp() + Shop.boost('xtpro').bonusXp * (Shop.has('addonenhancer') ? Shop.boost('addonenhancer').saveableState.power : 1));
+				if (Shop.has('rmm') && currency.getXp() % 5 === 0)
+					currency.setXp(currency.getXp() + Shop.boost('rmm').bonusXp * (Shop.has('addonenhancer') ? Shop.boost('addonenhancer').saveableState.power : 1));
 			}
 		});
 	Currencies.newCurrency({
@@ -49,24 +49,24 @@
 				if (Shop.has('bootloader')) {
 					Game.acquireXp('MC', 10);
 				}
-				if (Shop.has('zbglo')) {
-					let xp = Shop.boost('zbglo').bonusXp;
-					if (Shop.has('zbgloinjectorup')) {
+				if (Shop.has('rxt')) {
+					let xp = Shop.boost('rxt').bonusXp;
+					if (Shop.has('rxtinjectorup')) {
 						xp += me.saveableState.level;
 					}
 					if (Shop.has('outerglo')) {
 						xp *= Friends.friend('barnabeus').getLevel();
 					}
-					if (Shop.has('zbglobloodinjector')) {
-						xp *= 1 + Math.pow(1 + Shop.boost('zbglobloodinjector').getPower(), Shop.boost('sacrifice-mc').getPower());
+					if (Shop.has('rxtbloodinjector')) {
+						xp *= 1 + Math.pow(1 + Shop.boost('rxtbloodinjector').getPower(), Shop.boost('sacrifice-mc').getPower());
 					}
 					xp *= (Shop.has('addonenhancer') ? Shop.boost('addonenhancer').saveableState.power : 1);
 					Game.acquireXp('MM', xp);
 				}
 			},
 			xpGained: function(currency) {
-				if (Shop.has('dmblu') && currency.getXp() % 5 === 0)
-					currency.setXp(currency.getXp() + Shop.boost('dmblu').bonusXp * (Shop.has('addonenhancer') ? Shop.boost('addonenhancer').saveableState.power : 1));
+				if (Shop.has('rmc') && currency.getXp() % 5 === 0)
+					currency.setXp(currency.getXp() + Shop.boost('rmc').bonusXp * (Shop.has('addonenhancer') ? Shop.boost('addonenhancer').saveableState.power : 1));
 			}
 		});
 
@@ -74,10 +74,10 @@
 		let mm = Game.currency('MM');
 		let mc = Game.currency('MC');
 		let levelsUnlocks = [
-			{ mm: 1, mc: 0, achievement: 'mover', boost: 'xtpro' },
-			{ mm: 0, mc: 1, achievement: 'clicker', boost: 'dmblu' },
+			{ mm: 1, mc: 0, achievement: 'mover', boost: 'rmm' },
+			{ mm: 0, mc: 1, achievement: 'clicker', boost: 'rmc' },
 			{ mm: 1, mc: 1, achievement: 'jacky', boost: 'settings' },
-			{ mm: 5, mc: 5, achievement: 'together', boost: 'zbglo' },
+			{ mm: 5, mc: 5, achievement: 'together', boost: 'rxt' },
 			{ mm: 10, mc: 10, achievement: '42', boost: 'addonenhancer' },
 			{ mm: 15, mc: 15, achievement: 'marignan', boost: 'addonenhancer', friend: 'barnabeus'},
 			{ mm: 20, mc: 20, achievement: 'fnafMaster', boost: 'kriss' },
@@ -95,11 +95,11 @@
 				}
 			}
 		});
-		if (Friends.friend('aldo').saveableState.bought >= 5 && !Shop.has('zbgloinjectordown')) {
-			Shop.unlock('zbgloinjectordown');
+		if (Friends.friend('aldo').saveableState.bought >= 5 && !Shop.has('rxtinjectordown')) {
+			Shop.unlock('rxtinjectordown');
 		}
-		if (Friends.friend('barnabeus').saveableState.bought >= 5 && !Shop.has('zbgloinjectorup')) {
-			Shop.unlock('zbgloinjectorup');
+		if (Friends.friend('barnabeus').saveableState.bought >= 5 && !Shop.has('rxtinjectorup')) {
+			Shop.unlock('rxtinjectorup');
 		}
 		if ((mm.getXp() == 123 || mc.getXp() == 123) && !Achievements.has('statistician')) {
 			Shop.unlock('stats');
@@ -190,7 +190,10 @@
 			Shop.unlock('anchor');
 			Achievements.gain('ephemeral');
 		}
-		if (Shop.has('ratscavengers')) {
+		if (Shop.has('ottovonsacrifice') && Shop.boost('ottovonsacrifice').isActive()) {
+			boost.unlock();
+			boost.buy();
+		} else if (Shop.has('ratscavengers')) {
 			Game.acquireXp('blood', 0.5);
 			Shop.boost('ratscavengers').saveableState.power++;
 		}

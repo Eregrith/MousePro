@@ -14,7 +14,7 @@
                 buyable: false,
                 bought: false,
                 power: settings.power || 0,
-                active: false,
+                active: false
             },
             getCost: function () {
                 if (this.cost.xp == undefined)
@@ -36,14 +36,12 @@
                     settings.buy(this);
             },
             unlock: function() {
+                this.lifeDurationInTicks = this.originalLifeDuration * ((Shop.has('anchor') && Shop.boost('anchor').isActive()) ? 2 : 1);
                 this.saveableState.buyable = true;
             },
             lock: function() {
                 this.saveableState.buyable = false;
                 this.saveableState.bought = false;
-
-                if (this.ephemeral)
-                    this.lifeDurationInTicks = this.originalLifeDuration * (Shop.has('anchor') ? 2 : 1);
             },
             isUnlocked: function() {
                 return this.saveableState.buyable;
@@ -74,7 +72,6 @@
                 }
             },
             die: function() {
-                this.lifeDurationInTicks = this.originalLifeDuration * (Shop.has('anchor') ? 2 : 1);
                 this.lock();
                 Game.ephemeralDeath(this);
             },
@@ -89,7 +86,8 @@
                 }
                 
                 return desc;
-            }
+            },
+            isLoot: settings.isLoot || false
         }
 
         Shop.boosts.push(boost);

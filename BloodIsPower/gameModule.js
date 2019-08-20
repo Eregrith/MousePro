@@ -48,11 +48,16 @@
             Shop.unlock('bloodthirstyaldo');
             Achievements.gain('bloodthirst');
         }
+        if ((sacrificeMC.saveableState.power >= 50
+            || sacrificeMM.saveableState.power >= 50)
+            && !Shop.has('ottovonsacrifice')) {
+            Shop.unlock('ottovonsacrifice');
+        }
         if (Shop.boost('truekriss').getPower() >= 20
             && !Shop.isAvailable('biggerbuckets')) {
             Shop.unlock('biggerbuckets');
         }
-        if (Shop.boost('anchor').getPower() >= 300
+        if (Shop.boost('anchor').getPower() >= 30
             && !Shop.isAvailable('unritualisticsacrifice')) {
             Shop.unlock('unritualisticsacrifice');
         }
@@ -71,8 +76,8 @@
         }
         if (Friends.friend('aldo').getLevel() == 10
             && Friends.friend('barnabeus').getLevel() == 10
-            && !Shop.isAvailable('zbglobloodinjector')) {
-            Shop.unlock('zbglobloodinjector');
+            && !Shop.isAvailable('rxtbloodinjector')) {
+            Shop.unlock('rxtbloodinjector');
         }
         if (Shop.has('deepcuts')
             && !Shop.isAvailable('somuchblood')) {

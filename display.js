@@ -230,7 +230,7 @@
 				}
 			}
 		});
-		boosts.forEach((boost) => {
+		boosts.sort((a, b) => { if (a.isActivable) return -1; if (b.isActivable) return 1; return 0; } ).forEach((boost) => {
 			let ownedBoost = ownedBoosts.filter(sb => sb.id == 'boost-' + boost.shortName);
 			if (ownedBoost.length == 0) {
 				let boostItem = Display.buildDisplayItemForBoost(boost);
@@ -288,6 +288,13 @@
 			buyButton.addEventListener('click', function() { Shop.buy(boost.shortName) });
 
 			mainDiv.appendChild(buyButton);
+		}
+			
+		if (boost.isLoot) {
+			let lootLabel = document.createElement('div');
+			lootLabel.classList = ['boost-loot-label'];
+			lootLabel.innerHTML = '<i class="fa-loot"></i> Loot!';
+			mainDiv.appendChild(lootLabel);
 		}
 		
 		return mainDiv;

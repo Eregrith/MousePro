@@ -140,6 +140,7 @@ ul {
     display: inline-block;
 	margin: 2px;
 	vertical-align: top;
+	position: relative;
 }
 .boost-title {
 	display: inline-block;

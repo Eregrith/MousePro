@@ -91,7 +91,8 @@
 				MM: 18, 
 				MC: 18
 			}
-		}
+		},
+		isLoot: true
 	});
 	Boosts.newBoost({
 		name: 'Ruby pommel',
@@ -103,7 +104,8 @@
 				MM: 18, 
 				MC: 18
 			}
-		}
+		},
+		isLoot: true
 	});
 	Boosts.newBoost({
 		name: 'Sculpted Dragon Grip',
@@ -115,7 +117,8 @@
 				MM: 18, 
 				MC: 18
 			}
-		}
+		},
+		isLoot: true
 	});
 	Boosts.newBoost({
 		name: 'Diamond Blade-Tip',
@@ -127,7 +130,8 @@
 				MM: 18, 
 				MC: 18
 			}
-		}
+		},
+		isLoot: true
 	});
 	Boosts.newBoost({
 		name: 'Cheater\'s scabbard',
@@ -139,7 +143,8 @@
 				MM: 18, 
 				MC: 18
 			}
-		}
+		},
+		isLoot: true
 	});
 	Boosts.newBoost({
 		name: 'True kriss',
@@ -259,12 +264,38 @@
 		}
 	});
 	Boosts.newBoost({
+		name: 'Otto Von Sacrifice',
+		icon: '',
+		isActivable: true,
+		getDescription: function() {
+			let desc = 'This gentleman will herd the lambs to the "correct" house.';
+			if (!this.isBought()) {
+				desc += '<br/>When turned on, this boost will trigger sacrifice just before an ephemeral boost dies out.';
+			} else if (this.isActive()) {
+				desc += '<div class="btn" onclick="gameObjects.Game.getModule(\'bip\').toggleBoost(\'ottovonsacrifice\')">Turn off</div> Triggers sacrifice just before an ephemeral boost dies out.';
+			} else {
+				desc += '<div class="btn" onclick="gameObjects.Game.getModule(\'bip\').toggleBoost(\'ottovonsacrifice\')">Turn on</div> to trigger sacrifice just before an ephemeral boost dies out.'
+			}
+			return desc;
+		},
+		shortName: 'ottovonsacrifice',
+		cost: {
+			xp: {
+				blood: 50
+			},
+			levels: {
+				MM: 30, 
+				MC: 30
+			}
+		}
+	});
+	Boosts.newBoost({
 		name: 'Rat scavengers',
 		icon: 'rat',
 		power: 0,
 		getDescription: function() {
 			let desc = 'You could use these little creatures to get the blood in these lambs after they\'re done for.'
-				+ '<br/>These will scavenge a bit of blood after an ephemeral boost dies.';
+				+ '<br/>These will scavenge a bit of blood after an ephemeral boost dies without being sacrificed.';
 			return desc;
 		},
 		shortName: 'ratscavengers',
@@ -275,15 +306,15 @@
 		}
 	});
 	Boosts.newBoost({
-		name: 'ZB-GLO Blood injector',
+		name: 'Redudant Blood injector',
 		icon: 'exchange-alt fa-rotate-90 red red-glow',
 		power: 0.10,
 		getDescription: function() {
 			let desc = 'Blood exchange is a good way to improve your efficacy.'
-				+ '<br/>Improves ZB-GLO transfer effect by a multiplicative ' + (this.getPower()*100) + '% bonus per corresponding sacrifice you have committed.';
+				+ '<br/>Improves Redundant XP Transfer effect by a multiplicative ' + (this.getPower()*100) + '% bonus per corresponding sacrifice you have committed.';
 			return desc;
 		},
-		shortName: 'zbglobloodinjector',
+		shortName: 'rxtbloodinjector',
 		cost: {
 			xp: {
 				blood: 30,
@@ -308,7 +339,7 @@
 		name: 'So Much Blood',
 		icon: 'tint red red-glow',
 		getDescription: function() {
-			let desc = '<span class="red red-glow">Blood is power</span><br/>Each 1% of blood you are adds to the output multiplier of your bloodfull friends';
+			let desc = '<span class="red red-glow">Blood is power</span><br/>Each 1% of blood you have adds to the output multiplier of your bloodfull friends';
 			return desc;
 		},
 		shortName: 'somuchblood',
