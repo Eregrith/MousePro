@@ -80,6 +80,9 @@
         saveGame.Boosts.forEach((savedBoost) => {
             let boost = Shop.boost(savedBoost.shortName);
             boost.saveableState = savedBoost.saveableState;
+            if (typeof(boost.onRestoreSave) === typeof(Function)) {
+                boost.onRestoreSave();
+            }
         });
         saveGame.Friends.forEach((savedFriend) => {
             let friend = Friends.friend(savedFriend.shortName);

@@ -7,7 +7,6 @@
 
 (function (Game, Shop, Loot) {
 
-    
     Loot.categories.push({
             category: 'ratstomach',
             baseLootChance: 1/3,
@@ -16,7 +15,7 @@
         },
     );
 
-    let ratStomachContents = [ 'oldtv', '' ];
+    let ratStomachContents = [ 'oldtv' ];
     ratStomachContents.forEach(boost => {
         Loot.addBoostToCategory(boost, 'ratstomach');
     });

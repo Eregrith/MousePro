@@ -29,7 +29,9 @@
 
     let knifeparts = [ 'serratedblade', 'rubypommel',  'dragongrip', 'diamondbladetip', 'cheatersscabbard' ];
     knifeparts.forEach(boost => {
-        Loot.addBoostToCategory(boost, 'knifepart');
+        if (!Shop.has(boost)) {
+            Loot.addBoostToCategory(boost, 'knifepart');
+        }
     });
 
     Loot.tryLootCategory = function(category) {
@@ -40,11 +42,17 @@
         let roll = Math.random();
 
         if (roll <= lootChance) {
-            let lootedBoost = lootCategory.boosts[Math.floor(Math.random()*lootCategory.boosts.length)];
 
-            lootCategory.boosts = lootCategory.boosts.filter(b => b != lootedBoost);
-            Display.notifyLoot();
-            Shop.unlock(lootedBoost);
+            let looted = false;
+            while (!looted) {
+                let lootedBoost = lootCategory.boosts[Math.floor(Math.random()*lootCategory.boosts.length)];
+                lootCategory.boosts = lootCategory.boosts.filter(b => b != lootedBoost);
+                if (!lootedBoost.isBought()) {
+                    Display.notifyLoot();
+                    Shop.unlock(lootedBoost);
+                    looted = true;
+                }
+            }
         }
     }
 
