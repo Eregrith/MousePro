@@ -41,6 +41,10 @@
     font-size: 10px;
 }
 
+.digital {
+    color: #00ff80;
+}
+
 .red {
     color: red;
 }
@@ -49,6 +53,10 @@
 }
 
 .friend-blood-xp {
+    height: 5px;
+    background-color: red;
+}
+.boost-blood-xp {
     height: 5px;
     background-color: red;
 }
@@ -235,4 +243,8 @@ body[gameFont=Helvetica] .fa-rat {
 
 .dark-theme .fa-rat {
 	content: url('../img/rat-dark.png');
+}
+
+.fa-rat.giant-rat { 
+    top: 0px;
 }

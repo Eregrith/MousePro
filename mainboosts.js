@@ -5,7 +5,7 @@
 * Main Boosts.js
 */
 
-(function (Game, Boosts, Friends, Shop, Tabs) {
+(function (Game, Display, Boosts, Friends, Shop, Tabs) {
 
 	Boosts.newBoost({
 		name: 'Redundant Mouse Mover',
@@ -104,6 +104,12 @@
 		icon: 'arrow-down',
 		getDescription: function() { return 'Redundant XP Transfer will give MC XP based on the MM level attained when it triggers.'; },
 		shortName: 'rxtinjectordown',
+		eatsBlood: true,
+		bloodNeededToBeFull: 10,
+		isFullOfBlood: function () {
+			if (!Shop.has('blutloader'))
+				Shop.unlock('blutloader');
+		},
 		cost: {
 			levels: {
 				MM: 15,
@@ -116,6 +122,12 @@
 		icon: 'arrow-up',
 		getDescription: function() { return 'Redundant XP Transfer will give MM XP based on the MC level attained when it triggers.'; },
 		shortName: 'rxtinjectorup',
+		eatsBlood: true,
+		bloodNeededToBeFull: 10,
+		isFullOfBlood: function () {
+			if (!Shop.has('blutloader'))
+				Shop.unlock('blutloader');
+		},
 		cost: {
 			levels: {
 				MM: 15,
@@ -126,8 +138,35 @@
 	Boosts.newBoost({
 		name: 'Bootloader',
 		icon: 'download',
-		getDescription: function() { return 'Kickstarts MM and MC by giving them 10 xp when they level up'; },
+		getDescription: function() { return 'Kickstarts MM with '+Display.beautify(this.getMMXp()) +' xp and MC with '+Display.beautify(this.getMCXp()) + ' xp when they level up'; },
 		shortName: 'bootloader',
+		eatsBlood: true,
+		bloodNeededToBeFull: 10,
+		getMMXp: function() {
+			let baseXp = 10;
+			if (Shop.has('blutloader')){
+				baseXp *= Math.floor(Game.currency('blood').getXp());
+			}
+			if (Shop.has('digitalsacrifice')) {
+				baseXp *= 1 + Math.pow(1.1, Shop.boost('sacrifice-mm').getPower());
+			}
+			return baseXp;
+		},
+		getMCXp: function() {
+			let baseXp = 10;
+			if (Shop.has('blutloader')){
+				baseXp *= Math.floor(Game.currency('blood').getXp());
+			}
+			if (Shop.has('digitalsacrifice')) {
+				baseXp *= 1 + Math.pow(1.1, Shop.boost('sacrifice-mc').getPower());
+			}
+			return baseXp;
+		},
+		isFullOfBlood: function() {
+			if (!Shop.has('digitalsacrifice')) {
+				Shop.unlock('digitalsacrifice');
+			}
+		},
 		cost: {
 			levels: {
 				MM: 2,
@@ -204,4 +243,4 @@
 		}
     });
     
-})(gameObjects.Game, gameObjects.Boosts, gameObjects.Friends, gameObjects.Shop, gameObjects.Tabs);
+})(gameObjects.Game, gameObjects.Display, gameObjects.Boosts, gameObjects.Friends, gameObjects.Shop, gameObjects.Tabs);

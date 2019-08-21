@@ -15,6 +15,7 @@
                 level: 0,
                 highestLevelAttained: 0
             },
+            levelsLabel: settings.levelsLabel || 'levels',
             xpLabel: settings.xpLabel || 'xp',
             isToBeDisplayedNormally: settings.isToBeDisplayedNormally === undefined ? true : settings.isToBeDisplayedNormally,
             getLevel: function() {

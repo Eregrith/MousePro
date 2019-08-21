@@ -53,6 +53,21 @@
                 return this.saveableState.bought;
             },
             isActivable: settings.isActivable || false,
+            eatsBlood: settings.eatsBlood || false,
+            hasEatenBlood: function(amount) {
+                if (this.saveableState.bloodEaten == null) this.saveableState.bloodEaten = 0;
+                this.saveableState.bloodEaten += amount;
+                let isFull = this.saveableState.bloodEaten >= this.bloodNeededToBeFull;
+                if (isFull && typeof(settings.isFullOfBlood) === typeof(Function)) {
+                    settings.isFullOfBlood();
+                }
+            },
+            getFullnessPercent: function() {
+                if (!this.saveableState.bloodEaten) return 0;
+                if (!this.bloodNeededToBeFull) return 0;
+                if (this.saveableState.bloodEaten >= this.bloodNeededToBeFull) return 100;
+                return (this.saveableState.bloodEaten / this.bloodNeededToBeFull) * 100;
+            },
             isActive: function() {
                 return this.saveableState.active;
             },
@@ -87,7 +102,8 @@
                 
                 return desc;
             },
-            isLoot: settings.isLoot || false
+            isLoot: settings.isLoot || false,
+            buyButtonLabel: settings.buyButtonLabel || 'Buy'
         }
 
         Shop.boosts.push(boost);

@@ -23,6 +23,17 @@
         },
         isToBeDisplayedNormally: false
     });
+	Currencies.newCurrency({
+        name: 'Blood Spikes',
+        shortName: 'bloodSpikes',
+        color: 'red',
+        iconTag: '<i class="fa fa-bolt red red-glow currency-icon"></i>',
+        xpLabel: '',
+        levelsLabel: ' ',
+        xpRequiredForNextLevel: 1,
+        xpGained: function() { },
+        isToBeDisplayedNormally: false
+    });
 
     gameModule.checkUnlocks = function() {
         if (Shop.has('rubypommel')
@@ -128,6 +139,13 @@
             gameModule.harvestBlood(1);
             Display.needsRepaintImmediate = true;
         }
+    }
+
+    gameModule.killGiantRat = function(rat) {
+        rat.lock();
+        gameModule.harvestBlood(1);
+        Loot.tryLootCategory('ratstomach');
+        Display.needsRepaintImmediate = true;
     }
 
     gameModule.toggleBoost = function(shortName) {

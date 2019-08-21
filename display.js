@@ -228,6 +228,11 @@
 					ownedBoost.classList.add('inactive');
 					ownedBoost.classList.remove('active');
 				}
+
+				if (boost.eatsBlood) {
+					let bloodDiv = ownedBoost.getElementsByClassName('boost-blood-xp')[0];
+					bloodDiv.style.width = boost.getFullnessPercent() + '%';
+				}
 			}
 		});
 		boosts.sort((a, b) => { if (a.isActivable) return -1; if (b.isActivable) return 1; return 0; } ).forEach((boost) => {
@@ -282,7 +287,7 @@
 
 			let buyButton = document.createElement('div');
 			buyButton.classList = ['boost-buy-btn'];
-			buyButton.innerHTML = 'Buy';
+			buyButton.innerHTML = boost.buyButtonLabel;
 			if (!Game.hasCurrency(boost.getCost()) || !boost.canBuy())
 				buyButton.classList.add('disabled');
 			buyButton.addEventListener('click', function() { Shop.buy(boost.shortName) });
@@ -295,6 +300,13 @@
 			lootLabel.classList = ['boost-loot-label'];
 			lootLabel.innerHTML = '<i class="fa-loot"></i> Loot!';
 			mainDiv.appendChild(lootLabel);
+		}
+
+		if (boost.eatsBlood) {
+			let bloodDiv = document.createElement('div');
+			bloodDiv.className = 'boost-blood-xp';
+			bloodDiv.style.width = boost.getFullnessPercent() + '%';
+			mainDiv.appendChild(bloodDiv);
 		}
 		
 		return mainDiv;
@@ -416,7 +428,7 @@
 				if (cost.levels.hasOwnProperty(part)) {
 					let li = document.createElement('li');
 					let currency = Game.currency(part);
-					li.innerHTML = currency.iconTag + '&nbsp;' +part + ': ' + cost.levels[part] + ' levels';
+					li.innerHTML = currency.iconTag + '&nbsp;' +part + ': ' + cost.levels[part] + ' ' + currency.levelsLabel;
 					ul.appendChild(li);
 				}
 			}

@@ -295,10 +295,17 @@
 		power: 0,
 		getDescription: function() {
 			let desc = 'You could use these little creatures to get the blood in these lambs after they\'re done for.'
-				+ '<br/>These will scavenge a bit of blood after an ephemeral boost dies without being sacrificed.';
+				+ '<br/>These will scavenge a bit of blood after an ephemeral boost dies.';
 			return desc;
 		},
 		shortName: 'ratscavengers',
+		eatsBlood: true,
+		bloodNeededToBeFull: 50,
+		isFullOfBlood: function() {
+			if (!Shop.has('giantbloodrats')) {
+				Shop.unlock('giantbloodrats');
+			}
+		},
 		cost: {
 			xp: {
 				blood: 13,
@@ -346,6 +353,104 @@
 		cost: {
 			xp: {
 				blood: 100,
+			}
+		}
+	});
+	Boosts.newBoost({
+		name: 'Blut Loader',
+		icon: 'download red red-glow',
+		getDescription: function() {
+			let desc = '<span class="red red-glow">Blood is power</span><br/>Each 1% of blood you have adds to the multiplier of Bootloader';
+			return desc;
+		},
+		shortName: 'blutloader',
+		cost: {
+			xp: {
+				blood: 10,
+			},
+			levels:{
+				MM: 70,
+				MC: 70
+			}
+		}
+	});
+	Boosts.newBoost({
+		name: 'Digital Sacrifice',
+		icon: 'bezier-curve digital red-glow',
+		getDescription: function() {
+			let desc = '<span class="red red-glow">Blood is power</span><br/>Corresponding sacrifices give a cummulative 10% bonus to Bootloader for same currency';
+			return desc;
+		},
+		shortName: 'digitalsacrifice',
+		cost: {
+			xp: {
+				blood: 10,
+			},
+			levels: {
+				MM: 90,
+				MC: 90
+			}
+		}
+	});
+	Boosts.newBoost({
+		name: 'Giant Blood Rats',
+		icon: 'rat red red-glow',
+		getDescription: function() {
+			let desc = '<span class="red red-glow">Blood is power</span><br/>Rats so big you could sacrifice them... Is that a good idea? Who knows what rat eats nowadays, maybe there are things in them better left unfound.';
+			return desc;
+		},
+		shortName: 'giantbloodrats',
+		cost: {
+			xp: {
+				blood: 99,
+			},
+			levels: {
+				MM: 99,
+				MC: 99
+			}
+		}
+	});
+	Boosts.newBoost({
+		name: 'Giant Rat',
+		icon: 'rat giant-rat red',
+		getDescription: function() {
+			let desc = 'A rat so big you could kill and loot it.';
+			return desc;
+		},
+		buyButtonLabel: 'Kill',
+		shortName: 'giantrat',
+		cost: {
+			levels: {
+				bloodSpikes: 1,
+			}
+		},
+		buy: function(me) {
+			Game.getModule('bip').killGiantRat(me);
+		},
+	});
+	Boosts.newBoost({
+		name: 'Blood Catalyzer',
+		icon: 'bolt red red-glow',
+		getDescription: function() {
+			let desc = 'You\'re going to need a weapon if you want to kill those big rats.';
+			if (this.isBought()) {
+				desc += '<br/>You have ' + Game.currency('bloodSpikes').getLevel() + ' blood spikes.';
+				desc += '<br/><div class="btn ' + (!Game.hasCurrency({xp: { blood: 20} }) ? "disabled" : "") + '" onclick="gameObjects.Shop.boost(\'bloodcatalyzer\').makeSpike()">Make one with 20 blood</div>'
+			}
+			return desc;
+		},
+		makeSpike: function () {
+			let costForOneSpike = {xp: { blood: 20} };
+			if (Game.hasCurrency(costForOneSpike)) {
+				Game.spend(costForOneSpike);
+				let currency = Game.currency('bloodSpikes');
+				currency.levelUp();
+			}
+		},
+		shortName: 'bloodcatalyzer',
+		cost: {
+			xp: {
+				blood: 50,
 			}
 		}
 	});

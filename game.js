@@ -17,7 +17,15 @@
 			xpRequiredForNextLevel: 100,
 			levelUp: function(me) {
 				if (Shop.has('bootloader')) {
-					Game.acquireXp('MM', 10);
+					let baseXp = 10;
+					if (Shop.has('blutloader')) {
+						baseXp *= Math.floor(Game.currency('blood').getXp());
+						Shop.boost('bootloader').hasEatenBlood(1);
+					}
+					if (Shop.has('digitalsacrifice')) {
+						baseXp *= 1 + Math.pow(1.1, Shop.boost('sacrifice-mm').getPower());
+					}
+					Game.acquireXp('MM', baseXp);
 				}
 				if (Shop.has('rxt')) {
 					let xp = Shop.boost('rxt').bonusXp;
@@ -29,6 +37,7 @@
 					}
 					if (Shop.has('rxtbloodinjector')) {
 						xp *= 1 + Math.pow(1 + Shop.boost('rxtbloodinjector').getPower(), Shop.boost('sacrifice-mm').getPower());
+						Shop.boost('rxtinjectordown').hasEatenBlood(1);
 					}
 					xp *= (Shop.has('addonenhancer') ? Shop.boost('addonenhancer').saveableState.power : 1);
 					Game.acquireXp('MC', xp);
@@ -47,7 +56,15 @@
 			xpRequiredForNextLevel: 10,
 			levelUp: function(me) {
 				if (Shop.has('bootloader')) {
-					Game.acquireXp('MC', 10);
+					let baseXp = 10;
+					if (Shop.has('blutloader')) {
+						baseXp *= Math.floor(Game.currency('blood').getXp());
+						Shop.boost('bootloader').hasEatenBlood(1);
+					}
+					if (Shop.has('digitalsacrifice')) {
+						baseXp *= 1 + Math.pow(1.1, Shop.boost('sacrifice-mc').getPower());
+					}
+					Game.acquireXp('MC', baseXp);
 				}
 				if (Shop.has('rxt')) {
 					let xp = Shop.boost('rxt').bonusXp;
@@ -59,6 +76,7 @@
 					}
 					if (Shop.has('rxtbloodinjector')) {
 						xp *= 1 + Math.pow(1 + Shop.boost('rxtbloodinjector').getPower(), Shop.boost('sacrifice-mc').getPower());
+						Shop.boost('rxtinjectorup').hasEatenBlood(1);
 					}
 					xp *= (Shop.has('addonenhancer') ? Shop.boost('addonenhancer').saveableState.power : 1);
 					Game.acquireXp('MM', xp);
@@ -132,6 +150,15 @@
 					Shop.unlock('sacrifice-mc');
 			}
 		}
+		if (Shop.has('giantbloodrats') && !Shop.boost('giantrat').isUnlocked()) {
+			let giantRatChance = 0.0005;
+			if (Math.random() < giantRatChance) {
+				Shop.unlock('giantrat');
+				if (!Shop.has('bloodcatalyzer')) {
+					Shop.unlock('bloodcatalyzer');
+				}
+			}
+		}
 		Shop.boosts.filter(b => b.tick != undefined).forEach((boost) => boost.tick());
 	}
 
@@ -193,8 +220,11 @@
 		if (Shop.has('ottovonsacrifice') && Shop.boost('ottovonsacrifice').isActive()) {
 			boost.unlock();
 			boost.buy();
-		} else if (Shop.has('ratscavengers')) {
-			Game.acquireXp('blood', 0.5);
+		}
+		if (Shop.has('ratscavengers')) {
+			let amount = 0.5;
+			Game.acquireXp('blood', amount);
+			Shop.boost('ratscavengers').hasEatenBlood(amount);
 			Shop.boost('ratscavengers').saveableState.power++;
 		}
 	}

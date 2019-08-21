@@ -17,11 +17,10 @@
                 bloodEaten: 0
             },
             hasEatenBlood: function(amount) {
-                let wasFull = this.saveableState.bloodEaten >= this.bloodNeededToBeFull;
                 if (this.saveableState.bloodEaten == null) this.saveableState.bloodEaten = 0;
                 this.saveableState.bloodEaten += amount;
                 let isFull = this.saveableState.bloodEaten >= this.bloodNeededToBeFull;
-                if (!wasFull && isFull && typeof(settings.isFullOfBlood) === typeof(Function)) {
+                if (isFull && typeof(settings.isFullOfBlood) === typeof(Function)) {
                     settings.isFullOfBlood();
                 }
             },
@@ -105,7 +104,9 @@
         },
         bloodNeededToBeFull: 50,
         isFullOfBlood: function() {
-            Shop.unlock('bloodfullaldo');
+            if (!Shop.has('bloodfullaldo')) {
+                Shop.unlock('bloodfullaldo');
+            }
         },
         onBuy: function() {
             Game.checkUnlocks();
@@ -155,7 +156,9 @@
             Game.acquireXp('MC', xp);
         },
         isFullOfBlood: function() {
-            Shop.unlock('bloodfullbarnabeus');
+            if (!Shop.has('bloodfullbarnabeus')) {
+                Shop.unlock('bloodfullbarnabeus');
+            }
         },
         onBuy: function() {
             if (this.bought >= 5) {
