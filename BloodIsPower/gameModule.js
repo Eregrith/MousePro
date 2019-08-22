@@ -99,6 +99,22 @@
             && !Shop.isAvailable('somuchblood')) {
             Shop.unlock('somuchblood');
         }
+
+        if (Shop.isFullXP('ratscavengers') && !Achievements.has('bigassrat')) {
+            Achievements.gain('bigassrat');
+        }
+
+        if (Shop.has('blutloader') && !Achievements.has('bloodloader')) {
+            Achievements.gain('bloodloader');
+        }
+
+        if (Shop.has('ottovonsacrifice') && !Achievements.has('cleanhands')) {
+            Achievements.gain('cleanhands');
+        }
+
+        if (Shop.has('deepcuts') && !Achievements.has('youhavebeenbad')) {
+            Achievements.gain('youhavebeenbad');
+        }
     }
 
     gameModule.getSacrificeRatio = function() {

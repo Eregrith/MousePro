@@ -36,7 +36,10 @@
                     settings.buy(this);
             },
             unlock: function() {
-                this.lifeDurationInTicks = this.originalLifeDuration * ((Shop.has('anchor') && Shop.boost('anchor').isActive()) ? 2 : 1);
+                this.lifeDurationInTicks = this.originalLifeDuration
+                * ((Shop.has('anchor') && Shop.boost('anchor').isActive())
+                    ? 2
+                    : (Shop.has('noxiousfumes') ? 0.2 : 1));
                 this.saveableState.buyable = true;
             },
             lock: function() {
@@ -52,6 +55,7 @@
             isBought: function() {
                 return this.saveableState.bought;
             },
+            getIcon: settings.getIcon || function() { return this.icon; },
             isActivable: settings.isActivable || false,
             xpBarColor: settings.xpBarColor || 'lightgray',
             hasXP: settings.hasXP || false,

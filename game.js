@@ -67,6 +67,9 @@
 					if (Shop.has('digitalsacrifice')) {
 						baseXp *= 1 + Math.pow(1.1, Shop.boost('sacrifice-mc').getPower());
 					}
+					if (Shop.has('bloodbalancer') && Game.currency('MC').getLevel() < Game.currency('MM').getLevel()) {
+						baseXp *= Math.floor(Game.currency('blood').getXp());
+					}
 					Game.acquireXp('MC', baseXp);
 				}
 				if (Shop.has('rxt')) {
@@ -133,6 +136,10 @@
 		if ((Shop.boost('sacrifice-mm').getPower() + Shop.boost('sacrifice-mc').getPower()) >= 5 && !Achievements.has('cutting')) {
 			Shop.unlock('posters');
 			Achievements.gain('cutting');
+		}
+		if ((Friends.friend('aldo').saveableState.bought >= 10 || Friends.friend('barnabeus').saveableState.bought >= 10)
+			 && !Achievements.has('talentpoint')) {
+			Achievements.gain('talentpoint');
 		}
 		Game.modules.forEach((mod) => {
 			mod.gameModule.checkUnlocks();
@@ -221,6 +228,7 @@
 			Achievements.gain('ephemeral');
 		}
 		if (!manual && Shop.has('ottovonsacrifice') && Shop.boost('ottovonsacrifice').isActive()) {
+			Shop.boost('ottovonsacrifice').gainXP(1);
 			boost.unlock();
 			boost.buy();
 		}

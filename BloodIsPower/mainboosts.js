@@ -279,8 +279,12 @@
 			return desc;
 		},
 		shortName: 'ottovonsacrifice',
-		buy: function() {
-			Achievements.gain('cleanhands');
+		hasXP: true,
+		xpNeededToBeFull: 100,
+		xpBarColor: 'red',
+		isFullXP: function() {
+			if (!Shop.isAvailable('noxiousfumes'))
+				Shop.unlock('noxiousfumes')
 		},
 		cost: {
 			xp: {
@@ -289,6 +293,20 @@
 			levels: {
 				MM: 30, 
 				MC: 30
+			}
+		}
+	});
+	Boosts.newBoost({
+		name: 'Noxious Fumes',
+		icon: 'smog red red-glow',
+		getDescription: function() {
+			let desc = 'When ephemeral anchor is off, ephemeral boosts die faster.';
+			return desc;
+		},
+		shortName: 'noxiousfumes',
+		cost: {
+			xp: {
+				blood: 33,
 			}
 		}
 	});
@@ -308,7 +326,6 @@
 		isFullXP: function() {
 			if (!Shop.has('giantbloodrats')) {
 				Shop.unlock('giantbloodrats');
-				Achievements.gain('giantassrat');
 			}
 		},
 		cost: {
@@ -340,9 +357,6 @@
 			let desc = 'If you cut your friends good, they will bleed nicely. They have a chance to leak blood each time they activate.';
 			return desc;
 		},
-		buy: function() {
-			Achievements.gain('youhavebeenbad');
-		},
 		shortName: 'deepcuts',
 		cost: {
 			xp: {
@@ -371,9 +385,6 @@
 			let desc = '<span class="red red-glow">Blood is power</span><br/>Each 1% of blood you have adds to the multiplier of Bootloader';
 			return desc;
 		},
-		buy: function() {
-			Achievements.gain('bloodloader');	
-		},
 		shortName: 'blutloader',
 		cost: {
 			xp: {
@@ -387,9 +398,15 @@
 	});
 	Boosts.newBoost({
 		name: 'Bloodbalancer',
-		icon: 'balance-scale red red-glow',
+		getIcon: function () {
+			if (Game.currency('MM').getLevel() > Game.currency('MC').getLevel())
+				return 'balance-scale-right red';
+			if (Game.currency('MC').getLevel() > Game.currency('MM').getLevel())
+				return 'balance-scale-left red';
+			return 'balance-scale red';
+		},
 		getDescription: function() {
-			let desc = '<span class="red red-glow">Blood is power</span><br/>When MM levels are lower than MC levels, each 1% of blood you have adds to the multiplier of MM XP gained';
+			let desc = '<span class="red red-glow">Blood is power</span><br/>When MM levels are lower than MC levels, each 1% of blood you have adds to the multiplier of MM XP gained and vice versa.';
 			return desc;
 		},
 		shortName: 'bloodbalancer',

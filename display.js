@@ -220,6 +220,15 @@
 				boost = boost[0];
 				let descDiv = ownedBoost.getElementsByClassName('boost-desc')[0];
 				descDiv.innerHTML = boost.getDescription();
+				if (boost.getIcon() !== undefined) {
+					let iconDiv = ownedBoost.getElementsByClassName('boost-icon')[0];
+					if (iconDiv === undefined){
+						iconDiv = document.createElement('div');
+						descDiv.parentNode.insertBefore(iconDiv, descDiv);
+					}
+					iconDiv.className = 'boost-icon fa fa-' + boost.getIcon();
+						
+				}
 				if (boost.isActive()) {
 					ownedBoost.classList.remove('inactive');
 					ownedBoost.classList.add('active');
@@ -259,9 +268,9 @@
 		titleDiv.innerHTML = boost.name;
 		mainDiv.appendChild(titleDiv);
 
-		if (boost.icon != undefined) {
+		if (boost.getIcon() != undefined) {
 			let iconDiv = document.createElement('div');
-			iconDiv.className = 'boost-icon fa fa-' + boost.icon;
+			iconDiv.className = 'boost-icon fa fa-' + boost.getIcon();
 			mainDiv.appendChild(iconDiv);
 		}
 		

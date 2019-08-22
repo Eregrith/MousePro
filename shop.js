@@ -49,4 +49,12 @@
 		return boost.isUnlocked() || boost.isBought();
 	}
 
+	Shop.isFullXP = function(shortName) {
+		let boost = Shop.boost(shortName);
+		if (!boost) return false;
+		if (!boost.hasXP) return false;
+
+		return boost.saveableState.xpGained >= boost.xpNeededToBeFull;
+	}
+
 })(gameObjects.Game, gameObjects.Boosts, gameObjects.Friends, gameObjects.Display, gameObjects.Shop, gameObjects.Loot, gameObjects.Tabs);

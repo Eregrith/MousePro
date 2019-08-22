@@ -25,25 +25,25 @@ Achievements = {};
 		{
 			name: 'General Noob',
 			shortName: 'together',
-			description: 'Reach level 5 in both proficiencies',
+			description: 'Reach level 5 in both currencies',
 			acquired: false
 		},
 		{
 			name: '101010(b) = 42',
 			shortName: '42',
-			description: 'Reach level 10 in both proficiencies',
+			description: 'Reach level 10 in both currencies',
 			acquired: false
 		},
 		{
 			name: 'Battle of Marignan',
 			shortName: 'marignan',
-			description: 'Reach level 15 in both proficiencies',
+			description: 'Reach level 15 in both currencies',
 			acquired: false
 		},
 		{
 			name: 'Pro tuner',
 			shortName: 'jacky',
-			description: 'Reach level 1 in both proficiencies',
+			description: 'Reach level 1 in both currencies',
 			acquired: false
 		},
 		{
@@ -55,7 +55,7 @@ Achievements = {};
 		{
 			name: 'Quarter of a century',
 			shortName: 'quartercentury',
-			description: 'Reach level 25 in both proficiencies',
+			description: 'Reach level 25 in both currencies',
 			acquired: false
 		},
 		{
@@ -67,7 +67,7 @@ Achievements = {};
 		{
 			name: 'Glowing proficiency',
 			shortName: 'glowing',
-			description: 'Reach level 30 in both proficiencies',
+			description: 'Reach level 30 in both currencies',
 			acquired: false
 		},
 		{
@@ -79,7 +79,7 @@ Achievements = {};
 		{
 			name: '20/20 MODE',
 			shortName: 'fnafMaster',
-			description: 'Reach level 20 in both proficiencies',
+			description: 'Reach level 20 in both currencies',
 			acquired: false
 		},
 		{
@@ -104,6 +104,12 @@ Achievements = {};
 			name: 'Died of old age',
 			shortName: 'ephemeral',
 			description: 'Miss 10 ephemeral boosts by letting them die',
+			acquired: false
+		},
+		{
+			name: 'Where\'s my talent point?',
+			shortName: 'talentpoint',
+			description: 'Reach level 10 with one friend',
 			acquired: false
 		}
 	];

@@ -161,9 +161,7 @@
             }
         },
         onBuy: function() {
-            if (this.bought >= 5) {
-                Shop.unlock('zbglotransferup');
-            }
+            Game.checkUnlocks();
         }
     });
 

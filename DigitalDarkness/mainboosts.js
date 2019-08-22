@@ -29,7 +29,8 @@
         },
         isFullXP: function(me) {
 			me.saveableState.power = 1;
-            Display.notify("You repaired the Old TV ! Turns out it was a nice computer screen !");
+			Display.notify("You repaired the Old TV ! Turns out it was a nice computer screen !");
+			Achievements.gain('betterthantape');
         },
 		shortName: 'oldtv',
 		cost: {
