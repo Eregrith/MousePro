@@ -60,7 +60,7 @@
         }
         if ((sacrificeMC.saveableState.power >= 50
             || sacrificeMM.saveableState.power >= 50)
-            && !Shop.has('ottovonsacrifice')) {
+            && !Shop.isAvailable('ottovonsacrifice')) {
             Shop.unlock('ottovonsacrifice');
         }
         if (Shop.boost('truekriss').getPower() >= 20
@@ -90,7 +90,7 @@
         }
         if (Friends.friend('aldo').getLevel() == 10
             && Friends.friend('barnabeus').getLevel() == 10
-            && !Shop.has('rxtbloodinjector')) {
+            && !Shop.isAvailable('rxtbloodinjector')) {
             Shop.unlock('rxtbloodinjector');
         }
         if (Shop.has('deepcuts')
