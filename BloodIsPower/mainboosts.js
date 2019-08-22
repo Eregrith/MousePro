@@ -5,7 +5,7 @@
 * BloodIsPower/Main Boosts.js
 */
 
-(function (Game, Boosts, Display, Shop, Loot) {
+(function (Game, Boosts, Display, Shop, Achievements) {
 
 	Boosts.newBoost({
 		name: 'Sacrificial Kriss',
@@ -279,6 +279,9 @@
 			return desc;
 		},
 		shortName: 'ottovonsacrifice',
+		buy: function() {
+			Achievements.gain('cleanhands');
+		},
 		cost: {
 			xp: {
 				blood: 50
@@ -299,11 +302,13 @@
 			return desc;
 		},
 		shortName: 'ratscavengers',
-		eatsBlood: true,
-		bloodNeededToBeFull: 50,
-		isFullOfBlood: function() {
+		hasXP: true,
+		xpNeededToBeFull: 50,
+		xpBarColor: 'red',
+		isFullXP: function() {
 			if (!Shop.has('giantbloodrats')) {
 				Shop.unlock('giantbloodrats');
+				Achievements.gain('giantassrat');
 			}
 		},
 		cost: {
@@ -335,6 +340,9 @@
 			let desc = 'If you cut your friends good, they will bleed nicely. They have a chance to leak blood each time they activate.';
 			return desc;
 		},
+		buy: function() {
+			Achievements.gain('youhavebeenbad');
+		},
 		shortName: 'deepcuts',
 		cost: {
 			xp: {
@@ -363,6 +371,9 @@
 			let desc = '<span class="red red-glow">Blood is power</span><br/>Each 1% of blood you have adds to the multiplier of Bootloader';
 			return desc;
 		},
+		buy: function() {
+			Achievements.gain('bloodloader');	
+		},
 		shortName: 'blutloader',
 		cost: {
 			xp: {
@@ -371,6 +382,24 @@
 			levels:{
 				MM: 70,
 				MC: 70
+			}
+		}
+	});
+	Boosts.newBoost({
+		name: 'Bloodbalancer',
+		icon: 'balance-scale red red-glow',
+		getDescription: function() {
+			let desc = '<span class="red red-glow">Blood is power</span><br/>When MM levels are lower than MC levels, each 1% of blood you have adds to the multiplier of MM XP gained';
+			return desc;
+		},
+		shortName: 'bloodbalancer',
+		cost: {
+			xp: {
+				blood: 50,
+			},
+			levels:{
+				MM:  50,
+				MC: 150
 			}
 		}
 	});
@@ -425,7 +454,9 @@
 			}
 		},
 		buy: function(me) {
+			Achievements.gain('firstquest');
 			Game.getModule('bip').killGiantRat(me);
+			Display.notify('You killed the giant rat');
 		},
 	});
 	Boosts.newBoost({
@@ -455,4 +486,4 @@
 		}
 	});
 	
-})(gameObjects.Game, gameObjects.Boosts, gameObjects.Display, gameObjects.Shop, gameObjects.Loot);
+})(gameObjects.Game, gameObjects.Boosts, gameObjects.Display, gameObjects.Shop, gameObjects.Achievements);

@@ -9,7 +9,7 @@
 
     Loot.categories.push({
             category: 'ratstomach',
-            baseLootChance: 1/3,
+            baseLootChance: 1,
             getLootChance: function() { return this.baseLootChance; },
             boosts: []
         },

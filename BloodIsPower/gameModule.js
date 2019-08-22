@@ -19,6 +19,7 @@
         xpGained: function(me) {
             if (me.saveableState.xp >= this.xpRequiredForNextLevel) {
                 me.saveableState.xp = this.xpRequiredForNextLevel;
+                Achievements.gain('somuchblood');
             }
         },
         isToBeDisplayedNormally: false
@@ -72,6 +73,10 @@
             && !Shop.isAvailable('unritualisticsacrifice')) {
             Shop.unlock('unritualisticsacrifice');
         }
+        if (Friends.friend('aldo').getXpPerActivation() > 1000
+            && !Shop.has('bloodbalancer')) {
+            Shop.unlock('bloodbalancer');
+        }
         if (Friends.friend('aldo').getXpPerActivation() > 10000
            && !Shop.isAvailable('bloodthirstybarnabeus')) {
             Shop.unlock('bloodthirstybarnabeus');
@@ -87,7 +92,7 @@
         }
         if (Friends.friend('aldo').getLevel() == 10
             && Friends.friend('barnabeus').getLevel() == 10
-            && !Shop.isAvailable('rxtbloodinjector')) {
+            && !Shop.has('rxtbloodinjector')) {
             Shop.unlock('rxtbloodinjector');
         }
         if (Shop.has('deepcuts')

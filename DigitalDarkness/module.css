@@ -1,8 +1,11 @@
+:root {
+    --digital-color: #00ff80;
+}
 
 .digital {
-    color: #00ff80;
+    color: var(--digital-color);
 }
 
 .digital-glow {
-    text-shadow: 0px 0px 5px #00ff80;
+    text-shadow: 0px 0px 5px var(--digital-color);
 }

@@ -44,11 +44,14 @@
         if (roll <= lootChance) {
 
             let looted = false;
-            while (!looted) {
+            while (!looted && lootCategory.boosts.length == 0) {
                 let lootedBoost = lootCategory.boosts[Math.floor(Math.random()*lootCategory.boosts.length)];
                 lootCategory.boosts = lootCategory.boosts.filter(b => b != lootedBoost);
-                if (!lootedBoost.isBought()) {
-                    Display.notifyLoot();
+                if (Shop.boost(lootedBoost) == undefined){
+                    console.debug('invalid loot', lootedBoost);
+                }
+                else if (!Shop.has(lootedBoost)) {
+                    Display.notifyLoot(lootedBoost);
                     Shop.unlock(lootedBoost);
                     looted = true;
                 }

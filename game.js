@@ -20,10 +20,13 @@
 					let baseXp = 10;
 					if (Shop.has('blutloader')) {
 						baseXp *= Math.floor(Game.currency('blood').getXp());
-						Shop.boost('bootloader').hasEatenBlood(1);
+						Shop.boost('bootloader').gainXP(1);
 					}
 					if (Shop.has('digitalsacrifice')) {
 						baseXp *= 1 + Math.pow(1.1, Shop.boost('sacrifice-mm').getPower());
+					}
+					if (Shop.has('bloodbalancer') && Game.currency('MM').getLevel() < Game.currency('MC').getLevel()) {
+						baseXp *= Math.floor(Game.currency('blood').getXp());
 					}
 					Game.acquireXp('MM', baseXp);
 				}
@@ -37,7 +40,7 @@
 					}
 					if (Shop.has('rxtbloodinjector')) {
 						xp *= 1 + Math.pow(1 + Shop.boost('rxtbloodinjector').getPower(), Shop.boost('sacrifice-mm').getPower());
-						Shop.boost('rxtinjectordown').hasEatenBlood(1);
+						Shop.boost('rxtinjectordown').gainXP(1);
 					}
 					xp *= (Shop.has('addonenhancer') ? Shop.boost('addonenhancer').saveableState.power : 1);
 					Game.acquireXp('MC', xp);
@@ -59,7 +62,7 @@
 					let baseXp = 10;
 					if (Shop.has('blutloader')) {
 						baseXp *= Math.floor(Game.currency('blood').getXp());
-						Shop.boost('bootloader').hasEatenBlood(1);
+						Shop.boost('bootloader').gainXP(1);
 					}
 					if (Shop.has('digitalsacrifice')) {
 						baseXp *= 1 + Math.pow(1.1, Shop.boost('sacrifice-mc').getPower());
@@ -76,7 +79,7 @@
 					}
 					if (Shop.has('rxtbloodinjector')) {
 						xp *= 1 + Math.pow(1 + Shop.boost('rxtbloodinjector').getPower(), Shop.boost('sacrifice-mc').getPower());
-						Shop.boost('rxtinjectorup').hasEatenBlood(1);
+						Shop.boost('rxtinjectorup').gainXP(1);
 					}
 					xp *= (Shop.has('addonenhancer') ? Shop.boost('addonenhancer').saveableState.power : 1);
 					Game.acquireXp('MM', xp);
@@ -224,7 +227,7 @@
 		if (Shop.has('ratscavengers')) {
 			let amount = 0.5;
 			Game.acquireXp('blood', amount);
-			Shop.boost('ratscavengers').hasEatenBlood(amount);
+			Shop.boost('ratscavengers').gainXP(amount);
 			Shop.boost('ratscavengers').saveableState.power++;
 		}
 	}

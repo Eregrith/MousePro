@@ -229,9 +229,9 @@
 					ownedBoost.classList.remove('active');
 				}
 
-				if (boost.eatsBlood) {
-					let bloodDiv = ownedBoost.getElementsByClassName('boost-blood-xp')[0];
-					bloodDiv.style.width = boost.getFullnessPercent() + '%';
+				if (boost.hasXP) {
+					let xpDiv = ownedBoost.getElementsByClassName('boost-xp')[0];
+					xpDiv.style.width = boost.getFullnessPercent() + '%';
 				}
 			}
 		});
@@ -302,11 +302,12 @@
 			mainDiv.appendChild(lootLabel);
 		}
 
-		if (boost.eatsBlood) {
-			let bloodDiv = document.createElement('div');
-			bloodDiv.className = 'boost-blood-xp';
-			bloodDiv.style.width = boost.getFullnessPercent() + '%';
-			mainDiv.appendChild(bloodDiv);
+		if (boost.hasXP) {
+			let xpDiv = document.createElement('div');
+			xpDiv.className = 'boost-xp';
+			xpDiv.style.width = boost.getFullnessPercent() + '%';
+			xpDiv.style.backgroundColor = boost.xpBarColor;
+			mainDiv.appendChild(xpDiv);
 		}
 		
 		return mainDiv;
@@ -532,8 +533,9 @@
 		Display.notify(achievementGainedMsg, 'achievement');
 	}
 	
-	Display.notifyLoot = function() {
+	Display.notifyLoot = function(lootedBoost) {
 		Display.notify('You found something', 'loot');
+		Display.notify(Shop.boost(lootedBoost).name + ' unlocked', 'loot');
 	}
 	
 	Display.notifs = [];
@@ -548,7 +550,7 @@
 		let notif = {
 			category: category,
 			targetX: x,
-			targetY: y - 75,
+			targetY: y - 750,
 			opacity: 100,
 			x: x,
 			y: y,

@@ -105,18 +105,6 @@ Achievements = {};
 			shortName: 'ephemeral',
 			description: 'Miss 10 ephemeral boosts by letting them die',
 			acquired: false
-		},
-		{
-			name: 'Blood Is Power',
-			shortName: 'truekriss',
-			description: 'Happy harvesting',
-			acquired: false
-		},
-		{
-			name: 'Bloodthirst',
-			shortName: 'bloodthirst',
-			description: 'Maybe you shouldn\'t let him eat that',
-			acquired: false
 		}
 	];
 	
@@ -126,6 +114,7 @@ Achievements = {};
 	
 	Achievements.gain = function(achievementShortName) {
 		let ach = Achievements.achievement(achievementShortName);
+		if (ach == undefined || ach.acquired) return;
 		ach.acquired = true;
 		Display.notifyAchievementGained(ach);
 		if (!Shop.has('vitrine') && Shop.has('settings')) Shop.unlock('vitrine');
@@ -133,6 +122,10 @@ Achievements = {};
 	
 	Achievements.has = function(achievementShortName) {
 		let ach = Achievements.achievement(achievementShortName);
+		if (ach == undefined) {
+			console.debug('cant find ach ', achievementShortName);
+			return false;
+		}
 		return ach.acquired;
 	}
 

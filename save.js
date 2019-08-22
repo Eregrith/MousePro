@@ -83,6 +83,8 @@
             if (typeof(boost.onRestoreSave) === typeof(Function)) {
                 boost.onRestoreSave();
             }
+            if (boost.saveableState.bloodEaten)
+                boost.saveableState.xpGained = boost.saveableState.bloodEaten;
         });
         saveGame.Friends.forEach((savedFriend) => {
             let friend = Friends.friend(savedFriend.shortName);

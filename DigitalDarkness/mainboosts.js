@@ -10,11 +10,14 @@
 	Boosts.newBoost({
 		name: 'Old TV',
         icon: 'tv digital digital-glow',
-        power: 10,
+		hasXP: true,
+		xpNeededToBeFull: 10,
+		power: 0,
+		xpBarColor: 'var(--digital-color)',
 		getDescription: function() {
             let desc = 'An old TV, maybe you can repair it ?';
-            if (this.isBought() && this.power > 0) {
-                desc = 'To repair this, you need ' + this.power + ' nuts and bolts';
+            if (this.isBought() && this.saveableState.power === 0) {
+                desc = 'To repair this, you need ' + (this.xpNeededToBeFull - (this.saveableState.xpGained || 0))  + ' nuts and bolts';
             } else {
                 desc = 'A nice computer screen';
             }
@@ -24,8 +27,8 @@
             if (this.isBought())
 			    Loot.addBoostToCategory('bolts', 'ratstomach');
         },
-        isRepaired: function() {
-            this.repaired = true;
+        isFullXP: function() {
+			this.saveableState.power = 1;
             Display.notify("You repaired the Old TV ! Turns out it was a nice computer screen !");
         },
 		shortName: 'oldtv',
@@ -54,12 +57,11 @@
 				MC: 200
 			}
 		},
-		buy: function() {
+		buy: function(me) {
             let oldTV = Shop.boost('oldtv');
-            oldTV.power--;
-            if (oldTV.power = 0)
-                oldTV.isRepaired();
+            oldTV.gainXP(1);
 			Loot.addBoostToCategory('bolts', 'ratstomach');
+			me.lock();
 		}
 	});
 

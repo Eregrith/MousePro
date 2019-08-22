@@ -53,20 +53,21 @@
                 return this.saveableState.bought;
             },
             isActivable: settings.isActivable || false,
-            eatsBlood: settings.eatsBlood || false,
-            hasEatenBlood: function(amount) {
-                if (this.saveableState.bloodEaten == null) this.saveableState.bloodEaten = 0;
-                this.saveableState.bloodEaten += amount;
-                let isFull = this.saveableState.bloodEaten >= this.bloodNeededToBeFull;
-                if (isFull && typeof(settings.isFullOfBlood) === typeof(Function)) {
-                    settings.isFullOfBlood();
+            xpBarColor: settings.xpBarColor || 'lightgray',
+            hasXP: settings.hasXP || false,
+            gainXP: function(amount) {
+                if (this.saveableState.xpGained == null) this.saveableState.xpGained = 0;
+                this.saveableState.xpGained += amount;
+                let isFull = this.saveableState.xpGained >= this.xpNeededToBeFull;
+                if (isFull && typeof(settings.isFullXP) === typeof(Function)) {
+                    settings.isFullXP();
                 }
             },
             getFullnessPercent: function() {
-                if (!this.saveableState.bloodEaten) return 0;
-                if (!this.bloodNeededToBeFull) return 0;
-                if (this.saveableState.bloodEaten >= this.bloodNeededToBeFull) return 100;
-                return (this.saveableState.bloodEaten / this.bloodNeededToBeFull) * 100;
+                if (!this.saveableState.xpGained) return 0;
+                if (!this.xpNeededToBeFull) return 0;
+                if (this.saveableState.xpGained >= this.xpNeededToBeFull) return 100;
+                return (this.saveableState.xpGained / this.xpNeededToBeFull) * 100;
             },
             isActive: function() {
                 return this.saveableState.active;

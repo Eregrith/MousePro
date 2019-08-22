@@ -104,8 +104,9 @@
 		icon: 'arrow-down',
 		getDescription: function() { return 'Redundant XP Transfer will give MC XP based on the MM level attained when it triggers.'; },
 		shortName: 'rxtinjectordown',
-		eatsBlood: true,
-		bloodNeededToBeFull: 10,
+		hasXP: true,
+		xpNeededToBeFull: 10,
+		xpBarColor: 'red',
 		isFullOfBlood: function () {
 			if (!Shop.has('blutloader'))
 				Shop.unlock('blutloader');
@@ -122,8 +123,9 @@
 		icon: 'arrow-up',
 		getDescription: function() { return 'Redundant XP Transfer will give MM XP based on the MC level attained when it triggers.'; },
 		shortName: 'rxtinjectorup',
-		eatsBlood: true,
-		bloodNeededToBeFull: 10,
+		hasXP: true,
+		xpNeededToBeFull: 10,
+		xpBarColor: 'red',
 		isFullOfBlood: function () {
 			if (!Shop.has('blutloader'))
 				Shop.unlock('blutloader');
@@ -140,8 +142,9 @@
 		icon: 'download',
 		getDescription: function() { return 'Kickstarts MM with '+Display.beautify(this.getMMXp()) +' xp and MC with '+Display.beautify(this.getMCXp()) + ' xp when they level up'; },
 		shortName: 'bootloader',
-		eatsBlood: true,
-		bloodNeededToBeFull: 10,
+		hasXP: true,
+		xpNeededToBeFull: 10,
+		xpBarColor: 'red',
 		getMMXp: function() {
 			let baseXp = 10;
 			if (Shop.has('blutloader')){
