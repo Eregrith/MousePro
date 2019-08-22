@@ -107,7 +107,7 @@
 		hasXP: true,
 		xpNeededToBeFull: 10,
 		xpBarColor: 'red',
-		isFullOfBlood: function () {
+		isFullXP: function () {
 			if (!Shop.has('blutloader'))
 				Shop.unlock('blutloader');
 		},
@@ -126,7 +126,7 @@
 		hasXP: true,
 		xpNeededToBeFull: 10,
 		xpBarColor: 'red',
-		isFullOfBlood: function () {
+		isFullXP: function () {
 			if (!Shop.has('blutloader'))
 				Shop.unlock('blutloader');
 		},
@@ -165,7 +165,7 @@
 			}
 			return baseXp;
 		},
-		isFullOfBlood: function() {
+		isFullXP: function() {
 			if (!Shop.has('digitalsacrifice')) {
 				Shop.unlock('digitalsacrifice');
 			}
