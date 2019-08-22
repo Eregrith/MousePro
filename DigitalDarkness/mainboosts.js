@@ -27,8 +27,8 @@
             if (this.isBought())
 			    Loot.addBoostToCategory('bolts', 'ratstomach');
         },
-        isFullXP: function() {
-			this.saveableState.power = 1;
+        isFullXP: function(me) {
+			me.saveableState.power = 1;
             Display.notify("You repaired the Old TV ! Turns out it was a nice computer screen !");
         },
 		shortName: 'oldtv',
@@ -60,8 +60,8 @@
 		buy: function(me) {
             let oldTV = Shop.boost('oldtv');
             oldTV.gainXP(1);
-			Loot.addBoostToCategory('bolts', 'ratstomach');
 			me.lock();
+			Loot.addBoostToCategory('bolts', 'ratstomach');
 		}
 	});
 

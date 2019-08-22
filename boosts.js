@@ -60,7 +60,7 @@
                 this.saveableState.xpGained += amount;
                 let isFull = this.saveableState.xpGained >= this.xpNeededToBeFull;
                 if (isFull && typeof(settings.isFullXP) === typeof(Function)) {
-                    settings.isFullXP();
+                    settings.isFullXP(this);
                 }
             },
             getFullnessPercent: function() {
@@ -87,9 +87,9 @@
                     }
                 }
             },
-            die: function() {
+            die: function(manual) {
                 this.lock();
-                Game.ephemeralDeath(this);
+                Game.ephemeralDeath(this, manual);
             },
             getEphemeralDescription: function(Display) {
                 let lifeInSeconds = Math.round(boost.lifeDurationInTicks / Display.framesPerSecond());

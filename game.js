@@ -213,14 +213,14 @@
 		}
 	}
 
-	Game.ephemeralDeath = function(boost) {
+	Game.ephemeralDeath = function(boost, manual) {
 		let anchor = Shop.boost('anchor');
 		anchor.saveableState.power++;
 		if (anchor.saveableState.power >= 10 && !Achievements.has('ephemeral')) {
 			Shop.unlock('anchor');
 			Achievements.gain('ephemeral');
 		}
-		if (Shop.has('ottovonsacrifice') && Shop.boost('ottovonsacrifice').isActive()) {
+		if (!manual && Shop.has('ottovonsacrifice') && Shop.boost('ottovonsacrifice').isActive()) {
 			boost.unlock();
 			boost.buy();
 		}

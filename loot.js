@@ -49,7 +49,7 @@
                 lootCategory.boosts = lootCategory.boosts.filter(b => b != lootedBoost);
                 if (Shop.boost(lootedBoost) == undefined){
                     console.debug('invalid loot', lootedBoost);
-                }
+                }   
                 else if (!Shop.has(lootedBoost)) {
                     Display.notifyLoot(lootedBoost);
                     Shop.unlock(lootedBoost);

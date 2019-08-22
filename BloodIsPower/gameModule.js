@@ -74,7 +74,7 @@
             Shop.unlock('unritualisticsacrifice');
         }
         if (Friends.friend('aldo').getXpPerActivation() > 1000
-            && !Shop.has('bloodbalancer')) {
+            && !Shop.isAvailable('bloodbalancer')) {
             Shop.unlock('bloodbalancer');
         }
         if (Friends.friend('aldo').getXpPerActivation() > 10000
@@ -140,7 +140,7 @@
         let boost = Shop.boost(shortName);
 
         if (boost.ephemeral && boost.isUnlocked()) {
-            boost.die();
+            boost.die(true);
             gameModule.harvestBlood(1);
             Display.needsRepaintImmediate = true;
         }

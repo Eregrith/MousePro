@@ -81,7 +81,7 @@
 			Display.refreshBoostsOwned();
 			Display.refreshAchievements();
 			Stats.refreshStats();
-		}
+		}	
 		Game.tick();
 	}
 	
@@ -157,7 +157,6 @@
 					buyButton.classList.remove('disabled');
 			}
 		});
-
 	}
 	
 	Display.refreshAchievements = function() {
@@ -294,7 +293,7 @@
 
 			mainDiv.appendChild(buyButton);
 		}
-			
+
 		if (boost.isLoot) {
 			let lootLabel = document.createElement('div');
 			lootLabel.classList = ['boost-loot-label'];
@@ -312,7 +311,7 @@
 		
 		return mainDiv;
 	}
-	
+
 	Display.refreshFriends = function() {
 		let friends = Friends.friends.filter(f => f.canBuy());
 		if (friends.length == 0) return;
