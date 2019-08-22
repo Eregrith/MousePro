@@ -50,15 +50,13 @@
         let sacrificeMM = Shop.boost('sacrifice-mm');
         let sacrificeMC = Shop.boost('sacrifice-mc');
 
-        if (sacrificeMM.saveableState.power >= 10
+        if ((sacrificeMM.saveableState.power >= 10 || sacrificeMC.saveableState.power >= 10)
             && !Achievements.has('bloodthirst')) {
-            Shop.unlock('bloodthirstyaldo');
             Achievements.gain('bloodthirst');
         }
-        if (sacrificeMC.saveableState.power >= 10
-            && !Achievements.has('bloodthirst')) {
-            Shop.unlock('bloodthirstyaldo');
-            Achievements.gain('bloodthirst');
+        if (Achievements.has('bloodthirst')
+            && !Shop.isAvailable('bloodthirstyaldo')) {
+                Shop.unlock('bloodthirstyaldo');
         }
         if ((sacrificeMC.saveableState.power >= 50
             || sacrificeMM.saveableState.power >= 50)
