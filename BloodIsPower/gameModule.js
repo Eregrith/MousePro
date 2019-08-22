@@ -15,10 +15,10 @@
         color: 'red',
         iconTag: '<i class="fa fa-tint currency-icon"></i>',
         xpLabel: '%',
-        xpRequiredForNextLevel: 100,
+        xpRequiredForNextLevel: 101,
         xpGained: function(me) {
-            if (me.saveableState.xp >= this.xpRequiredForNextLevel) {
-                me.saveableState.xp = this.xpRequiredForNextLevel;
+            if (me.saveableState.xp >= 100) {
+                me.saveableState.xp = 100;
                 Achievements.gain('somuchblood');
             }
         },
