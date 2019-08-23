@@ -81,7 +81,7 @@
 			Display.refreshBoostsOwned();
 			Display.refreshAchievements();
 			Stats.refreshStats();
-		}	
+		}
 		Game.tick();
 	}
 	
@@ -201,8 +201,14 @@
 		return mainDiv;
 	}
 	
+	let refreshes = 0;
 	Display.refreshBoostsOwned = function() {
 		let ul = document.getElementById('owned');
+		refreshes++;
+		if (refreshes === 10) {
+			ul.innerHTML = '';
+			refreshes = 0;
+		}
 		let ownedBoosts = [...ul.getElementsByClassName('boost')];
 
 		let boosts = Shop.boosts.filter(b => b.isBought() && !b.isUnlocked());
@@ -243,7 +249,7 @@
 				}
 			}
 		});
-		boosts.sort((a, b) => { if (a.isActivable) return -1; if (b.isActivable) return 1; return 0; } ).forEach((boost) => {
+		boosts.sort((a, b) => { if (a.isActivable) return -1; if (b.isActivable) return 1; if (a.hasXP) return -1; if (b.hasXP) return 1; return 0; } ).forEach((boost) => {
 			let ownedBoost = ownedBoosts.filter(sb => sb.id == 'boost-' + boost.shortName);
 			if (ownedBoost.length == 0) {
 				let boostItem = Display.buildDisplayItemForBoost(boost);
@@ -301,6 +307,14 @@
 			buyButton.addEventListener('click', function() { Shop.buy(boost.shortName) });
 
 			mainDiv.appendChild(buyButton);
+		}
+		
+		if (boost.isActive()) {
+			mainDiv.classList.remove('inactive');
+			mainDiv.classList.add('active');
+		} else {
+			mainDiv.classList.add('inactive');
+			mainDiv.classList.remove('active');
 		}
 
 		if (boost.isLoot) {

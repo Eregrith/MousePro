@@ -39,7 +39,8 @@
                 this.saveableState.level++;
                 if (settings.levelUp)
                     settings.levelUp(this);
-                Display.notifyLevelUp(this);
+                if (this.isToBeDisplayedNormally)
+                    Display.notifyLevelUp(this);
                 if (this.saveableState.highestLevelAttained == undefined
                     || this.saveableState.level > this.saveableState.highestLevelAttained)
                     this.saveableState.highestLevelAttained = this.saveableState.level;

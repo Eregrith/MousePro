@@ -34,7 +34,7 @@
         },
 		shortName: 'oldtv',
 		cost: {
-			xp: {
+			levels: {
 				MM: 100,
 				MC: 100
 			}
@@ -53,7 +53,7 @@
 		},
 		shortName: 'bolts',
 		cost: {
-			xp: {
+			levels: {
 				MM: 200,
 				MC: 200
 			}

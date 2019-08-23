@@ -74,6 +74,14 @@
 		icon: 'portrait',
 		getDescription: function() { return 'This will help you find lambs to slaughter. Doubles the chance to have a ready sacrifice.'; },
 		shortName: 'posters',
+		hasXP: true,
+		xpNeededToBeFull: 200,
+		xpBarColor: 'red',
+		isFullXP: function() {
+			if (!Shop.isAvailable('pheromones')) {
+				Shop.unlock('pheromones');
+			}
+		},
 		cost: {
 			levels: {
 				MM: 5, 
@@ -82,9 +90,21 @@
 		}
 	});
 	Boosts.newBoost({
+		name: 'Pheromones',
+		icon: 'spray-can red red-glow',
+		getDescription: function() { return 'The blood you splashed on the posters has a weird attractive effect. More people are showing up the more blood you have.'; },
+		shortName: 'pheromones',
+		cost: {
+			levels: {
+				MM: 69, 
+				MC: 42
+			}
+		}
+	});
+	Boosts.newBoost({
 		name: 'Serrated blade',
 		icon: 'serratedblade',
-		getDescription: function() { return 'A part of a nice knife. Your sacrifices yield +10% of xp required for next level.'; },
+		getDescription: function() { return 'Part 1/5 of a nice knife. Your sacrifices yield +10% of xp required for next level.'; },
 		shortName: 'serratedblade',
 		cost: {
 			levels: {
@@ -97,7 +117,7 @@
 	Boosts.newBoost({
 		name: 'Ruby pommel',
 		icon: 'rubypommel',
-		getDescription: function() { return 'A part of a nice knife. Your sacrifices yield +10% of xp required for next level.'; },
+		getDescription: function() { return 'Part 2/5 of a nice knife. Your sacrifices yield +10% of xp required for next level.'; },
 		shortName: 'rubypommel',
 		cost: {
 			levels: {
@@ -110,7 +130,7 @@
 	Boosts.newBoost({
 		name: 'Sculpted Dragon Grip',
 		icon: 'dragongrip',
-		getDescription: function() { return 'A part of a nice knife. Your sacrifices yield +10% of xp required for next level.'; },
+		getDescription: function() { return 'Part 3/5 of a nice knife. Your sacrifices yield +10% of xp required for next level.'; },
 		shortName: 'dragongrip',
 		cost: {
 			levels: {
@@ -123,7 +143,7 @@
 	Boosts.newBoost({
 		name: 'Diamond Blade-Tip',
 		icon: 'diamondbladetip',
-		getDescription: function() { return 'A part of a nice knife. Your sacrifices yield +10% of xp required for next level.'; },
+		getDescription: function() { return 'Part 4/5 of a nice knife. Your sacrifices yield +10% of xp required for next level.'; },
 		shortName: 'diamondbladetip',
 		cost: {
 			levels: {
@@ -136,7 +156,7 @@
 	Boosts.newBoost({
 		name: 'Cheater\'s scabbard',
 		icon: 'cheatersscabbard',
-		getDescription: function() { return 'A part of a nice knife. Your sacrifices yield +10% of xp required for next level.'; },
+		getDescription: function() { return 'Part 5/5 of a nice knife. Your sacrifices yield +10% of xp required for next level.'; },
 		shortName: 'cheatersscabbard',
 		cost: {
 			levels: {
@@ -280,7 +300,7 @@
 		},
 		shortName: 'ottovonsacrifice',
 		hasXP: true,
-		xpNeededToBeFull: 100,
+		xpNeededToBeFull: 60,
 		xpBarColor: 'red',
 		isFullXP: function() {
 			if (!Shop.isAvailable('noxiousfumes'))
@@ -480,6 +500,8 @@
 	Boosts.newBoost({
 		name: 'Blood Catalyzer',
 		icon: 'bolt red red-glow',
+		hasXP: true,
+		xpNeededToBeFull: 1,
 		getDescription: function() {
 			let desc = 'You\'re going to need a weapon if you want to kill those big rats.';
 			if (this.isBought()) {
@@ -489,7 +511,7 @@
 			return desc;
 		},
 		makeSpike: function () {
-			let costForOneSpike = {xp: { blood: 20} };
+			let costForOneSpike = {xp: { blood: 20 } };
 			if (Game.hasCurrency(costForOneSpike)) {
 				Game.spend(costForOneSpike);
 				let currency = Game.currency('bloodSpikes');

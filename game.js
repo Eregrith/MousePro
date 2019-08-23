@@ -153,6 +153,8 @@
 			let sacrificeChance = 0.0005;
 			if (Shop.has('posters'))
 				sacrificeChance *= 2;
+			if (Shop.has('pheromones'))
+				sacrificeChance *= Math.floor(Game.currency('blood').getXp());
 			if (Math.random() < sacrificeChance) {
 				if (Math.random() < 0.5)
 					Shop.unlock('sacrifice-mm');

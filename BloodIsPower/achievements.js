@@ -11,7 +11,7 @@
 		{
 			name: 'Blood Is Power',
 			shortName: 'truekriss',
-			description: 'Happy harvesting',
+			description: 'Find the 5 parts of the legendary blade: Happy harvesting',
 			acquired: false
 		},
 		{

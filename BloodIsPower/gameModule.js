@@ -147,6 +147,9 @@
     gameModule.harvestBlood = function(blood) {
         if (Shop.has('biggerbuckets')) blood += 1;
 
+        if (Shop.has('posters')) {
+            Shop.boost('posters').gainXP(blood);
+        }
         Game.acquireXp('blood', blood);
     }
 
