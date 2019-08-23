@@ -10,24 +10,34 @@
     let displayModule = {};
     
     displayModule.refresh = function() {
-        displayModule.updateCurrency(Game.currency('blood'));
+        if (Shop.has('truekriss'))
+            displayModule.updateCurrency(Game.currency('blood'));
+        if (Shop.has('bloodcatalyzer'))
+            displayModule.updateCurrency(Game.currency('bloodSpikes'));
     }
 
     displayModule.updateCurrency = function(currency) {
-        if (!Shop.has('truekriss')) return;
-
         displayModule.displayCurrency(currency);
 
-		let xpDiv = document.getElementById('currency-'+currency.shortName+'-xp');
-		xpDiv.innerHTML = currency.getXp().toFixed(2) + '%';
-		
-		let progressBar = document.getElementById('currency-' + currency.shortName + '-bar');
-		let progressPercent = currency.getXp();
-		progressBar.style = 'height: '+progressPercent+'%;bottom: -'+(100-progressPercent)+'%';
+        let xpDiv = document.getElementById('currency-'+currency.shortName+'-xp');
+        if (xpDiv) {
+		    xpDiv.innerHTML = currency.getXp().toFixed(2) + '%';
+        }
+
+        let progressBar = document.getElementById('currency-' + currency.shortName + '-bar');
+        if (progressBar) {
+            let progressPercent = currency.getXp();
+            progressBar.style = 'height: '+progressPercent+'%;bottom: -'+(100-progressPercent)+'%';
+        }
+
+        let levels = document.getElementById('currency-' + currency.shortName + '-levels');
+        if (levels) {
+            levels.innerHTML = currency.getLevel();
+        }
     }
     
     displayModule.displayCurrency = function(currency) {
-        let div = document.getElementById('blood');
+        let div = document.getElementById(currency.shortName);
         div.style.display = '';
     }
 

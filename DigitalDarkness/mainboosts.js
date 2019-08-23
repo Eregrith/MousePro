@@ -5,7 +5,7 @@
 * DigitalDarkness/Main Boosts.js
 */
 
-(function (Game, Boosts, Display, Shop, Loot) {
+(function (Game, Boosts, Display, Shop, Loot, Achievements) {
 
 	Boosts.newBoost({
 		name: 'Old TV',
@@ -66,4 +66,4 @@
 		}
 	});
 
-})(gameObjects.Game, gameObjects.Boosts, gameObjects.Display, gameObjects.Shop, gameObjects.Loot);
+})(gameObjects.Game, gameObjects.Boosts, gameObjects.Display, gameObjects.Shop, gameObjects.Loot, gameObjects.Achievements);
