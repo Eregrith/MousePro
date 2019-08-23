@@ -148,30 +148,8 @@
 	
 	Game.tick = function() {
 		Friends.friends.forEach((friend) => Friends.tick(friend));
-		if (Shop.has('kriss') && !Shop.boost('sacrifice-mc').isUnlocked() && !Shop.boost('sacrifice-mm').isUnlocked() )
-		{
-			let sacrificeChance = 0.0005;
-			if (Shop.has('posters'))
-				sacrificeChance *= 2;
-			if (Shop.has('pheromones'))
-				sacrificeChance *= Math.floor(Game.currency('blood').getXp());
-			if (Math.random() < sacrificeChance) {
-				if (Math.random() < 0.5)
-					Shop.unlock('sacrifice-mm');
-				else
-					Shop.unlock('sacrifice-mc');
-			}
-		}
-		if (Shop.has('giantbloodrats') && !Shop.boost('giantrat').isUnlocked()) {
-			let giantRatChance = 0.0005;
-			if (Math.random() < giantRatChance) {
-				Shop.unlock('giantrat');
-				if (!Shop.has('bloodcatalyzer')) {
-					Shop.unlock('bloodcatalyzer');
-				}
-			}
-		}
-		Shop.boosts.filter(b => b.tick != undefined).forEach((boost) => boost.tick());
+		Game.modules.filter(m => typeof(m.gameModule.tick) === typeof(Function)).forEach(m => m.gameModule.tick());
+		Shop.boosts.filter(b => typeof(b.tick) === typeof(Function)).forEach((boost) => boost.tick());
 	}
 
 	Game.currency = function(currencyShortName) {
