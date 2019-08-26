@@ -43,6 +43,8 @@ ul {
 .scroller {
 	height: 94%;
 	overflow-y: auto;
+    display: block;
+    width: auto;
 }
 
 .btn {
@@ -226,10 +228,12 @@ body[gameFont=Helvetica] .boost-ephemeral {
 .shop::before {
 	content: 'SHOP';
 	position: relative;
-	top: -10px;
+	top: -15px;
 	left: 10px;
 	background: var(--background-color);
 	padding: 5px;
+	display: block;
+	width: 80px;
 }
 
 /*
@@ -314,10 +318,12 @@ body[gameFont=Helvetica] .friend-desc {
 .owned::before {
 	content: 'OWNED BOOSTS';
 	position: relative;
-	top: -10px;
+	top: -15px;
 	left: 10px;
 	background: var(--background-color);
 	padding: 5px;
+	width: 150px;
+	display: block;
 }
 
 /*

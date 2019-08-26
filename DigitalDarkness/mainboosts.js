@@ -11,26 +11,64 @@
 		name: 'Old TV',
         icon: 'tv digital digital-glow',
 		hasXP: true,
+		category: 'digital',
 		xpNeededToBeFull: 10,
 		power: 0,
 		xpBarColor: 'var(--digital-color)',
+		_isBrowsing: true,
+		isBrowsing: function() {
+			return this.saveableState._isBrowsing;
+		},
 		getDescription: function() {
             let desc = 'An old TV, maybe you can repair it ?';
             if (this.isBought() && this.saveableState.power === 0) {
                 desc = 'To repair this, you need ' + (this.xpNeededToBeFull - (this.saveableState.xpGained || 0))  + ' nuts and bolts';
             } else {
-                desc = 'A nice computer screen';
+				desc = 'A nice computer screen.';
+				if (!this.isBrowsing()) {
+					desc += '<br/><div class="btn" onclick="gameObjects.Shop.boost(\'oldtv\').startBrowsing()"><i class="fa fa-search digital digital-glow"></i> Browse the dark web</div>';
+				} else {
+					desc += '<br/>Browsing...';
+				}
             }
             return desc;
-        },
+		},
+		startBrowsing: function() {
+			this.xpNeededToBeFull = 1000;
+			this.saveableState._isBrowsing = true;
+		},
+		finishBrowsing: function() {
+			if (!this.saveableState._isBrowsing) return;
+			this.saveableState.xpGained = 0;
+			Display.notify("Browsing finished !");
+			if (Game.currency('DWK').getLevel() > 4) {
+				if (!Shop.has('police'))
+					Display.notify("The police is starting to get some interest in you");
+				else
+					Display.notify("Police interest in you grows");
+				Game.getModule('dd').gainPoliceInterest(1);
+			} else {
+				Display.notify("You found disturning things and knowledge !");
+			}
+			this.saveableState._isBrowsing = false;
+			let baseXP = 1;
+			if (Shop.has('tor')) {
+				baseXP += 1;
+			}
+			Game.acquireXp('DWK', baseXP);
+		},
         onRestoreSave: function() {
             if (this.isBought())
-			    Loot.addBoostToCategory('bolts', 'ratstomach');
-        },
+				Loot.addBoostToCategory('bolts', 'ratstomach');
+			if (this.saveableState.power > 0)
+				this.isFullXP = this.finishBrowsing;
+		},
         isFullXP: function(me) {
+			this.saveableState.xpGained = 0;
 			me.saveableState.power = 1;
 			Display.notify("You repaired the Old TV ! Turns out it was a nice computer screen !");
 			Achievements.gain('betterthantape');
+			me.isFullXP = me.finishBrowsing;
         },
 		shortName: 'oldtv',
 		cost: {
@@ -46,7 +84,7 @@
 	Boosts.newBoost({
 		name: 'Nuts And Bolts',
         icon: 'cog digital digital-glow',
-        power: 10,
+		category: 'digital',
 		getDescription: function() {
             let desc = 'Nuts and bolts, is it better than repair tape?';
             return desc;
@@ -59,10 +97,106 @@
 			}
 		},
 		buy: function(me) {
-            let oldTV = Shop.boost('oldtv');
-            oldTV.gainXP(1);
+			let oldTV = Shop.boost('oldtv');
+			if (oldTV.saveableState.power === 0)
+				oldTV.gainXP(1);
+			else {
+				Shop.boost('backyard').saveableState.bought = true;
+				Shop.boost('backyard').saveableState.power++;
+			}
 			me.lock();
 			Loot.addBoostToCategory('bolts', 'ratstomach');
+		}
+	});
+	Boosts.newBoost({
+		name: 'Backyard',
+        icon: 'cog digital digital-glow',
+		category: 'digital',
+		power: 0,
+		getDescription: function() {
+			let desc = 'Storage for your crap';
+			desc += 'You have ' + this.saveableState.power + ' <i class="fa fa-cog digital digital-glow"></i> nuts and bolts';
+            return desc;
+		},
+		shortName: 'backyard'
+	});
+	Boosts.newBoost({
+		name: 'Favorites',
+        icon: 'star digital digital-glow',
+		category: 'digital',
+		getDescription: function() {
+            let desc = 'Your knowledge of the darkweb is starting to get messy. Let\'s add some order to all of this';
+            return desc;
+		},
+		shortName: 'favorites',
+		cost: {
+			xp: {
+				DWK: 5,
+			}
+		}
+	});
+	Boosts.newBoost({
+		name: 'The Onion Router',
+        icon: 'onion',
+		category: 'digital',
+		getDescription: function() {
+            let desc = 'You can browse deeper and safer, gainin 1 more Dark Web Knowledge XP per browsing.';
+            return desc;
+		},
+		shortName: 'tor',
+		cost: {
+			levels: {
+				DWK: 1,
+			}
+		}
+	});
+	Boosts.newBoost({
+		name: 'The police',
+        icon: 'car digital digital-glow',
+		category: 'digital',
+		hasXP: true,
+		xpNeededToBeFull: 20,
+		xpBarColor: 'orange',
+		isFullXP: function(me) {
+			Display.notify("The police found you and took all your hard drives !!!");
+			Game.currency('DWK').saveableState.xp = 0;
+			Game.currency('DWK').saveableState.levels = 0;
+			me.saveableState.xpGained = 0;
+		},
+		getDescription: function() {
+            let desc = 'The police is on your tracks. Better let the heat cool down or they might take all your knowledge...';
+            return desc;
+		},
+		shortName: 'police'
+	});
+	Boosts.newBoost({
+		name: 'ADSL',
+        icon: 'plug digital',
+		category: 'digital',
+		getDescription: function() {
+            let desc = 'This will help you browse a bit faster.';
+            return desc;
+		},
+		shortName: 'adsl',
+		cost: {
+			levels: {
+				DWK: 5,
+			}
+		}
+	});
+	Boosts.newBoost({
+		name: 'Optic Fiber',
+        icon: 'eye digital',
+		category: 'digital',
+		getDescription: function() {
+            let desc = 'This will help you browse a lot faster.';
+            return desc;
+		},
+		shortName: 'fiber',
+		cost: {
+			levels: {
+				DWK: 10,
+			}
 		}
 	});
 

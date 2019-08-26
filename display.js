@@ -5,7 +5,7 @@
 * Display.js
 */
 
-(function (Game, Achievements, Shop, Friends, Tabs, Stats, Display) {
+(function (Game, Achievements, Shop, Friends, Tabs, Stats, Display, BoostCategories) {
 
 	Display.tickInterval = null;
 	Display.tickIntervalValue = 10;
@@ -23,14 +23,20 @@
 	
 	Display.updateCurrency = function(currency) {
 		let xpDiv = document.getElementById('currency-'+currency.shortName+'-xp');
-		xpDiv.innerHTML = Display.beautify(currency.getXp()) + ' / ' + Display.beautify(currency.xpRequiredForNextLevel());
-		
+		if (xpDiv) {
+			xpDiv.innerHTML = Display.beautify(currency.getXp()) + ' / ' + Display.beautify(currency.xpRequiredForNextLevel());
+		}
+
 		let currencyLevel = document.getElementById('currency-'+currency.shortName+'-level');
-		currencyLevel.innerHTML = '<span>' + currency.iconTag + '&nbsp;' + currency.shortName + ' (' + currency.getLevel() + ') XP:</span>';
-		
+		if (currencyLevel) {
+			currencyLevel.innerHTML = '<span>' + currency.iconTag + '&nbsp;' + currency.shortName + ' (' + currency.getLevel() + ') XP:</span>';
+		}
+
 		let progressBar = document.getElementById('currency-' + currency.shortName + '-bar');
-		let progressPercent = Game.currencyProgressPercent(currency.shortName);
-		progressBar.style = 'width: '+progressPercent+'%;--currency-color: ' + currency.color;
+		if (progressBar) {
+			let progressPercent = Game.currencyProgressPercent(currency.shortName);
+			progressBar.style = 'width: '+progressPercent+'%;--currency-color: ' + currency.color;
+		}
 	}
 	
 	Display.beautify = function(value) {
@@ -79,6 +85,7 @@
 			Display.refreshTabs();
 			Display.refreshFriends();
 			Display.refreshBoostsOwned();
+			Display.refreshCategories();
 			Display.refreshAchievements();
 			Stats.refreshStats();
 		}
@@ -113,7 +120,7 @@
 	Display.displayCurrencies = function () {
 		let ul = document.getElementById('currencies');
 		
-		Game.currencies.filter(c => c.isToBeDisplayedNormally).forEach((currency) => {
+		Game.currencies.filter(c => c.isToBeDisplayedNormally).sort((a,b) => a.order - b.order).forEach((currency) => {
 			let currencyDiv = this.buildDisplayItemForCurrency(currency);
 			ul.appendChild(currencyDiv);
 		});
@@ -175,7 +182,7 @@
 	}
 
 	Display.refreshDisplayModules = function() {
-		Display.modules.forEach((mod) => {
+		Display.modules.filter(m => typeof(m.displayModule.refresh) === typeof(Function)).forEach((mod) => {
 			mod.displayModule.refresh();
 		})
 	}
@@ -212,6 +219,9 @@
 		let ownedBoosts = [...ul.getElementsByClassName('boost')];
 
 		let boosts = Shop.boosts.filter(b => b.isBought() && !b.isUnlocked());
+		if (BoostCategories.getActiveCategory().name !== '*') {
+			boosts = boosts.filter(b => b.category === BoostCategories.getActiveCategory().name);
+		}
 		if (boosts.length == 0)
 			ul.parentElement.parentElement.style.display = 'none';
 		else
@@ -548,6 +558,52 @@
 			}
 		});
 	}
+
+	Display.refreshCategories = function refreshCategories() {
+		let ul = document.getElementById('categories');
+		if (Shop.has('favorites')) {
+			ul.style.display = '';
+			let categories = [...ul.getElementsByClassName('boost-category')];
+			let activeCat = BoostCategories.getActiveCategory();
+			categories.forEach(cat => {
+				if (activeCat.name == cat.getAttribute('data-category-name')) {
+					cat.classList.add('active');
+				} else {
+					cat.classList.remove('active');
+				}
+			});
+
+			let boostCategories = BoostCategories.categories;
+			boostCategories.forEach(cat => {
+				let catButton =  categories.filter(c => c.getAttribute('data-category-name') === cat.name);
+				if (catButton.length === 0) {
+					catButton = Display.createCategoryButton(cat);
+					ul.appendChild(catButton);
+				}
+			});
+		}
+	}
+
+	Display.createCategoryButton = function createCategoryButton(category) {
+		let div = document.createElement('div');
+		div.className = 'boost-category';
+		div.setAttribute('data-category-name', category.name);
+		div.innerHTML = category.label;
+		if (category.icon !== '') {
+			div.innerHTML = '<div style="display:inline-block;width:20px;text-align:center;"><i class="fa fa-' + category.icon + '"></i></div> ' + div.innerHTML;
+		}
+		div.setAttribute('onclick', 'gameObjects.Display.showCategory("' + category.name + '")');
+		return div;
+	}
+
+	Display.showCategory = function showCategory(categoryName) {
+		if (!BoostCategories.category(categoryName).active) {
+			BoostCategories.activate(categoryName);
+			let ul = document.getElementById('owned');
+			ul.innerHTML = '';
+			Display.needsRepaintImmediate = true;
+		}
+	}
 	
 	Display.notifyAchievementGained = function(ach) {
 		let achievementGainedMsg = "You gained an achievement ! ";
@@ -678,4 +734,4 @@
 	
 	Display.startTicking();
 
-})(gameObjects.Game, gameObjects.Achievements, gameObjects.Shop, gameObjects.Friends, gameObjects.Tabs, gameObjects.Stats, gameObjects.Display);
+})(gameObjects.Game, gameObjects.Achievements, gameObjects.Shop, gameObjects.Friends, gameObjects.Tabs, gameObjects.Stats, gameObjects.Display, gameObjects.BoostCategories);

@@ -10,7 +10,7 @@
 	Boosts.newBoost({
 		name: 'Redundant Mouse Mover',
 		icon: 'mouse-pointer',
-		getDescription: function() { return 'This awesome mouse-addon gives you ' + this.bonusXp + ' MM XP when MM XP ends in 0 or 5' },
+		getDescription: function() { return 'This addon gives you ' + this.bonusXp + ' MM XP when MM XP ends in 0 or 5' },
 		shortName: 'rmm',
 		cost: {
 			xp: {
@@ -23,7 +23,7 @@
 	Boosts.newBoost({
 		name: 'Redundant Mouse clicker',
 		icon: 'mouse-pointer',
-		getDescription: function() { return 'This awesome mouse-addon gives you ' + this.bonusXp + ' MC XP when MC XP ends in 0 or 5'; },
+		getDescription: function() { return 'This addon gives you ' + this.bonusXp + ' MC XP when MC XP ends in 0 or 5'; },
 		shortName: 'rmc',
 		cost: {
 			xp: {
@@ -36,7 +36,7 @@
 	Boosts.newBoost({
 		name: 'Redundant XP Transfer',
 		icon: 'exchange-alt fa-rotate-90',
-		getDescription: function() { return 'This awesome mouse-addon gives you ' + this.bonusXp + ' XP in the other proficiency when you level up one'; },
+		getDescription: function() { return 'This addon gives you ' + this.bonusXp + ' XP in the other proficiency when you level up one'; },
 		shortName: 'rxt',
 		cost: {
 			xp: {
@@ -67,7 +67,7 @@
 		name: 'Addon Enhancer',
 		icon: 'star',
 		getDescription: function() {
-			return 'This little device multiplies the effects of Redundant Mouse Mover, Redundant Mouse Clicker and Redundant XP Transfer addons by '
+			return 'Multiplies the effects of Redundant Mouse Mover, Redundant Mouse Clicker and Redundant XP Transfer addons by '
 				+ (this.isUnlocked() ? this.getPower() * 2 :  this.getPower());
 		},
 		shortName: 'addonenhancer',
@@ -107,9 +107,12 @@
 		hasXP: true,
 		xpNeededToBeFull: 10,
 		xpBarColor: 'red',
-		isFullXP: function () {
-			if (!Shop.has('blutloader'))
+		isFullXP: function (me) {
+			if (!Shop.has('blutloader')) {
 				Shop.unlock('blutloader');
+			} else {
+				me.isFullXP = () => {};
+			}
 		},
 		cost: {
 			levels: {
@@ -126,9 +129,12 @@
 		hasXP: true,
 		xpNeededToBeFull: 10,
 		xpBarColor: 'red',
-		isFullXP: function () {
-			if (!Shop.has('blutloader'))
+		isFullXP: function (me) {
+			if (!Shop.has('blutloader')) {
 				Shop.unlock('blutloader');
+			} else {
+				me.isFullXP = () => {};
+			}
 		},
 		cost: {
 			levels: {
@@ -165,9 +171,11 @@
 			}
 			return baseXp;
 		},
-		isFullXP: function() {
+		isFullXP: function(me) {
 			if (!Shop.has('digitalsacrifice')) {
 				Shop.unlock('digitalsacrifice');
+			} else {
+				me.isFullXP = () => {};
 			}
 		},
 		cost: {
@@ -180,7 +188,7 @@
 	Boosts.newBoost({
 		name: 'Vitrine',
 		icon: 'tv',
-		getDescription: function() { return 'A nice place to show off what you got'; },
+		getDescription: function() { return 'A nice place to show off what achievements you have.'; },
 		shortName: 'vitrine',
 		cost: {
 			levels: {
@@ -210,7 +218,7 @@
 	Boosts.newBoost({
 		name: 'Stats',
 		icon: 'chart-bar',
-		getDescription: function() { return 'You know numbers. Here you can look at them'; },
+		getDescription: function() { return 'You know numbers. Here you can look at them.'; },
 		shortName: 'stats',
 		cost: {
 			xp: {

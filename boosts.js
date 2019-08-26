@@ -16,6 +16,7 @@
                 power: settings.power || 0,
                 active: false
             },
+            category: settings.category || 'common',
             getCost: function () {
                 if (this.cost.xp == undefined)
                     this.cost.xp = {};
@@ -62,10 +63,15 @@
             gainXP: function(amount) {
                 if (this.saveableState.xpGained == null) this.saveableState.xpGained = 0;
                 this.saveableState.xpGained += amount;
+                if (this.saveableState.xpGained < 0) return this.saveableState.xpGained = 0;
                 let isFull = this.saveableState.xpGained >= this.xpNeededToBeFull;
-                if (isFull && typeof(settings.isFullXP) === typeof(Function)) {
-                    settings.isFullXP(this);
+                if (isFull) {
+                    this.isFullXP(this);
                 }
+            },
+            _isFullXP: settings.isFullXP || function () {},
+            isFullXP: function() {
+                this._isFullXP(this);
             },
             getFullnessPercent: function() {
                 if (!this.saveableState.xpGained) return 0;

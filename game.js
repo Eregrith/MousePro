@@ -49,7 +49,8 @@
 			xpGained: function(currency) {
 				if (Shop.has('rmm') && currency.getXp() % 5 === 0)
 					currency.setXp(currency.getXp() + Shop.boost('rmm').bonusXp * (Shop.has('addonenhancer') ? Shop.boost('addonenhancer').saveableState.power : 1));
-			}
+			},
+			order: 1,
 		});
 	Currencies.newCurrency({
 			name: 'Mouse Clicker',
@@ -91,7 +92,8 @@
 			xpGained: function(currency) {
 				if (Shop.has('rmc') && currency.getXp() % 5 === 0)
 					currency.setXp(currency.getXp() + Shop.boost('rmc').bonusXp * (Shop.has('addonenhancer') ? Shop.boost('addonenhancer').saveableState.power : 1));
-			}
+			},
+			order: 1
 		});
 
 	Game.checkUnlocks = function() {
