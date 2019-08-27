@@ -107,6 +107,8 @@
 	}
 	
 	Display.notifyLevelUp = function(currency) {
+		if (Shop.boost('ottovonsacrifice').isActive() && (currency.shortName == 'MM' || currency.shortName == 'MC')) return;
+		
 		let msg = 'Level Up ! ' + currency.name + ' is now level ' + currency.getLevel() + '!';
 		if (currency.getLevel() <= currency.getHighestLevelAttained())
 		{

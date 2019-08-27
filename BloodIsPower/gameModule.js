@@ -134,7 +134,8 @@
         });
         sacrificeRatio = sacrificeRatio.toFixed(2);
         Game.acquireXp(currency, Game.currency(currency).xpRequiredForNextLevel() * sacrificeRatio);
-        Display.notify('You won ' + (sacrificeRatio * 100) + '% required ' + currency + ' xp', 'generic');
+        if (!Shop.boost('ottovonsacrifice').isActive())
+            Display.notify('You won ' + (sacrificeRatio * 100) + '% required ' + currency + ' xp', 'generic');
         Shop.lock('sacrifice-mm');
         Shop.lock('sacrifice-mc');
         Loot.tryLootCategory('knifepart');
