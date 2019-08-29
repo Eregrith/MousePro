@@ -60,6 +60,7 @@
 		buy: function () {
 			Tabs.unlock('game');
 			Tabs.unlock('settings');
+			Tabs.unlock('log');
 			Tabs.toggleActiveTabTo('game');
 		}
 	});

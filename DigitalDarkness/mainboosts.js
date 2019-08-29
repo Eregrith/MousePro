@@ -40,16 +40,17 @@
 		finishBrowsing: function() {
 			if (!this.saveableState._isBrowsing) return;
 			this.saveableState.xpGained = 0;
-			Display.notify("Browsing finished !");
+			Display.notify("Browsing finished !", 'Dark Web');
 			if (Game.currency('DWK').getLevel() > 4) {
 				if (!Shop.has('police'))
-					Display.notify("The police is starting to get some interest in you");
+					Display.notify("The police is starting to get some interest in you", 'Police');
 				else
-					Display.notify("Police interest in you grows");
+					Display.notify("Police interest in you grows", 'Police');
 				Game.getModule('dd').gainPoliceInterest(1);
 			} else {
-				Display.notify("You found disturning things and knowledge !");
+				Display.notify("You found disturning things and knowledge on the dark web !", 'Dark Web');
 			}
+			Loot.tryLootCategory('darkweb');
 			this.saveableState._isBrowsing = false;
 			let baseXP = 1;
 			if (Shop.has('tor')) {
@@ -66,7 +67,7 @@
         isFullXP: function(me) {
 			this.saveableState.xpGained = 0;
 			me.saveableState.power = 1;
-			Display.notify("You repaired the Old TV ! Turns out it was a nice computer screen !");
+			Display.notify("You repaired the Old TV ! Turns out it was a nice computer screen !", 'Dark Web');
 			Achievements.gain('betterthantape');
 			me.isFullXP = me.finishBrowsing;
         },
@@ -158,10 +159,12 @@
 		xpNeededToBeFull: 20,
 		xpBarColor: 'orange',
 		isFullXP: function(me) {
-			Display.notify("The police found you and took all your hard drives !!!");
+			Display.notify("The police found you and took all your hard drives !!!", 'Police');
 			Game.currency('DWK').saveableState.xp = 0;
-			Game.currency('DWK').saveableState.levels = 0;
+			Game.currency('DWK').saveableState.level = 0;
 			me.saveableState.xpGained = 0;
+			if (!Achievements.has('badcall'))
+				Achievements.gain('badcall');
 		},
 		getDescription: function() {
             let desc = 'The police is on your tracks. Better let the heat cool down or they might take all your knowledge...';
@@ -196,6 +199,87 @@
 		cost: {
 			levels: {
 				DWK: 10,
+			}
+		}
+	});
+	Boosts.newBoost({
+		name: '2nd Hand Tech-Dealer',
+        icon: 'user digital',
+		category: 'digital',
+		getDescription: function() {
+			let desc = 'Shady dude you met online. He sells surprise tech packages that he ... got from ... somewhere...';
+			if (this.isBought())
+				desc += '<br/><div class="btn" onclick="gameObjects.Game.getModule(\'dd\').buyPackage()">Buy a surprise package for 1<i class="fa fa-cog digital digital-glow"></i></div><br/>';
+            return desc;
+		},
+		shortName: 'dealer',
+		cost: {
+			xp: {
+				DWK: 10,
+			}
+		},
+		isLoot: true
+	});
+	Boosts.newBoost({
+		name: 'Dark Web Newsletter',
+        icon: 'envelope digital',
+		category: 'digital',
+		getDescription: function() {
+			let desc = 'Subscribe to our newsletter and get some knowledge about the dark web from time to time.';
+			if (this.isBought())
+				desc += '<br/>&nbsp;';
+            return desc;
+		},
+		shortName: 'newsletter',
+		cost: {
+			xp: {
+				DWK: 15,
+			}
+		},
+		isLoot: true
+	});
+	Boosts.newBoost({
+		name: 'Broken Fan',
+        icon: 'fan digital',
+		category: 'digital',
+		repairable: true,
+		boltsNeededToRepair: 10,
+		getDescription: function() {
+			let desc = 'A broken fan.';
+            return desc;
+		},
+		shortName: 'fan',
+		cost: {}
+	});
+	Boosts.newBoost({
+		name: 'Buzz Lightyear',
+        icon: 'user-astronaut digital',
+		category: 'digital',
+		repairable: true,
+		boltsNeededToRepair: 10,
+		getDescription: function() {
+			let desc = 'A broken toy.';
+            return desc;
+		},
+		shortName: 'buzzlightyear',
+		cost: {
+			xp: {
+				DWK: 15,
+			}
+		}
+	});
+	Boosts.newBoost({
+		name: 'Space shuttle',
+        icon: 'user-astronaut digital',
+		category: 'digital',
+		getDescription: function() {
+			let desc = 'A broken toy.';
+            return desc;
+		},
+		shortName: 'spaceshuttle',
+		cost: {
+			xp: {
+				DWK: 15,
 			}
 		}
 	});

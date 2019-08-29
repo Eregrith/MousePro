@@ -5,7 +5,7 @@
 * Display.js
 */
 
-(function (Game, Achievements, Shop, Friends, Tabs, Stats, Display, BoostCategories) {
+(function (Game, Achievements, Shop, Friends, Tabs, Stats, Display, BoostCategories, Log) {
 
 	Display.tickInterval = null;
 	Display.tickIntervalValue = 10;
@@ -41,6 +41,8 @@
 	
 	Display.beautify = function(value) {
 		let negative = value < 0 ? '-' : '';
+		if (isNaN(value)) return 'Borked';
+		if (!isFinite(value)) return 'Infinity';
 
 		value = Math.round(Math.abs(value));
 		if (value <= 5000) return negative + value;
@@ -108,7 +110,7 @@
 	
 	Display.notifyLevelUp = function(currency) {
 		if (Shop.boost('ottovonsacrifice').isActive() && (currency.shortName == 'MM' || currency.shortName == 'MC')) return;
-		
+
 		let msg = 'Level Up ! ' + currency.name + ' is now level ' + currency.getLevel() + '!';
 		if (currency.getLevel() <= currency.getHighestLevelAttained())
 		{
@@ -329,6 +331,13 @@
 			mainDiv.classList.remove('active');
 		}
 
+		if (boost.repairable) {
+			repairDiv = document.createElement('div');
+			repairDiv.className = 'boost-repair';
+			repairDiv.innerHTML = boost.getRepairDescription(Display);
+			mainDiv.appendChild(repairDiv);
+		}
+
 		if (boost.isLoot) {
 			let lootLabel = document.createElement('div');
 			lootLabel.classList = ['boost-loot-label'];
@@ -353,7 +362,7 @@
 
 		let ul = document.getElementById('friends');
 		let unlockedFriends = [...ul.getElementsByClassName('friend')];
-		ul.parentElement.style.display = '';
+		ul.parentElement.parentElement.style.display = '';
 		
 		unlockedFriends.forEach((unlockedFriend) => {
 			let friend = friends.filter(f => 'friend-' + f.shortName == unlockedFriend.id);
@@ -624,6 +633,8 @@
 	Display.logArchive = {};
 	Display.notify = function(msg, category) {
 
+		Log.log(msg, category);
+
 		let x = Math.floor(window.innerWidth / 2);
 		let y = Math.floor(window.innerHeight * 0.95);
 
@@ -635,7 +646,7 @@
 			x: x,
 			y: y,
 			frame: 0,
-			totalFrames: Display.framesPerSecond() * 3,
+			totalFrames: Display.framesPerSecond() * 4,
 			div: document.createElement('div')
 		};
 		
@@ -667,7 +678,7 @@
 			notif = Display.notifQueue.shift();
 			Display.animatedNotifs.push(notif);
 			Display.animateNotif(notif);
-			Display.nextNotifAvailableOn = now.getTime() + 400;
+			Display.nextNotifAvailableOn = now.getTime() + 150;
 		}
 	}
 	
@@ -678,7 +689,7 @@
 			return;
 		}
 		
-		let xSway = 25;
+		let xSway = 5;
 
 		if (notif.frame === 0) {
 			notif.moveVector = { x: notif.x, y: 0, targetY: notif.y-notif.targetY };
@@ -736,4 +747,4 @@
 	
 	Display.startTicking();
 
-})(gameObjects.Game, gameObjects.Achievements, gameObjects.Shop, gameObjects.Friends, gameObjects.Tabs, gameObjects.Stats, gameObjects.Display, gameObjects.BoostCategories);
+})(gameObjects.Game, gameObjects.Achievements, gameObjects.Shop, gameObjects.Friends, gameObjects.Tabs, gameObjects.Stats, gameObjects.Display, gameObjects.BoostCategories, gameObjects.Log);

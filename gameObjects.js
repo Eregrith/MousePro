@@ -17,6 +17,7 @@ let gameObjects = {
 	BoostCategories: {},
 	Achievements: {},
 	Display: {},
+	Log: {},
 	Friends: {
 		friends: []
 	},

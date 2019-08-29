@@ -32,7 +32,9 @@
 		</div>
 
 		<div class="friends" style="display:none">
-			<ul id="friends"></ul>
+			<div class="scroller">
+				<ul id="friends"></ul>
+			</div>
 		</div>
 		
 		<div class="owned" style="display:none">
@@ -82,6 +84,11 @@
 			</ul>
 		</div>
 	</div>
+	<div class="tab" id="tab-log">
+		<div class="scroller">
+			<ul id="log"></div>
+		</div>
+	</div>
 	<div class="saveExport" id="saveExport" style="display:none">
 		<div class="saveExportCaption">Your save:</div>
 		<div class="saveExportClose" onclick="gameObjects.Display.closeSaveExport()">X</div>
@@ -97,6 +104,7 @@
 	<script type="text/javascript" src="mainboosts.js"></script>
 	<script type="text/javascript" src="shop.js"></script>
 	<script type="text/javascript" src="loot.js"></script>
+	<script type="text/javascript" src="log.js"></script>
 	<script type="text/javascript" src="BloodIsPower/achievements.js"></script>
 	<script type="text/javascript" src="BloodIsPower/gameModule.js"></script>
 	<script type="text/javascript" src="BloodIsPower/displayModule.js"></script>
@@ -106,6 +114,7 @@
 	<script type="text/javascript" src="DigitalDarkness/gameModule.js"></script>
 	<script type="text/javascript" src="DigitalDarkness/displayModule.js"></script>
 	<script type="text/javascript" src="DigitalDarkness/mainboosts.js"></script>
+	<script type="text/javascript" src="DigitalDarkness/loot.js"></script>
 	<script type="text/javascript" src="DigitalDarkness/boostCategories.js"></script>
 	<script type="text/javascript" src="friends.js"></script>
 	<script type="text/javascript" src="game.js"></script>

@@ -25,6 +25,18 @@
 			shortName: 'badcall',
 			description: 'Get caught by the police.',
 			acquired: false
+        },
+		{
+			name: 'To infinity ...',
+			shortName: 'buzzlightyear',
+			description: 'Reach infinite required XP for both proficiencies.',
+			acquired: false
+        },
+		{
+			name: '... And beyond',
+			shortName: 'beyondinfinity',
+			description: 'Reach infinite XP for both proficiencies.',
+			acquired: false
         }
     ]);
         

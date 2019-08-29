@@ -401,6 +401,18 @@ body[gameFont=Helvetica] .friend-desc {
         transform: translate(-50%,0%);
 }
 
+#tab-log .scroller {
+	height: 80%;
+}
+
+.log-item {
+	font-size: 8pt;
+}
+
+body[gameFont=Helvetica] .log-item {
+	font-size: 12pt;
+}
+
 /*
     SAVE EXPORT
 */

@@ -14,7 +14,8 @@
                 buyable: false,
                 bought: false,
                 power: settings.power || 0,
-                active: false
+                active: false,
+                boltsUsedToRepair: 0
             },
             category: settings.category || 'common',
             getCost: function () {
@@ -114,7 +115,22 @@
                 return desc;
             },
             isLoot: settings.isLoot || false,
-            buyButtonLabel: settings.buyButtonLabel || 'Buy'
+            buyButtonLabel: settings.buyButtonLabel || 'Buy',
+            repairable: settings.repairable || false,
+            boltsNeededToRepair: settings.boltsNeededToRepair || 0,
+            isRepaired: function() {
+                return this.repairable && this.saveableState.boltsUsedToRepair == this.boltsNeededToRepair;
+            },
+            getRepairDescription: function() {
+                let desc = '';
+                if (this.isBought() && Shop.has('backyard') && !this.isRepaired()) {
+                    desc += '<br/>You will need ' + (this.boltsNeededToRepair - (this.saveableState.boltsUsedToRepair || 0)) + ' <i class="fa fa-cog digital digital-glow"></i> to fix this.';
+                    if (Shop.boost('backyard').saveableState.power >= 1) {
+                        desc += '<br/><div class="btn repair">Use 1 <i class="fa fa-cog digital digital-glow"></i> to repair</div>';
+                    }
+                }
+                return desc;
+            }
         }
 
         Shop.boosts.push(boost);

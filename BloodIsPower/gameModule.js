@@ -88,8 +88,8 @@
            && !Shop.isAvailable('ratscavengers')) {
             Shop.unlock('ratscavengers');
         }
-        if (Friends.friend('aldo').getLevel() == 10
-            && Friends.friend('barnabeus').getLevel() == 10
+        if (Friends.friend('aldo').getLevel() >= 10
+            && Friends.friend('barnabeus').getLevel() >= 10
             && !Shop.isAvailable('rxtbloodinjector')) {
             Shop.unlock('rxtbloodinjector');
         }

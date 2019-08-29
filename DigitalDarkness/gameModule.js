@@ -45,6 +45,20 @@
         if (Shop.has('tor') && !Achievements.has('tor')) {
             Achievements.gain('tor');
         }
+        if (!isFinite(Game.currency('MM').xpRequiredForNextLevel())
+            && !isFinite(Game.currency('MC').xpRequiredForNextLevel())) {
+                if (!Achievements.has('buzzlightyear'))
+                    Achievements.gain('buzzlightyear');
+                if (!Shop.isAvailable('buzzlightyear'))
+                    Shop.unlock('buzzlightyear')
+            }
+        if (!isFinite(Game.currency('MM').getXp())
+            && !isFinite(Game.currency('MC').getXp())) {
+                if (!Achievements.has('beyondinfinity'))
+                    Achievements.gain('beyondinfinity');
+                if (!Shop.isAvailable('spaceshuttle'))
+                    Shop.unlock('spaceshuttle');
+            }
     };
 
     gameModule._ticks = 0;
@@ -60,11 +74,32 @@
             }
             Shop.boost('oldtv').gainXP(baseXP);
         }
-        if (gameModule._ticks >= 30 * Display.framesPerSecond()) {
-            if (Shop.has('police')) Shop.boost('police').gainXP(-1);
-            Display.notify('Heat from the police fades a bit');
+        if (Shop.has('newsletter') && gameModule._ticks % (5 * 60 * Display.framesPerSecond()) == 0) {
+            gameModule.receiveNewsletter();
+        }
+        if (Shop.has('police') && Shop.boost('police').saveableState.xpGained > 0 && gameModule._ticks % (30 * Display.framesPerSecond()) == 0) {
+            Shop.boost('police').gainXP(-1);
+            Display.notify('Heat from the police fades a bit', 'Police');
+        }
+        if (gameModule._ticks >= 60*60*Display.framesPerSecond()) {
             gameModule._ticks = 0;
         }
+    }
+
+    gameModule.buyPackage = function() {
+        if (!Shop.has('fan') && Shop.has('backyard')) {
+            if (Shop.boost('backyard').saveableState.power >= 1) {
+                Shop.boost('backyard').saveableState.power--;
+                Shop.unlock('fan');
+                Shop.boost('fan').saveableState.bought = true;
+            }
+        }
+    }
+
+    gameModule.receiveNewsletter = function() {
+        let baseXP = 10;
+        Game.acquireXp('DWK', baseXP);
+        Display.notify('<i class="fa fa-envelope digital digital-glow"></i> You received a newsletter ! It gave you ' + baseXP + ' DWK !', 'Dark web');
     }
 
     gameModule.gainPoliceInterest = function gainPoliceInterest(amount) {

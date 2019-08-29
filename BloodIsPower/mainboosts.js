@@ -527,7 +527,7 @@
 			Game.acquireXp('blood', 10);
 			Achievements.gain('firstquest');
 			Game.getModule('bip').killGiantRat(me);
-			Display.notify('You killed the giant rat');
+			Display.notify('You killed the giant rat', 'generic');
 		},
 	});
 	Boosts.newBoost({
