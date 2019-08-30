@@ -28,7 +28,8 @@
 					if (Shop.has('bloodbalancer') && Game.currency('MM').getLevel() < Game.currency('MC').getLevel()) {
 						baseXp *= Math.floor(Game.currency('blood').getXp());
 					}
-					Game.acquireXp('MM', baseXp);
+					if (isFinite(me.saveableState.xp))
+						Game.acquireXp('MM', baseXp);
 				}
 				if (Shop.has('rxt')) {
 					let xp = Shop.boost('rxt').bonusXp;
@@ -43,7 +44,8 @@
 						Shop.boost('rxtinjectordown').gainXP(1);
 					}
 					xp *= (Shop.has('addonenhancer') ? Shop.boost('addonenhancer').saveableState.power : 1);
-					Game.acquireXp('MC', xp);
+					if (isFinite(Game.currency('MC').saveableState.xp))
+						Game.acquireXp('MC', xp);
 				}
 			},
 			xpGained: function(currency) {
@@ -71,7 +73,8 @@
 					if (Shop.has('bloodbalancer') && Game.currency('MC').getLevel() < Game.currency('MM').getLevel()) {
 						baseXp *= Math.floor(Game.currency('blood').getXp());
 					}
-					Game.acquireXp('MC', baseXp);
+					if (isFinite(me.saveableState.xp))
+						Game.acquireXp('MC', baseXp);
 				}
 				if (Shop.has('rxt')) {
 					let xp = Shop.boost('rxt').bonusXp;
@@ -86,7 +89,8 @@
 						Shop.boost('rxtinjectorup').gainXP(1);
 					}
 					xp *= (Shop.has('addonenhancer') ? Shop.boost('addonenhancer').saveableState.power : 1);
-					Game.acquireXp('MM', xp);
+					if (isFinite(Game.currency('MM').saveableState.xp))
+						Game.acquireXp('MM', xp);
 				}
 			},
 			xpGained: function(currency) {
