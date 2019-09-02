@@ -413,6 +413,16 @@ body[gameFont=Helvetica] .log-item {
 	font-size: 12pt;
 }
 
+.log-time {
+	width: 65px;
+	display:inline-block;
+}
+
+.log-category {
+	width: 100px;
+	display:inline-block;
+}
+
 /*
     SAVE EXPORT
 */

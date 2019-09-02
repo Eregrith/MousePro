@@ -238,6 +238,8 @@
 				return;
 			} else {
 				boost = boost[0];
+				let titleDiv = ownedBoost.getElementsByClassName('boost-title')[0];
+				titleDiv.innerHTML = boost.name;
 				let descDiv = ownedBoost.getElementsByClassName('boost-desc')[0];
 				descDiv.innerHTML = boost.getDescription();
 				if (boost.getIcon() !== undefined) {
@@ -260,6 +262,11 @@
 				if (boost.hasXP) {
 					let xpDiv = ownedBoost.getElementsByClassName('boost-xp')[0];
 					xpDiv.style.width = boost.getFullnessPercent() + '%';
+				}
+
+				if (boost.repairable) {
+					let repairDiv = ownedBoost.getElementsByClassName('boost-repair')[0];
+					repairDiv.innerHTML = boost.getRepairDescription();
 				}
 			}
 		});

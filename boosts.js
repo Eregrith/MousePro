@@ -117,6 +117,7 @@
             isLoot: settings.isLoot || false,
             buyButtonLabel: settings.buyButtonLabel || 'Buy',
             repairable: settings.repairable || false,
+            repairedName: settings.repairedName || settings.name,
             boltsNeededToRepair: settings.boltsNeededToRepair || 0,
             isRepaired: function() {
                 return this.repairable && this.saveableState.boltsUsedToRepair == this.boltsNeededToRepair;
@@ -126,11 +127,27 @@
                 if (this.isBought() && Shop.has('backyard') && !this.isRepaired()) {
                     desc += '<br/>You will need ' + (this.boltsNeededToRepair - (this.saveableState.boltsUsedToRepair || 0)) + ' <i class="fa fa-cog digital digital-glow"></i> to fix this.';
                     if (Shop.boost('backyard').saveableState.power >= 1) {
-                        desc += '<br/><div class="btn repair">Use 1 <i class="fa fa-cog digital digital-glow"></i> to repair</div>';
+                        desc += '<br/><div class="btn repair" onclick="gameObjects.Game.getModule(\'dd\').repair(\'' + this.shortName + '\')">Use 1 <i class="fa fa-cog digital digital-glow"></i> to repair</div>';
                     }
                 }
                 return desc;
-            }
+            },
+            repair: function() {
+                if (this.isBought() && Shop.has('backyard') && !this.isRepaired()) {
+                    this.saveableState.boltsUsedToRepair++;
+                }
+                if (this.isRepaired()) {
+                    this.name = this.repairedName;
+                }   
+            },
+            onRestoreSave: function() {
+                if (this.repairable && this.isRepaired()) {
+                    this.name = this.repairedName;
+                }
+                if (typeof(settings.onRestoreSave) == typeof(Function)) {
+                    settings.onRestoreSave(this);
+                }
+            },
         }
 
         Shop.boosts.push(boost);

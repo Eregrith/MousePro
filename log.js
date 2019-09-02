@@ -31,7 +31,7 @@
         let hours = date.getHours();
         if (hours < 10)
             hours = '0' + hours;
-        li.innerHTML = hours + ':' + minutes + ':' + seconds + categoryTag + ' : ' + msg;
+        li.innerHTML = '<div class="log-time">' + hours + ':' + minutes + ':' + seconds + '</div> <div class="log-category">' + categoryTag + '</div>' + msg;
         return li;
     }
 

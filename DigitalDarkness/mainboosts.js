@@ -58,11 +58,11 @@
 			}
 			Game.acquireXp('DWK', baseXP);
 		},
-        onRestoreSave: function() {
-            if (this.isBought())
+        onRestoreSave: function(me) {
+            if (me.isBought())
 				Loot.addBoostToCategory('bolts', 'ratstomach');
-			if (this.saveableState.power > 0)
-				this.isFullXP = this.finishBrowsing;
+			if (me.saveableState.power > 0)
+				me.isFullXP = me.finishBrowsing;
 		},
         isFullXP: function(me) {
 			this.saveableState.xpGained = 0;
@@ -240,12 +240,16 @@
 	});
 	Boosts.newBoost({
 		name: 'Broken Fan',
+		repairedName: 'Cooling Fan',
         icon: 'fan digital',
 		category: 'digital',
 		repairable: true,
 		boltsNeededToRepair: 10,
 		getDescription: function() {
 			let desc = 'A broken fan.';
+			if (this.isRepaired()) {
+				desc = 'This will help dissipate heat from the police.'
+			}
             return desc;
 		},
 		shortName: 'fan',

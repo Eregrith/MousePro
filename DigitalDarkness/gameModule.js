@@ -20,7 +20,7 @@
         order: 3
 	});
     
-    gameModule.checkUnlocks = function() {
+    gameModule.checkUnlocks = function checkUnlocks() {
         if (Game.currency('DWK').getXp() > 0 || Game.currency('DWK').getLevel() > 0) {
             Display.getModule('dd').displayCurrency('DWK');
             if (!Shop.isAvailable('favorites')) {
@@ -62,7 +62,7 @@
     };
 
     gameModule._ticks = 0;
-    gameModule.tick = function() {
+    gameModule.tick = function tick() {
         gameModule._ticks++;
         if (Shop.boost('oldtv').isBrowsing()) {
             let baseXP = 1;
@@ -86,7 +86,7 @@
         }
     }
 
-    gameModule.buyPackage = function() {
+    gameModule.buyPackage = function buyPackage() {
         if (!Shop.has('fan') && Shop.has('backyard')) {
             if (Shop.boost('backyard').saveableState.power >= 1) {
                 Shop.boost('backyard').saveableState.power--;
@@ -96,10 +96,10 @@
         }
     }
 
-    gameModule.receiveNewsletter = function() {
+    gameModule.receiveNewsletter = function receiveNewsletter() {
         let baseXP = 10;
         Game.acquireXp('DWK', baseXP);
-        Display.notify('<i class="fa fa-envelope digital digital-glow"></i> You received a newsletter ! It gave you ' + baseXP + ' DWK !', 'Dark web');
+        Display.notify('<i class="fa fa-envelope digital digital-glow"></i> You received a newsletter ! It gave you ' + baseXP + ' DWK xp !', 'Dark web');
     }
 
     gameModule.gainPoliceInterest = function gainPoliceInterest(amount) {
@@ -107,6 +107,15 @@
             Shop.boost('police').saveableState.bought = true;
         }
         Shop.boost('police').gainXP(amount);
+    }
+
+    gameModule.repair = function repair(shortName) {
+        let boost = Shop.boost(shortName);
+        boost.repair();
+        if (!boost.isRepaired())
+            Display.notify('You repaired ' + boost.name + ' once', 'repair');
+        else 
+            Display.notify(boost.name + ' is fully repaired !', 'repair');
     }
 
     Game.module('dd', gameModule);
