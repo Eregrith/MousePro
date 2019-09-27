@@ -78,7 +78,11 @@
             gameModule.receiveNewsletter();
         }
         if (Shop.has('police') && Shop.boost('police').saveableState.xpGained > 0 && gameModule._ticks % (30 * Display.framesPerSecond()) == 0) {
-            Shop.boost('police').gainXP(-1);
+            let baseXP = -1;
+            if (Shop.has('fan') && Shop.boost('fan').isRepaired()) {
+                baseXP *= 5;
+            }
+            Shop.boost('police').gainXP(baseXP);
             Display.notify('Heat from the police fades a bit', 'Police');
         }
         if (gameModule._ticks >= 60*60*Display.framesPerSecond()) {
