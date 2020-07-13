@@ -46,15 +46,19 @@
 					Display.notify("The police is starting to get some interest in you", 'Police');
 				else
 					Display.notify("Police interest in you grows", 'Police');
-				Game.getModule('dd').gainPoliceInterest(1);
+				Game.getModule('dd').gainPoliceInterest(Game.currency('DWK').getLevel() - 4);
 			} else {
-				Display.notify("You found disturning things and knowledge on the dark web !", 'Dark Web');
+				Display.notify("You found disturbing things and knowledge on the dark web !", 'Dark Web');
 			}
 			Loot.tryLootCategory('darkweb');
 			this.saveableState._isBrowsing = false;
 			let baseXP = 1;
 			if (Shop.has('tor')) {
 				baseXP += 1;
+			}
+			if (Shop.hasRepaired('syringe')) {
+				let police = Shop.boost('police');
+				baseXP *= 1 + (police.getFullnessPercent() / 50)
 			}
 			Game.acquireXp('DWK', baseXP);
 		},
@@ -253,6 +257,23 @@
             return desc;
 		},
 		shortName: 'fan',
+		cost: {}
+	});
+	Boosts.newBoost({
+		name: 'Broken Syringe',
+		repairedName: 'Adrenaline Catalyst',
+        icon: 'syringe digital',
+		category: 'digital',
+		repairable: true,
+		boltsNeededToRepair: 10,
+		getDescription: function() {
+			let desc = 'A broken syringe.';
+			if (this.isRepaired()) {
+				desc = 'With this syringe you can inject yourself with adrenaline. Browsing will give more dark web XP when the police is closer to catching you.'
+			}
+            return desc;
+		},
+		shortName: 'syringe',
 		cost: {}
 	});
 	Boosts.newBoost({

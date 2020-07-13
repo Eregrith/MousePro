@@ -19,9 +19,9 @@
 	
 	Shop.buy = function(shortName) {
 		let boost = Shop.boost(shortName);
-		if (!boost) return;
+		if (!boost) { console.log("no boost with shortname", shortName); return; }
 		
-		if (!Game.hasCurrency(boost.getCost())) return;
+		if (!Game.hasCurrency(boost.getCost())) { console.log("not enough currency for boost", boost); return; }
 		
 		Game.spend(boost.getCost());
 		boost.buy();

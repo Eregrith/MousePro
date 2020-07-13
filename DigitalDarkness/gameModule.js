@@ -79,7 +79,7 @@
         }
         if (Shop.has('police') && Shop.boost('police').saveableState.xpGained > 0 && gameModule._ticks % (30 * Display.framesPerSecond()) == 0) {
             let baseXP = -1;
-            if (Shop.has('fan') && Shop.boost('fan').isRepaired()) {
+            if (Shop.hasRepaired('fan')) {
                 baseXP *= 5;
             }
             Shop.boost('police').gainXP(baseXP);
@@ -95,7 +95,17 @@
             if (Shop.boost('backyard').saveableState.power >= 1) {
                 Shop.boost('backyard').saveableState.power--;
                 Shop.unlock('fan');
-                Shop.boost('fan').saveableState.bought = true;
+                Shop.buy('fan');
+                return;
+            }
+        }
+        if (!Shop.has('syringe') && Shop.has('backyard')) {
+            if (Shop.boost('backyard').saveableState.power >= 1) {
+                Shop.boost('backyard').saveableState.power--;
+                console.log('buying syringe');
+                Shop.unlock('syringe');
+                Shop.buy('syringe');
+                return;
             }
         }
     }
@@ -114,6 +124,8 @@
     }
 
     gameModule.repair = function repair(shortName) {
+        if (Shop.boost('backyard').saveableState.power < 1) return;
+        Shop.boost('backyard').saveableState.power--;
         let boost = Shop.boost(shortName);
         boost.repair();
         if (!boost.isRepaired())

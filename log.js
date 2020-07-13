@@ -11,6 +11,9 @@
         let ul = document.getElementById('log');
         let logItem = Log.buildLogItem(msg, category);
         ul.appendChild(logItem);
+        while (ul.children.length > 1000) {
+            ul.removeChild(ul.childNodes[0]);
+        }
         ul.parentElement.scrollTop = ul.parentElement.scrollHeight - ul.parentElement.clientHeight;
     };
 
