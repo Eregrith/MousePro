@@ -102,8 +102,12 @@
                 this.lock();
                 Game.ephemeralDeath(this, manual);
             },
-            getEphemeralDescription: function(Display) {
+            getLifeInSeconds: function(Display) {
                 let lifeInSeconds = Math.round(boost.lifeDurationInTicks / Display.framesPerSecond());
+                return lifeInSeconds;
+            },
+            getEphemeralDescription: function(Display) {
+                let lifeInSeconds = this.getLifeInSeconds(Display);
                 let desc = 'This boost is ephemeral. It will only stay for '
                         + lifeInSeconds
                         + ' sec before being locked again.';

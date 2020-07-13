@@ -161,6 +161,11 @@
 					ephemeralDiv = ephemeralDiv[0];
 					ephemeralDiv.innerHTML = boost.getEphemeralDescription(Display);
 				}
+				let lifeDiv = shopBoost.getElementsByClassName('boost-life-in-seconds');
+				if (lifeDiv.length > 0){
+					lifeDiv = lifeDiv[0];
+					lifeDiv.innerHTML = boost.getLifeInSeconds(Display);
+				}
 				let buyButton = shopBoost.getElementsByClassName('boost-buy-btn')[0];
 				if (!Game.hasCurrency(boost.getCost()) || !boost.canBuy())
 					buyButton.classList.add('disabled');
@@ -306,8 +311,8 @@
 		descDiv.innerHTML = boost.getDescription();
 		mainDiv.appendChild(descDiv);
 
-		if (boost.ephemeral == true) {
-			ephemeralDiv = document.createElement('div');
+		if (boost.ephemeral) {
+			let ephemeralDiv = document.createElement('div');
 			ephemeralDiv.className = 'boost-ephemeral';
 			ephemeralDiv.innerHTML = boost.getEphemeralDescription(Display);
 			mainDiv.appendChild(ephemeralDiv);
@@ -345,6 +350,18 @@
 			mainDiv.appendChild(repairDiv);
 		}
 
+		if (boost.ephemeral) {
+			let lifeCounter = document.createElement('div');
+			lifeCounter.className = 'boost-heart';
+			let ephemeralHeartDiv = document.createElement('div');
+			ephemeralHeartDiv.className = 'heart';
+			let secondsDiv = document.createElement('div');
+			secondsDiv.className = 'boost-life-in-seconds';
+			secondsDiv.innerHTML = boost.getLifeInSeconds(Display);
+			lifeCounter.appendChild(secondsDiv);
+			lifeCounter.appendChild(ephemeralHeartDiv);
+			mainDiv.appendChild(lifeCounter);
+		}
 		if (boost.isLoot) {
 			let lootLabel = document.createElement('div');
 			lootLabel.classList = ['boost-loot-label'];
