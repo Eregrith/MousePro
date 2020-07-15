@@ -34,6 +34,16 @@
     display: inline-block;
 }
 
+#batteries {
+    display: inline-block;
+    left: 50px;
+    position: relative;
+}
+#batteries-icon,
+#batteries-amount {
+    display: inline-block;
+}
+
 .boost-category {
     width: 120px;
     border: 1px solid var(--text-color);

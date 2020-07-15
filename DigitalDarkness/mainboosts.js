@@ -107,7 +107,7 @@
 				oldTV.gainXP(1);
 			else {
 				Shop.boost('backyard').saveableState.bought = true;
-				Shop.boost('backyard').saveableState.power++;
+				Shop.boost('backyard').saveableState.power.nuts++;
 			}
 			me.lock();
 			Loot.addBoostToCategory('bolts', 'ratstomach');
@@ -117,11 +117,24 @@
 		name: 'Backyard',
         icon: 'cog digital digital-glow',
 		category: 'digital',
-		power: 0,
+		power: {
+			nuts: 0,
+			batteries: 0,
+		},
 		getDescription: function() {
 			let desc = 'Storage for your crap';
-			desc += 'You have ' + this.saveableState.power + ' <i class="fa fa-cog digital digital-glow"></i> nuts and bolts';
+			desc += 'You have ' + this.saveableState.power.nuts + ' <i class="fa fa-cog digital digital-glow"></i> nuts and bolts';
+			if (Shop.has('batteries')) {
+				desc += 'You have ' + this.saveableState.power.batteries + ' <i class="fa fa-battery-full digital digital-glow"></i> batteries'
+			}
             return desc;
+		},
+		onRestoreSave: function(me) {
+			if (Number.isInteger(me.saveableState.power))
+				me.saveableState.power = {
+					nuts: me.saveableState.power,
+					batteries: 0
+				};
 		},
 		shortName: 'backyard'
 	});
@@ -287,12 +300,151 @@
 		boltsNeededToRepair: 10,
 		getDescription: function() {
 			let desc = 'A broken toy.';
+			if (this.isRepaired()) {
+				if (!Shop.has('lasergun'))
+					desc = 'A nice toy. But its weapon is missing';
+				else
+					desc = '"I AM COMPLETE!" he said... You didn\'t know it could talk, and now you\'re scared';
+			}
             return desc;
+		},
+		onRepairComplete: function() {
+			if (Shop.has('lasergun')) {
+				Shop.unlock('pewpew');
+			}
 		},
 		shortName: 'buzzlightyear',
 		cost: {
 			xp: {
 				DWK: 15,
+			}
+		}
+	});
+	Boosts.newBoost({
+		name: 'Laser gun',
+        icon: 'raygun digital',
+		category: 'digital',
+		getDescription: function() {
+			let desc = 'You found an old toys collector online. He offers to sell you this part.';
+			if (this.isBought()) {
+				desc = 'A teeny-tiny laser gun.'
+				if (!Shop.has('buzzlightyear'))
+					desc += ' What are you going to do with it?';
+				else
+					desc += ' Buzz is really happy!';
+			}
+            return desc;
+		},
+		buy: function () {
+			if (Shop.hasRepaired('buzzlightyear')) {
+				Shop.unlock('pewpew');
+			}
+		},
+		shortName: 'lasergun',
+		cost: {
+			levels: {
+				DWK: 10,
+			}
+		}
+	});
+	Boosts.newBoost({
+		name: 'Pew pew!!',
+        icon: 'raygun digital',
+		category: 'digital',
+		hasXP: true,
+		xpNeededToBeFull: 5 * 60 * Display.framesPerSecond(),
+		batteryPowered: true,
+		xpBarColor: 'yellow',
+		getDescription: function() {
+			let desc = 'You should really get Buzz busy, he looks like he wants to shoot everything. He might as well shoot the rats for you !';
+			if (!this.isBought()) {
+				desc += '<br/><i><small>BATTERIES NOT INCLUDED</small></i>';
+			} else if (this.saveableState.power == 0) {
+				desc += ' This needs a battery to work';
+				if (Shop.has('batteries')) {
+					desc += '<br/><div class="btn" onclick="gameObjects.Shop.boost(\'pewpew\').insertBattery()">Insert a <i class="fa fa-battery-full digital digital-glow"></i> battery</div>';
+				}
+			} else {
+				desc = 'Buzz is killing rats on sight.';
+				if (!Shop.has('giantmagnet')) {
+					desc += ' You still have to manually buy the nuts and bolts though... Maybe you can find something to help with that.';
+				}
+			}
+            return desc;
+		},
+		insertBattery: function() {
+			if (Shop.boost('backyard').saveableState.power.batteries > 0) {
+				Shop.boost('backyard').saveableState.power.batteries--;
+				this.saveableState.power = 1;
+				this.saveableState.xpGained = this.xpNeededToBeFull - 0.1;
+			}
+		},
+		buy: function() {
+			if (!Shop.has('batteries')) {
+				Shop.unlock('batteries');
+			}
+		},
+		shortName: 'pewpew',
+		cost: {
+			levels: {
+				DWK: 12,
+			}
+		}
+	});
+	Boosts.newBoost({
+		name: 'Giant Magnet',
+        icon: 'magnet digital digital-glow',
+		category: 'digital',
+		hasXP: true,
+		xpNeededToBeFull: 5 * 60 * Display.framesPerSecond(),
+		batteryPowered: true,
+		xpBarColor: 'yellow',
+		getDescription: function() {
+			let desc = 'This will attract nuts and bolts automatically when powered on.';
+			if (this.saveableState.power == 0) {
+				desc += ' It needs a battery to work';
+				if (Shop.has('batteries')) {
+					desc += '<br/><div class="btn" onclick="gameObjects.Shop.boost(\'giantmagnet\').insertBattery()">Insert a <i class="fa fa-battery-full digital digital-glow"></i> battery</div>';
+				}
+			} else {
+				desc = 'The magnet is getting all the nuts and bolts it can find for you.';
+			}
+            return desc;
+		},
+		insertBattery: function() {
+			if (Shop.boost('backyard').saveableState.power.batteries > 0) {
+				Shop.boost('backyard').saveableState.power.batteries--;
+				this.saveableState.power = 1;
+				this.saveableState.xpGained = this.xpNeededToBeFull - 0.1;
+			}
+		},
+		shortName: 'giantmagnet',
+		cost: {}
+	});
+	Boosts.newBoost({
+		name: 'Batteries',
+        icon: 'battery-full digital digital-glow',
+		category: 'digital',
+		getDescription: function() {
+			let desc = 'It\'s amazing what you can do with batteries these days !';
+			if (this.isBought()) {
+				if (!Shop.has('backyard'))
+					desc += '<br/>You will need a backyard to store batteries';
+				else
+					desc += '<br/><div class="btn" onclick="gameObjects.Shop.boost(\'batteries\').craftBattery()"><i class="fa fa-plus digital digital-glow"></i> Craft a battery with 1 <i class="fa fa-cog digital digital-glow"></i></div>';
+			}
+            return desc;
+		},
+		craftBattery: function() {
+			if (Shop.boost('backyard').saveableState.power.nuts > 0) {
+				Shop.boost('backyard').saveableState.power.nuts--;
+				Shop.boost('backyard').saveableState.power.batteries++;
+			}
+		},
+		shortName: 'batteries',
+		cost: {
+			xp: {
+				DWK: 17,
 			}
 		}
 	});

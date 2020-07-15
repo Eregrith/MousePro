@@ -42,8 +42,18 @@
             && !Shop.isAvailable('fiber')) {
                 Shop.unlock('fiber');
         }
+        if (Game.currency('DWK').getLevel() > 8
+            && !Shop.isAvailable('lasergun')) {
+                Shop.unlock('lasergun');
+        }
         if (Shop.has('tor') && !Achievements.has('tor')) {
             Achievements.gain('tor');
+        }
+        if (Shop.has('lasergun') && Shop.hasRepaired('buzzlightyear') && !Shop.has('pewpew')) {
+            Shop.unlock('pewpew');
+        }
+        if (Shop.has('pewpew') && !Shop.has('batteries')) {
+            Shop.unlock('batteries');
         }
         if (!isFinite(Game.currency('MM').xpRequiredForNextLevel())
             && !isFinite(Game.currency('MC').xpRequiredForNextLevel())) {
@@ -74,6 +84,13 @@
             }
             Shop.boost('oldtv').gainXP(baseXP);
         }
+        gameModule.updateBatteryLives();
+        if (Shop.boost('giantrat').isUnlocked() && Shop.boost('pewpew').saveableState.power == 1) {
+            Shop.boost('giantrat').buy();
+        }
+        if (Shop.boost('bolts').isUnlocked() && Shop.boost('giantmagnet').saveableState.power == 1) {
+            Shop.boost('bolts').buy();
+        }
         if (Shop.has('newsletter') && gameModule._ticks % (5 * 60 * Display.framesPerSecond()) == 0) {
             gameModule.receiveNewsletter();
         }
@@ -94,21 +111,39 @@
         }
     }
 
+    gameModule.updateBatteryLives = function updateBatteryLives() {
+        let batteryPoweredBoosts = Shop.boosts.filter(b => b.batteryPowered && b.saveableState.power == 1);
+        batteryPoweredBoosts.forEach((boost) => {
+            boost.gainXP(-1);
+            if (boost.saveableState.xpGained <= 0) {
+                boost.saveableState.power = 0;
+                Display.notify("The battery is dead in ", boost.name);
+            }
+        });
+    }
+
     gameModule.buyPackage = function buyPackage() {
         if (!Shop.has('fan') && Shop.has('backyard')) {
-            if (Shop.boost('backyard').saveableState.power >= 1) {
-                Shop.boost('backyard').saveableState.power--;
+            if (Shop.boost('backyard').saveableState.power.nuts >= 1) {
+                Shop.boost('backyard').saveableState.power.nuts--;
                 Shop.unlock('fan');
                 Shop.buy('fan');
                 return;
             }
         }
         if (!Shop.has('syringe') && Shop.has('backyard')) {
-            if (Shop.boost('backyard').saveableState.power >= 1) {
-                Shop.boost('backyard').saveableState.power--;
-                console.log('buying syringe');
+            if (Shop.boost('backyard').saveableState.power.nuts >= 1) {
+                Shop.boost('backyard').saveableState.power.nuts--;
                 Shop.unlock('syringe');
                 Shop.buy('syringe');
+                return;
+            }
+        }
+        if (!Shop.has('giantmagnet') && Shop.has('backyard')) {
+            if (Shop.boost('backyard').saveableState.power.nuts >= 1) {
+                Shop.boost('backyard').saveableState.power.nuts--;
+                Shop.unlock('giantmagnet');
+                Shop.buy('giantmagnet');
                 return;
             }
         }
@@ -128,8 +163,8 @@
     }
 
     gameModule.repair = function repair(shortName) {
-        if (Shop.boost('backyard').saveableState.power < 1) return;
-        Shop.boost('backyard').saveableState.power--;
+        if (Shop.boost('backyard').saveableState.power.nuts < 1) return;
+        Shop.boost('backyard').saveableState.power.nuts--;
         let boost = Shop.boost(shortName);
         boost.repair();
         if (!boost.isRepaired())

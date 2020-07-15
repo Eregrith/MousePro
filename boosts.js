@@ -130,7 +130,7 @@
                 let desc = '';
                 if (this.isBought() && Shop.has('backyard') && !this.isRepaired()) {
                     desc += '<br/>You will need ' + (this.boltsNeededToRepair - (this.saveableState.boltsUsedToRepair || 0)) + ' <i class="fa fa-cog digital digital-glow"></i> to fix this.';
-                    if (Shop.boost('backyard').saveableState.power >= 1) {
+                    if (Shop.boost('backyard').saveableState.power.nuts >= 1) {
                         desc += '<br/><div class="btn repair" onclick="gameObjects.Game.getModule(\'dd\').repair(\'' + this.shortName + '\')">Use 1 <i class="fa fa-cog digital digital-glow"></i> to repair</div>';
                     }
                 }
@@ -142,6 +142,8 @@
                 }
                 if (this.isRepaired()) {
                     this.name = this.repairedName;
+                    if (settings.onRepairComplete)
+                        settings.onRepairComplete();
                 }   
             },
             onRestoreSave: function() {

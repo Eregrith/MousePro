@@ -260,6 +260,14 @@ body[gameFont=Helvetica] .fa-rat {
 }
 
 /*
+** Raygun
+*/ 
+.fa-raygun {
+    content: url('../img/raygun.png');
+    width:20px;
+}
+
+/*
 ** Hearts
 */
 

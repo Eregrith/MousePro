@@ -10,16 +10,25 @@
     let displayModule = {};
 
     displayModule.refresh = function() {
-        if (Shop.has('backyard'))
-            displayModule.updateNutsAndBolts();
+        if (Shop.has('backyard')){
+            displayModule.updateBolts();
+            if (Shop.has('batteries'))
+                displayModule.updateBatteries();
+        }
     }
 
-    displayModule.updateNutsAndBolts = function() {
+    displayModule.updateBolts = function() {
         let div = document.getElementById('bolts');
         div.style.display = '';
-        
         let amount = document.getElementById('bolts-amount');
-        amount.innerHTML = Shop.boost('backyard').saveableState.power;
+        amount.innerHTML = Shop.boost('backyard').saveableState.power.nuts;
+    }
+
+    displayModule.updateBatteries = function() {
+        let div = document.getElementById('batteries');
+        div.style.display = '';
+        let amount = document.getElementById('batteries-amount');
+        amount.innerHTML = Shop.boost('backyard').saveableState.power.batteries;
     }
 
     displayModule.displayCurrency = function(currencyShortName) {
