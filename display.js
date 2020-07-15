@@ -135,6 +135,9 @@
 		let shopBoosts = [...ul.getElementsByClassName('boost')];
 
 		let boosts = Shop.boosts.filter(b => b.isUnlocked());
+		if (Shop.boost('adblock').isActive()) {
+			boosts = boosts.filter(b => b.shortName != 'sacrifice-mm' && b.shortName != 'sacrifice-mc');
+		}
 		if (boosts.length == 0)
 			ul.parentElement.parentElement.style.display = 'none';
 		else

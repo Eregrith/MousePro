@@ -125,6 +125,9 @@
 				}
 			}
 		});
+		if (Shop.has('friends') && !Friends.friend('aldo').canBuy()) {
+			Friends.unlock('aldo');
+		}
 		if (Friends.friend('aldo').saveableState.bought >= 5 && !Shop.has('rxtinjectordown')) {
 			Shop.unlock('rxtinjectordown');
 		}

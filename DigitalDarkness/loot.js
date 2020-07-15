@@ -15,7 +15,7 @@
         },
     );
 
-    let darkWebContents = [ 'dealer', 'newsletter' ];
+    let darkWebContents = [ 'dealer', 'newsletter', 'sexymouse', 'adblock' ];
     darkWebContents.forEach(boost => {
         Loot.addBoostToCategory(boost, 'darkweb');
     });

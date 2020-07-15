@@ -1,5 +1,6 @@
 :root {
     --digital-color: #00ff80;
+    --sexy-color: #da28fa;
 }
 
 .digital {
@@ -8,6 +9,10 @@
 
 .digital-glow {
     text-shadow: 0px 0px 5px var(--digital-color);
+}
+
+.sexy {
+    color: var(--sexy-color);
 }
 
 .repair {

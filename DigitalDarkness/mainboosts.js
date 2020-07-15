@@ -51,6 +51,9 @@
 				Display.notify("You found disturbing things and knowledge on the dark web !", 'Dark Web');
 			}
 			Loot.tryLootCategory('darkweb');
+			if (Shop.has('sexymouse')) {
+				Shop.unlock('giantrat');
+			}
 			this.saveableState._isBrowsing = false;
 			let baseXP = 1;
 			if (Shop.has('tor')) {
@@ -137,6 +140,46 @@
 				};
 		},
 		shortName: 'backyard'
+	});
+	Boosts.newBoost({
+		name: 'Sexy Mouse',
+        icon: 'mouse sexy digital-glow',
+		category: 'digital',
+		getDescription: function() {
+            let desc = 'A very sexy mouse for browsing sexy sites on the Dark Web.<br/><small>Caution: can attract rats when browsing.</small>';
+            return desc;
+		},
+		shortName: 'sexymouse',
+		cost: {
+			xp: {
+				DWK: 12,
+			}
+		},
+		isLoot: true
+	});
+	Boosts.newBoost({
+		name: 'Ad Blocker',
+        icon: 'shield-alt digital digital-glow',
+		category: 'digital',
+		isActivable: true,
+		getDescription: function() {
+			let desc = 'All those sacrifices are annoying. This will hide them for you.';
+			if (!this.isBought()) {
+				desc += '<br/>When turned on, this boost will prevent all sacrifices from showing. Auto effects still apply';
+			} else if (this.isActive()) {
+				desc += '<div class="btn" onclick="gameObjects.Game.getModule(\'bip\').toggleBoost(\'adblock\')">Turn off</div> Hides all sacrifices.';
+			} else {
+				desc += '<div class="btn" onclick="gameObjects.Game.getModule(\'bip\').toggleBoost(\'adblock\')">Turn on</div> to hide all sacrifices.'
+			}
+            return desc;
+		},
+		shortName: 'adblock',
+		cost: {
+			xp: {
+				DWK: 7,
+			}
+		},
+		isLoot: true
 	});
 	Boosts.newBoost({
 		name: 'Favorites',
@@ -450,10 +493,16 @@
 	});
 	Boosts.newBoost({
 		name: 'Space shuttle',
+		repairedName: 'REAL Space shuttle',
         icon: 'user-astronaut digital',
 		category: 'digital',
+		repairable: true,
+		boltsNeededToRepair: 100,
 		getDescription: function() {
 			let desc = 'A broken toy.';
+			if (Shop.has('pewpew') && Shop.has('giantmagnet')) {
+				desc += ' The more you repair it, the more it grows !';
+			}
             return desc;
 		},
 		shortName: 'spaceshuttle',

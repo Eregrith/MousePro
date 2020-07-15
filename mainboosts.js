@@ -95,9 +95,6 @@
 				MM: 10,
 				MC: 10
 			}
-		},
-		buy: function () {
-			Friends.unlock('aldo');
 		}
 	});
 	Boosts.newBoost({
