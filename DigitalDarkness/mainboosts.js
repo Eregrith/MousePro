@@ -249,6 +249,9 @@
 		category: 'digital',
 		repairable: true,
 		boltsNeededToRepair: 10,
+		hasXP: true,
+		xpNeededToBeFull: 30,
+		xpBarColor: 'var(--digital-color)',
 		getDescription: function() {
 			let desc = 'A broken fan.';
 			if (this.isRepaired()) {
