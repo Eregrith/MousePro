@@ -1,6 +1,7 @@
 :root {
     --digital-color: #00ff80;
     --sexy-color: #da28fa;
+    --battery-life-color: yellow;
 }
 
 .digital {
@@ -47,6 +48,61 @@
 #batteries-icon,
 #batteries-amount {
     display: inline-block;
+}
+
+.batteryPowered .boost-desc {
+    max-width: 105px;
+}
+
+.boost-battery {
+    position: absolute;
+    top: 30px;
+    right: 5px;
+    width: 15px;
+    height: 27px;
+    border: 4px solid var(--digital-color);
+    box-sizing: border-box;
+    
+}
+.boost-battery::before {
+    content: "";
+    background: var(--digital-color);
+    position: absolute;
+    right: 0px;
+    bottom: 102%;
+    height: 6px;
+    width: 8px;
+}
+.boost-battery:after {
+    content: attr(data-percent);
+    font-size: 6pt;
+    position: absolute;
+    bottom: -15px;
+    left: -5px;
+}
+
+.boost-battery.battery-dead {
+    border: 4px solid gray;
+}
+.boost-battery.battery-dead::before {
+    background: gray;
+}
+.boost-battery.battery-dead::after {
+    content: "";
+    background: red;
+    width: 3px;
+    height: 36px;
+    position: absolute;
+    top: -8px;
+    left: 2px;
+    transform: rotate(36deg);
+}
+
+.battery-life {
+    background-color: var(--battery-life-color);
+    width: 7px;
+    position: absolute;
+    bottom:0;
 }
 
 .boost-category {

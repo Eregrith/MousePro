@@ -85,6 +85,11 @@
 /*
 ** Loot
 */
+
+.isLoot .boost-desc {
+    padding-bottom: 20px;
+}
+
 .boost-loot-label {
     font-size: 8px;
     bottom: 3px;

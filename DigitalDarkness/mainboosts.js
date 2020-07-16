@@ -308,10 +308,20 @@
 		hasXP: true,
 		xpNeededToBeFull: 30,
 		xpBarColor: 'var(--digital-color)',
+		batteryPowered: true,
+		maxBatteryLife: 5 * 60 * Display.framesPerSecond(),
 		getDescription: function() {
 			let desc = 'A broken fan.';
 			if (this.isRepaired()) {
-				desc = 'This will help dissipate heat from the police.'
+				desc = 'This will help dissipate heat from the police.';
+				if (Shop.has('batteries')) {
+					if (this.saveableState.power == 0) {
+						desc += ' If you add a battery it might be stronger for a little time.';
+						desc += '<br/><div class="btn" onclick="gameObjects.Shop.boost(\'fan\').insertBattery()">Insert a <i class="fa fa-battery-full digital digital-glow"></i> battery</div>';
+					} else {
+						desc += '<br/>Battery powered : more heat is dissipated each time.';
+					}
+				}
 			}
             return desc;
 		},
@@ -395,7 +405,7 @@
         icon: 'raygun digital',
 		category: 'digital',
 		hasXP: true,
-		xpNeededToBeFull: 5 * 60 * Display.framesPerSecond(),
+		maxBatteryLife: 5 * 60 * Display.framesPerSecond(),
 		batteryPowered: true,
 		xpBarColor: 'yellow',
 		getDescription: function() {
@@ -415,13 +425,6 @@
 			}
             return desc;
 		},
-		insertBattery: function() {
-			if (Shop.boost('backyard').saveableState.power.batteries > 0) {
-				Shop.boost('backyard').saveableState.power.batteries--;
-				this.saveableState.power = 1;
-				this.saveableState.xpGained = this.xpNeededToBeFull - 0.1;
-			}
-		},
 		buy: function() {
 			if (!Shop.has('batteries')) {
 				Shop.unlock('batteries');
@@ -439,7 +442,7 @@
         icon: 'magnet digital digital-glow',
 		category: 'digital',
 		hasXP: true,
-		xpNeededToBeFull: 5 * 60 * Display.framesPerSecond(),
+		maxBatteryLife: 5 * 60 * Display.framesPerSecond(),
 		batteryPowered: true,
 		xpBarColor: 'yellow',
 		getDescription: function() {
@@ -453,13 +456,6 @@
 				desc = 'The magnet is getting all the nuts and bolts it can find for you.';
 			}
             return desc;
-		},
-		insertBattery: function() {
-			if (Shop.boost('backyard').saveableState.power.batteries > 0) {
-				Shop.boost('backyard').saveableState.power.batteries--;
-				this.saveableState.power = 1;
-				this.saveableState.xpGained = this.xpNeededToBeFull - 0.1;
-			}
 		},
 		shortName: 'giantmagnet',
 		cost: {}

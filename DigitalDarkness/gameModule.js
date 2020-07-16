@@ -52,7 +52,7 @@
         if (Shop.has('lasergun') && Shop.hasRepaired('buzzlightyear') && !Shop.has('pewpew')) {
             Shop.unlock('pewpew');
         }
-        if (Shop.has('pewpew') && !Shop.has('batteries')) {
+        if (!Shop.has('batteries') && (Shop.boosts.filter(b => b.isBought() && b.batteryPowered).length > 0)) {
             Shop.unlock('batteries');
         }
         if (!isFinite(Game.currency('MM').xpRequiredForNextLevel())
@@ -101,6 +101,9 @@
             let baseXP = -1;
             if (Shop.hasRepaired('fan')) {
                 baseXP *= 5;
+                if (Shop.boost('fan').saveableState.power == 1) {
+                    baseXP *= 3;
+                }
                 Shop.boost('fan').saveableState.xpGained = 0;
             }
             Shop.boost('police').gainXP(baseXP);
@@ -114,8 +117,8 @@
     gameModule.updateBatteryLives = function updateBatteryLives() {
         let batteryPoweredBoosts = Shop.boosts.filter(b => b.batteryPowered && b.saveableState.power == 1);
         batteryPoweredBoosts.forEach((boost) => {
-            boost.gainXP(-1);
-            if (boost.saveableState.xpGained <= 0) {
+            boost.drainBattery(1);
+            if (boost.getBatteryLife() == 0) {
                 boost.saveableState.power = 0;
                 Display.notify("The battery is dead in ", boost.name);
             }

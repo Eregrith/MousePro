@@ -154,6 +154,24 @@
                     settings.onRestoreSave(this);
                 }
             },
+            drainBattery: function(amount) {
+                this.saveableState.batteryLife -= amount;
+                if (this.saveableState.batteryLife < 0)
+                    this.saveableState.batteryLife = 0;
+            },
+            getBatteryLife: function() {
+                return this.saveableState.batteryLife;
+            },
+            getBatteryLifePercent: function() {
+                return (this.saveableState.batteryLife * 100) / this.maxBatteryLife;
+            },
+            insertBattery: function() {
+                if (Shop.boost('backyard').saveableState.power.batteries > 0) {
+                    Shop.boost('backyard').saveableState.power.batteries--;
+                    this.saveableState.power = 1;
+                    this.saveableState.batteryLife = this.maxBatteryLife;
+                }
+            }
         }
 
         Shop.boosts.push(boost);

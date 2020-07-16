@@ -276,6 +276,18 @@
 					let repairDiv = ownedBoost.getElementsByClassName('boost-repair')[0];
 					repairDiv.innerHTML = boost.getRepairDescription();
 				}
+
+				if (boost.batteryPowered) {
+					let batteryLifeDiv = ownedBoost.getElementsByClassName('battery-life')[0];
+					let batteryFullness = Math.round(boost.getBatteryLifePercent(), 0);
+					if (batteryFullness > 0) {
+						batteryLifeDiv.style.height = batteryFullness + '%';
+						batteryLifeDiv.setAttribute('data-percent', batteryFullness + '%');
+						batteryLifeDiv.classList.remove('battery-dead');
+					} else {
+						batteryLifeDiv.classList.add('battery-dead');
+					}
+				}
 			}
 		});
 		boosts.sort((a, b) => { if (a.isActivable) return -1; if (b.isActivable) return 1; if (a.hasXP) return -1; if (b.hasXP) return 1; return 0; } ).forEach((boost) => {
@@ -295,6 +307,12 @@
 		}
 		if (boost.ephemeral) {
 			mainDiv.classList.add('ephemeral');
+		}
+		if (boost.isLoot) {
+			mainDiv.classList.add('isLoot');
+		}
+		if (boost.batteryPowered) {
+			mainDiv.classList.add('batteryPowered');
 		}
 		mainDiv.id = 'boost-' + boost.shortName;
 		
@@ -370,6 +388,22 @@
 			lootLabel.classList = ['boost-loot-label'];
 			lootLabel.innerHTML = '<i class="fa-loot"></i> Loot!';
 			mainDiv.appendChild(lootLabel);
+		}
+
+		if (boost.batteryPowered) {
+			let batteryDiv = document.createElement('div');
+			batteryDiv.classList = [ 'boost-battery' ];
+			let batteryLife = document.createElement('div');
+			batteryLife.className = 'battery-life';
+			let batteryFullness = Math.round(boost.getBatteryLifePercent(), 0);
+			if (batteryFullness > 0) {
+				batteryLife.style.height = batteryFullness + '%';
+				batteryDiv.setAttribute('data-percent', batteryFullness + '%');
+			} else {
+				batteryDiv.classList.add('battery-dead');
+			}
+			batteryDiv.appendChild(batteryLife);
+			mainDiv.appendChild(batteryDiv);
 		}
 
 		if (boost.hasXP) {

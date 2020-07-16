@@ -533,7 +533,7 @@
 	Boosts.newBoost({
 		name: 'Blood Catalyzer',
 		icon: 'bolt red red-glow',
-		category: 'blood',
+		category: 'digital',
 		hasXP: true,
 		xpNeededToBeFull: 1,
 		getDescription: function() {
