@@ -26,7 +26,13 @@
             } else {
 				desc = 'A nice computer screen.';
 				if (!this.isBrowsing()) {
-					desc += '<br/><div class="btn" onclick="gameObjects.Shop.boost(\'oldtv\').startBrowsing()"><i class="fa fa-search digital digital-glow"></i> Browse the dark web</div>';
+					if (Game.currency('DWK').getLevel() >= 24){
+						desc += '<br/>You feel that browsing the dark web yourself with your current level of knowledge <span class="red">will get you caught</span> in a matter of seconds. There must be another way.';
+						desc += '<br/><div class="btn" onclick="gameObjects.Shop.boost(\'oldtv\').startBrowsing()"><i class="fa fa-search digital digital-glow"></i> Browse the dark web anyway <span class="red"> and get caught by the police</span></div>';
+					}
+					else {
+						desc += '<br/><div class="btn" onclick="gameObjects.Shop.boost(\'oldtv\').startBrowsing()"><i class="fa fa-search digital digital-glow"></i> Browse the dark web</div>';
+					}
 				} else {
 					desc += '<br/>Browsing...';
 				}
@@ -53,6 +59,10 @@
 			Loot.tryLootCategory('darkweb');
 			if (Shop.has('sexymouse')) {
 				Shop.unlock('giantrat');
+			}
+			if (Shop.has('hackingfordummies')) {
+				Shop.boost('hackingfordummies').saveableState.power++;
+				Shop.boost('hackingfordummies').gainXP(1);
 			}
 			this.saveableState._isBrowsing = false;
 			let baseXP = 1;
@@ -156,6 +166,71 @@
 			}
 		},
 		isLoot: true
+	});
+	Boosts.newBoost({
+		name: 'Hacking for Dummies',
+        icon: 'book-dead digital',
+		category: 'digital',
+		hasXP: true,
+		xpNeededToBeFull: 50,
+		xpBarColor: 'var(--digital-color)',
+		getDescription: function() {
+			let desc = 'That might help your friends help you with the Dark Web.'
+					 + ' Every time you browse the dark web, they learn a bit more and this gives a cummulative'
+					 + ' 13.37% bonus to each of your friend\'s output.';
+            return desc;
+		},
+		isFullXP: function() {
+			if (!Shop.has('haxxoraldo')) {
+				Shop.unlock('haxxoraldo');
+				Shop.unlock('haxxorbarnabeus');
+			}
+		},
+		shortName: 'hackingfordummies',
+		cost: {
+			levels: {
+				MM: 300,
+				MC: 300,
+				DWK: 10,
+			}
+		},
+		isLoot: true
+	});
+	Boosts.newBoost({
+		name: 'Haxxor Aldo',
+        icon: 'user-circle digital',
+		category: 'digital',
+		getDescription: function() {
+			let desc = 'Finally your friend understands the Dark Web.'
+					 + ' He will now passively give you a bit of DWK XP every time he activates';
+			return desc;
+		},
+		shortName: 'haxxoraldo',
+		cost: {
+			levels: {
+				MM: 5000,
+				MC: 2000,
+				DWK: 10,
+			}
+		}
+	});
+	Boosts.newBoost({
+		name: 'Haxxor Barnabeus',
+        icon: 'user-circle fa-lighter digital',
+		category: 'digital',
+		getDescription: function() {
+			let desc = 'Finally your friend understands the Dark Web.'
+					 + ' He will now passively give you a bit of DWK XP every time he activates';
+			return desc;
+		},
+		shortName: 'haxxorbarnabeus',
+		cost: {
+			levels: {
+				MM: 2000,
+				MC: 5000,
+				DWK: 10,
+			}
+		}
 	});
 	Boosts.newBoost({
 		name: 'Ad Blocker',
@@ -319,7 +394,7 @@
 						desc += ' If you add a battery it might be stronger for a little time.';
 						desc += '<br/><div class="btn" onclick="gameObjects.Shop.boost(\'fan\').insertBattery()">Insert a <i class="fa fa-battery-full digital digital-glow"></i> battery</div>';
 					} else {
-						desc += '<br/>Battery powered : more heat is dissipated each time.';
+						desc += '<br/>Battery powered:<br/>More heat is dissipated each time.';
 					}
 				}
 			}
@@ -493,7 +568,7 @@
         icon: 'user-astronaut digital',
 		category: 'digital',
 		repairable: true,
-		boltsNeededToRepair: 100,
+		boltsNeededToRepair: 250,
 		getDescription: function() {
 			let desc = 'A broken toy.';
 			if (Shop.has('pewpew') && Shop.has('giantmagnet')) {

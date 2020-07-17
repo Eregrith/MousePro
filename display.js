@@ -44,7 +44,7 @@
 		if (isNaN(value)) return 'Borked';
 		if (!isFinite(value)) return 'Infinity';
 
-		value = Math.round(Math.abs(value));
+		value = Math.floor(Math.abs(value));
 		if (value <= 5000) return negative + value;
 		
 		let postFixedValue = value.toExponential(2).replace(/e\+/, ' e');
@@ -453,7 +453,13 @@
 					iconDiv.classList.add('red');
 					iconDiv.classList.add('red-glow');
 				}
-						
+				if (Shop.has('haxxor' + friend.shortName)) {
+					iconDiv.classList.remove('red');
+					iconDiv.classList.remove('red-glow');
+					iconDiv.classList.add('digital');
+					iconDiv.classList.add('digital-glow');
+				}
+
 				let desc = unlockedFriend.getElementsByClassName('friend-desc')[0];
 				desc.innerHTML = friend.getDescription();
 				

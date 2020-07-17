@@ -65,9 +65,15 @@
         shortName: 'aldo',
         icon: 'user-circle',
         getDescription: function() {
-            return 'This little man will help you by moving his mouse as well!<br>Yay!<br>'
-                + (this.getXpPerActivation() > 0 ? 'Gives ' + Display.beautify(this.getXpPerActivation()) + ' ' +Game.currency('MM').iconTag + 'MM xp per activation' + (Shop.has('bloodthirstyaldo') ? ' (Before multipliers)' : '') + '.' : '') + '<br>'
-                + this.getActivationFrequencyDescription();
+            let desc;
+            if (!Shop.has('haxxoraldo')) {
+                desc = 'This little man will help you by moving his mouse as well!<br>Yay!<br>'
+                    + (this.getXpPerActivation() > 0 ? 'Gives ' + Display.beautify(this.getXpPerActivation()) + ' ' +Game.currency('MM').iconTag + 'MM xp per activation' + (Shop.has('bloodthirstyaldo') ? ' (Before multipliers)' : '') + '.' : '') + '<br>';
+            } else {
+                desc = 'This little man will help you browsing the dark web by listing every IP one after the other.<br/>'
+                    + 'Gives ' + Display.beautify(this.getDWKXpPerActivation()) + ' ' + Game.currency('DWK').iconTag + ' DWK xp per activation';
+            }
+            return desc + this.getActivationFrequencyDescription();
         },
         baseTicksPerMove: 10,
         costsIncrement: 1.6,
@@ -101,6 +107,13 @@
                 }
             }
             Game.acquireXp('MM', xp);
+            if (Shop.has('haxxoraldo')) {
+                let dwkxp = this.getDWKXpPerActivation();
+                Game.acquireXp('DWK', dwkxp);
+            }
+        },
+        getDWKXpPerActivation: function() {
+            return 1;
         },
         bloodNeededToBeFull: 50,
         isFullOfBlood: function() {
@@ -117,9 +130,18 @@
         shortName: 'barnabeus',
         icon: 'user-circle fa-lighter',
         getDescription: function() {
-            return 'This little man will help you by clicking his mouse as well!<br>Yay!<br>'
-                + (this.getXpPerActivation() > 0 ? 'Gives ' + Display.beautify(this.getXpPerActivation()) + ' ' +Game.currency('MC').iconTag + 'MC xp per activation.' + (Shop.has('bloodthirstyaldo') ? ' (Before multipliers)' : '') + '.' : '') + '<br>'
-                + this.getActivationFrequencyDescription();
+            let desc;
+            if (!Shop.has('haxxorbarnabeus')) {
+                desc = 'This little man will help you by clicking his mouse as well!<br>Yay!<br>'
+                    + (this.getXpPerActivation() > 0 ? 'Gives ' + Display.beautify(this.getXpPerActivation()) + ' ' +Game.currency('MC').iconTag + 'MC xp per activation.' + (Shop.has('bloodthirstyaldo') ? ' (Before multipliers)' : '') + '.' : '') + '<br>'
+            } else {
+                desc = 'This little man will help you browsing the dark web by listing every IP one after the other.<br/>'
+                    + 'Gives ' + Display.beautify(this.getDWKXpPerActivation()) + ' ' + Game.currency('DWK').iconTag + ' DWK xp per activation';
+            }
+            return desc + this.getActivationFrequencyDescription();;
+        },
+        getDWKXpPerActivation: function() {
+            return 5;
         },
         baseTicksPerMove: 50,
         costsIncrement: 1.6,
@@ -134,6 +156,9 @@
                 if (Shop.has('somuchblood')) {
                     baseXp *= Math.floor(Game.currency('blood').getXp());
                 }
+            }
+            if (Shop.has('hackingfordummies')) {
+                baseXp *= Math.pow(1.1337, Shop.boost('hackingfordummies').getPower());
             }
             return baseXp;
         },
@@ -154,6 +179,10 @@
                 }
             }
             Game.acquireXp('MC', xp);
+            if (Shop.has('haxxorbarnabeus')) {
+                let dwkxp = this.getDWKXpPerActivation();
+                Game.acquireXp('DWK', dwkxp);
+            }
         },
         isFullOfBlood: function() {
             if (!Shop.has('bloodfullbarnabeus')) {
