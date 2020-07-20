@@ -134,3 +134,8 @@
 body[gameFont=ObelixPro] .fa-onion {
     top: -42px;
 }
+
+.fa-lgm {
+    content: url('../img/lgm-digital.png');
+    width: 19px;
+}

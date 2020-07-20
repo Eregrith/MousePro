@@ -591,8 +591,8 @@
 		}
 	});
 	Boosts.newBoost({
-		name: 'Toy aliens',
-        icon: 'reddit-alien digital',
+		name: 'Little Green Men',
+        icon: 'lgm digital',
 		category: 'digital',
 		hasXP: true,
 		xpNeededToBeFull: 25,
