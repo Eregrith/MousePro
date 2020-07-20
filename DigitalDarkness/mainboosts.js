@@ -15,7 +15,9 @@
 		xpNeededToBeFull: 10,
 		power: 0,
 		xpBarColor: 'var(--digital-color)',
-		_isBrowsing: true,
+		saveableState: {
+			_isBrowsing: false,
+		},
 		isBrowsing: function() {
 			return this.saveableState._isBrowsing;
 		},
@@ -138,7 +140,7 @@
 			let desc = 'Storage for your crap';
 			desc += 'You have ' + this.saveableState.power.nuts + ' <i class="fa fa-cog digital digital-glow"></i> nuts and bolts';
 			if (Shop.has('batteries')) {
-				desc += 'You have ' + this.saveableState.power.batteries + ' <i class="fa fa-battery-full digital digital-glow"></i> batteries'
+				desc += '<br/>You have ' + this.saveableState.power.batteries + ' <i class="fa fa-battery-full digital digital-glow"></i> batteries'
 			}
             return desc;
 		},
@@ -292,7 +294,7 @@
 		category: 'digital',
 		hasXP: true,
 		xpNeededToBeFull: 20,
-		xpBarColor: 'orange',
+		xpBarColor: 'var(--police-color)',
 		isFullXP: function(me) {
 			Display.notify("The police found you and took all your hard drives !!!", 'Police');
 			Game.currency('DWK').saveableState.xp = 0;
@@ -302,7 +304,7 @@
 				Achievements.gain('badcall');
 		},
 		getDescription: function() {
-            let desc = 'The police is on your tracks. Better let the heat cool down or they might take all your knowledge...';
+			let desc = 'The police is on your tracks. Better let the heat cool down or they might take all your knowledge...';
             return desc;
 		},
 		shortName: 'police'
@@ -580,6 +582,47 @@
 		cost: {
 			xp: {
 				DWK: 15,
+			}
+		}
+	});
+	Boosts.newBoost({
+		name: 'Deep Knowledge',
+        icon: 'fish digital',
+		category: 'digital',
+		hasXP: true,
+		xpNeededToBeFull: 1000,
+		saveableState: {
+			_isPhishing: false,
+		},
+		xpBarColor: 'var(--police-color)',
+		isPhishing: function() {
+			return this.saveableState._isPhishing;
+		},
+		getDescription: function() {
+			let desc = 'You know so much about the dark web, you could send the police to your competitors and steal what they take from them.';
+			if (this.isBought()) {
+				if (!this.isPhishing()) {
+					desc += '<br/><div class="btn" onclick="gameObjects.Shop.boost(\'deepknowledge\').goPhish()">Go phish a competitor</div><br/>';
+				} else {
+					desc += '<br/><br/>Phishing...';
+				}
+			}
+            return desc;
+		},
+		goPhish: function() {
+			this.saveableState._isPhishing = true;
+		},
+		isFullXP: function() {
+			this.saveableState.xpGained = 0;
+			this.saveableState._isPhishing = false;
+			let levels = 1;
+			Game.currency('DWK').acquireLevels(levels);
+			Display.notify("You had the police steal " + levels + " DWK level" + (levels > 1 ? 's' : '') + " from a competitor");
+		},	
+		shortName: 'deepknowledge',
+		cost: {
+			levels: {
+				DWK: 30,
 			}
 		}
 	});

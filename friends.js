@@ -71,7 +71,7 @@
                     + (this.getXpPerActivation() > 0 ? 'Gives ' + Display.beautify(this.getXpPerActivation()) + ' ' +Game.currency('MM').iconTag + 'MM xp per activation' + (Shop.has('bloodthirstyaldo') ? ' (Before multipliers)' : '') + '.' : '') + '<br>';
             } else {
                 desc = 'This little man will help you browsing the dark web by listing every IP one after the other.<br/>'
-                    + 'Gives ' + Display.beautify(this.getDWKXpPerActivation()) + ' ' + Game.currency('DWK').iconTag + ' DWK xp per activation';
+                    + 'Gives ' + Display.beautify(this.getDWKXpPerActivation()) + ' ' + Game.currency('DWK').iconTag + ' DWK xp per activation<br/>';
             }
             return desc + this.getActivationFrequencyDescription();
         },
@@ -136,7 +136,7 @@
                     + (this.getXpPerActivation() > 0 ? 'Gives ' + Display.beautify(this.getXpPerActivation()) + ' ' +Game.currency('MC').iconTag + 'MC xp per activation.' + (Shop.has('bloodthirstyaldo') ? ' (Before multipliers)' : '') + '.' : '') + '<br>'
             } else {
                 desc = 'This little man will help you browsing the dark web by listing every IP one after the other.<br/>'
-                    + 'Gives ' + Display.beautify(this.getDWKXpPerActivation()) + ' ' + Game.currency('DWK').iconTag + ' DWK xp per activation';
+                    + 'Gives ' + Display.beautify(this.getDWKXpPerActivation()) + ' ' + Game.currency('DWK').iconTag + ' DWK xp per activation<br/>';
             }
             return desc + this.getActivationFrequencyDescription();;
         },

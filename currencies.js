@@ -65,6 +65,10 @@
                     this.levelUp();
                 }
             },
+            acquireLevels: function(amount) {
+                this.saveableState.level += amount;
+                this.checkLevelUps();
+            },
             checkLevelUps: function() {
                 while (this.canLevelUp()) {
                     this.levelUp();

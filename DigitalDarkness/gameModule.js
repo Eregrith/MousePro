@@ -69,12 +69,17 @@
                 if (!Shop.isAvailable('spaceshuttle'))
                     Shop.unlock('spaceshuttle');
             }
+
+        if (Game.currency('DWK').getLevel() >= 24
+            && !Shop.has('deepknowledge')) {
+                Shop.unlock('deepknowledge');
+            }
     };
 
     gameModule._ticks = 0;
     gameModule.tick = function tick() {
         gameModule._ticks++;
-        if (Shop.boost('oldtv').isBrowsing()) {
+        if (Shop.has('oldtv') && Shop.boost('oldtv').isBrowsing()) {
             let baseXP = 1;
             if (Shop.has('adsl')) {
                 baseXP += 1;
@@ -83,6 +88,10 @@
                 baseXP += 4;
             }
             Shop.boost('oldtv').gainXP(baseXP);
+        }
+        if (Shop.has('deepknowledge') && Shop.boost('deepknowledge').isPhishing()) {
+            let baseXP = 1;
+            Shop.boost('deepknowledge').gainXP(baseXP);
         }
         gameModule.updateBatteryLives();
         if (Shop.boost('giantrat').isUnlocked() && Shop.boost('pewpew').saveableState.power == 1) {

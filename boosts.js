@@ -15,7 +15,8 @@
                 bought: false,
                 power: settings.power || 0,
                 active: false,
-                boltsUsedToRepair: 0
+                boltsUsedToRepair: 0,
+                ...settings.saveableState
             },
             category: settings.category || 'common',
             getCost: function () {
