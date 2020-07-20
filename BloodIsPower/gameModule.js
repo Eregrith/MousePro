@@ -160,7 +160,6 @@
         if (boost.ephemeral && boost.isUnlocked()) {
             boost.die(true);
             gameModule.harvestBlood(1);
-            Display.needsRepaintImmediate = true;
         }
     }
 
@@ -168,7 +167,6 @@
         rat.lock();
         gameModule.harvestBlood(1);
         Loot.tryLootCategory('ratstomach');
-        Display.needsRepaintImmediate = true;
     }
 
     gameModule.toggleBoost = function(shortName) {
@@ -178,7 +176,6 @@
         } else {
             boost.activate();
         }
-        Display.needsRepaintImmediate = true;
     }
 
     gameModule.tick = function() {

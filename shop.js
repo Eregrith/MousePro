@@ -25,21 +25,18 @@
 		
 		Game.spend(boost.getCost());
 		boost.buy();
-		Display.needsRepaintImmediate = true;
 	}
 	
 	Shop.unlock = function(shortName) {
 		let boost = Shop.boost(shortName);
 		if (!boost) return;
 		boost.unlock();
-		Display.needsRepaintImmediate = true;
 	}
 	
 	Shop.lock = function(shortName) {
 		let boost = Shop.boost(shortName);
 		if (!boost) return;
 		boost.lock();
-		Display.needsRepaintImmediate = true;
 	}
 
 	Shop.isAvailable = function(shortName) {

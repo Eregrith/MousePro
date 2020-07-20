@@ -41,7 +41,7 @@ ul {
 }
 
 .scroller {
-	height: 94%;
+	height: 90%;
 	overflow-y: auto;
     display: block;
     width: auto;

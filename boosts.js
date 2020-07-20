@@ -24,6 +24,8 @@
                     this.cost.xp = {};
                 if (this.cost.levels == undefined)
                     this.cost.levels = {};
+                if (this.cost.backyard == undefined)
+                    this.cost.backyard = {};
                 return this.cost;
             },
             getPower: function() {
@@ -114,7 +116,7 @@
                         + ' sec before being locked again.';
 
                 if (Shop.has('unritualisticsacrifice')) {
-                    desc += '<br/>Or, you can just <a class="kill-ethereal red-glow" onclick="gameObjects.Game.getModule(\'bip\').kill(\'' + this.shortName + '\')">kill it</a> now for its blood.';
+                    desc += '<br>Or, you can just <a class="kill-ethereal red-glow" onclick="gameObjects.Game.getModule(\'bip\').kill(\'' + this.shortName + '\')">kill it</a> now for its blood.';
                 }
                 
                 return desc;
@@ -130,9 +132,9 @@
             getRepairDescription: function() {
                 let desc = '';
                 if (this.isBought() && Shop.has('backyard') && !this.isRepaired()) {
-                    desc += '<br/>You will need ' + (this.boltsNeededToRepair - (this.saveableState.boltsUsedToRepair || 0)) + ' <i class="fa fa-cog digital digital-glow"></i> to fix this.';
+                    desc += '<br>You will need ' + (this.boltsNeededToRepair - (this.saveableState.boltsUsedToRepair || 0)) + ' <i class="fa fa-cog digital digital-glow"></i> to fix this.';
                     if (Shop.boost('backyard').saveableState.power.nuts >= 1) {
-                        desc += '<br/><div class="btn repair" onclick="gameObjects.Game.getModule(\'dd\').repair(\'' + this.shortName + '\')">Use 1 <i class="fa fa-cog digital digital-glow"></i> to repair</div>';
+                        desc += '<br><div class="btn repair" onclick="gameObjects.Game.getModule(\'dd\').repair(\'' + this.shortName + '\')">Use 1 <i class="fa fa-cog digital digital-glow"></i> to repair</div>';
                     }
                 }
                 return desc;

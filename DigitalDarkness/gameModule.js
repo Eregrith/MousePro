@@ -19,6 +19,24 @@
         isToBeDisplayedNormally: false,
         order: 3
 	});
+	Currencies.newCurrency({
+		name: 'Nuts and bolts',
+        shortName: 'bolts',
+        color: 'var(--digital-color)',
+        iconTag: '<i class="fa fa-cog digital digital-glow currency-icon"></i>',
+        icon: 'cog digital digital-glow',
+        isToBeDisplayedNormally: false,
+        levelsLabel: ' '
+	});
+	Currencies.newCurrency({
+		name: 'Batteries',
+        shortName: 'batteries',
+        color: 'var(--digital-color)',
+        iconTag: '<i class="fa fa-battery-full digital digital-glow currency-icon"></i>',
+        icon: 'battery-full digital digital-glow',
+        isToBeDisplayedNormally: false,
+        levelsLabel: ' '
+	});
     
     gameModule.checkUnlocks = function checkUnlocks() {
         if (Game.currency('DWK').getXp() > 0 || Game.currency('DWK').getLevel() > 0) {
@@ -54,6 +72,9 @@
         }
         if (!Shop.has('batteries') && (Shop.boosts.filter(b => b.isBought() && b.batteryPowered).length > 0)) {
             Shop.unlock('batteries');
+        }
+        if (Shop.hasRepaired('spaceshuttle') && !Shop.has('aliens')) {
+            Shop.unlock('aliens');
         }
         if (!isFinite(Game.currency('MM').xpRequiredForNextLevel())
             && !isFinite(Game.currency('MC').xpRequiredForNextLevel())) {

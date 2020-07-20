@@ -77,13 +77,26 @@
             isUnlocked: function() {
                 return this.saveableState.unlocked;
             }
+        },
+        {
+            label: 'Performance',
+            shortName: 'perfs',
+            saveableState: {
+                unlocked: false,
+                active: false
+            },
+            isActive: function() {
+                return this.saveableState.active;
+            },
+            isUnlocked: function() {
+                return this.saveableState.unlocked;
+            }
         }
     ];
 
     Tabs.unlock = function(shortName) {
         let tab = Tabs.tab(shortName);
         tab.saveableState.unlocked = true;
-        Display.needsRepaintImmediate = true;
     }
 
     Tabs.tab = function(shortName) {

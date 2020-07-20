@@ -235,7 +235,7 @@
 		getDescription: function() {
 			let desc = 'Ephemeral boosts live for twice as long before disappearing.'; 
 			if (!this.isBought()) {
-				desc += '<br/>Toggleable on/off.';
+				desc += '<br>Toggleable on/off.';
 			} else if (this.isActive()) {
 				desc += '<div class="btn" onclick="gameObjects.Game.getModule(\'bip\').toggleBoost(\'anchor\')">Turn off</div>';
 			} else {

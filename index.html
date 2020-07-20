@@ -93,11 +93,21 @@
 			<ul id="log"></div>
 		</div>
 	</div>
+	<div class="tab" id="tab-perfs">
+		<div style="position: relative; height:600px; width:1000px;">
+			<canvas id="perf-chart" width="1000" height="600"></canvas>
+		</div>
+		<div class="btn" onclick="gameObjects.Display.createGraph()">Activate</div>
+		<div class="btn" onclick="gameObjects.Display.stopGraph()">Stop</div>
+	</div>
 	<div class="saveExport" id="saveExport" style="display:none">
 		<div class="saveExportCaption">Your save:</div>
 		<div class="saveExportClose" onclick="gameObjects.Display.closeSaveExport()">X</div>
 		<textarea class="saveExportText" id="saveExportText"></textarea>
 	</div>
+
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+
 	<script type="text/javascript" src="lib/color_interpolation.js"></script>
 	<script type="text/javascript" src="gameObjects.js"></script>
 	<script type="text/javascript" src="modules.js"></script>
@@ -126,4 +136,5 @@
 	<script type="text/javascript" src="DigitalDarkness/shop.js"></script>
 	<script type="text/javascript" src="save.js"></script>
 	<script type="text/javascript" src="stats.js"></script>
+	<script type="text/javascript" src="start.js"></script>
 </body>

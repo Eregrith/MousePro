@@ -29,14 +29,14 @@
 				desc = 'A nice computer screen.';
 				if (!this.isBrowsing()) {
 					if (Game.currency('DWK').getLevel() >= 24){
-						desc += '<br/>You feel that browsing the dark web yourself with your current level of knowledge <span class="red">will get you caught</span> in a matter of seconds. There must be another way.';
-						desc += '<br/><div class="btn" onclick="gameObjects.Shop.boost(\'oldtv\').startBrowsing()"><i class="fa fa-search digital digital-glow"></i> Browse the dark web anyway <span class="red"> and get caught by the police</span></div>';
+						desc += '<br>You feel that browsing the dark web yourself with your current level of knowledge <span class="red">will get you caught</span> in a matter of seconds. There must be another way.';
+						desc += '<br><div class="btn" onclick="gameObjects.Shop.boost(\'oldtv\').startBrowsing()"><i class="fa fa-search digital digital-glow"></i> Browse the dark web anyway <span class="red"> and get caught by the police</span></div>';
 					}
 					else {
-						desc += '<br/><div class="btn" onclick="gameObjects.Shop.boost(\'oldtv\').startBrowsing()"><i class="fa fa-search digital digital-glow"></i> Browse the dark web</div>';
+						desc += '<br><div class="btn" onclick="gameObjects.Shop.boost(\'oldtv\').startBrowsing()"><i class="fa fa-search digital digital-glow"></i> Browse the dark web</div>';
 					}
 				} else {
-					desc += '<br/>Browsing...';
+					desc += '<br>Browsing...';
 				}
             }
             return desc;
@@ -140,7 +140,7 @@
 			let desc = 'Storage for your crap';
 			desc += 'You have ' + this.saveableState.power.nuts + ' <i class="fa fa-cog digital digital-glow"></i> nuts and bolts';
 			if (Shop.has('batteries')) {
-				desc += '<br/>You have ' + this.saveableState.power.batteries + ' <i class="fa fa-battery-full digital digital-glow"></i> batteries'
+				desc += '<br>You have ' + this.saveableState.power.batteries + ' <i class="fa fa-battery-full digital digital-glow"></i> batteries'
 			}
             return desc;
 		},
@@ -158,7 +158,7 @@
         icon: 'mouse sexy digital-glow',
 		category: 'digital',
 		getDescription: function() {
-            let desc = 'A very sexy mouse for browsing sexy sites on the Dark Web.<br/><small>Caution: can attract rats when browsing.</small>';
+            let desc = 'A very sexy mouse for browsing sexy sites on the Dark Web.<br><small>Caution: can attract rats when browsing.</small>';
             return desc;
 		},
 		shortName: 'sexymouse',
@@ -242,7 +242,7 @@
 		getDescription: function() {
 			let desc = 'All those sacrifices are annoying. This will hide them for you.';
 			if (!this.isBought()) {
-				desc += '<br/>When turned on, this boost will prevent all sacrifices from showing. Auto effects still apply';
+				desc += '<br>When turned on, this boost will prevent all sacrifices from showing. Auto effects still apply';
 			} else if (this.isActive()) {
 				desc += '<div class="btn" onclick="gameObjects.Game.getModule(\'bip\').toggleBoost(\'adblock\')">Turn off</div> Hides all sacrifices.';
 			} else {
@@ -346,7 +346,7 @@
 		getDescription: function() {
 			let desc = 'Shady dude you met online. He sells surprise tech packages that he ... got from ... somewhere...';
 			if (this.isBought())
-				desc += '<br/><div class="btn" onclick="gameObjects.Game.getModule(\'dd\').buyPackage()">Buy a surprise package for 1<i class="fa fa-cog digital digital-glow"></i></div><br/>';
+				desc += '<br><div class="btn" onclick="gameObjects.Game.getModule(\'dd\').buyPackage()">Buy a surprise package for 1<i class="fa fa-cog digital digital-glow"></i></div><br>';
             return desc;
 		},
 		shortName: 'dealer',
@@ -364,7 +364,7 @@
 		getDescription: function() {
 			let desc = 'Subscribe to our newsletter and get some knowledge about the dark web from time to time.';
 			if (this.isBought())
-				desc += '<br/>&nbsp;';
+				desc += '<br>&nbsp;';
             return desc;
 		},
 		shortName: 'newsletter',
@@ -394,9 +394,9 @@
 				if (Shop.has('batteries')) {
 					if (this.saveableState.power == 0) {
 						desc += ' If you add a battery it might be stronger for a little time.';
-						desc += '<br/><div class="btn" onclick="gameObjects.Shop.boost(\'fan\').insertBattery()">Insert a <i class="fa fa-battery-full digital digital-glow"></i> battery</div>';
+						desc += '<br><div class="btn" onclick="gameObjects.Shop.boost(\'fan\').insertBattery()">Insert a <i class="fa fa-battery-full digital digital-glow"></i> battery</div>';
 					} else {
-						desc += '<br/>Battery powered:<br/>More heat is dissipated each time.';
+						desc += '<br>Battery powered:<br>More heat is dissipated each time.';
 					}
 				}
 			}
@@ -488,11 +488,11 @@
 		getDescription: function() {
 			let desc = 'You should really get Buzz busy, he looks like he wants to shoot everything. He might as well shoot the rats for you !';
 			if (!this.isBought()) {
-				desc += '<br/><i><small>BATTERIES NOT INCLUDED</small></i>';
+				desc += '<br><i><small>BATTERIES NOT INCLUDED</small></i>';
 			} else if (this.saveableState.power == 0) {
 				desc += ' This needs a battery to work';
 				if (Shop.has('batteries')) {
-					desc += '<br/><div class="btn" onclick="gameObjects.Shop.boost(\'pewpew\').insertBattery()">Insert a <i class="fa fa-battery-full digital digital-glow"></i> battery</div>';
+					desc += '<br><div class="btn" onclick="gameObjects.Shop.boost(\'pewpew\').insertBattery()">Insert a <i class="fa fa-battery-full digital digital-glow"></i> battery</div>';
 				}
 			} else {
 				desc = 'Buzz is killing rats on sight.';
@@ -527,7 +527,7 @@
 			if (this.saveableState.power == 0) {
 				desc += ' It needs a battery to work';
 				if (Shop.has('batteries')) {
-					desc += '<br/><div class="btn" onclick="gameObjects.Shop.boost(\'giantmagnet\').insertBattery()">Insert a <i class="fa fa-battery-full digital digital-glow"></i> battery</div>';
+					desc += '<br><div class="btn" onclick="gameObjects.Shop.boost(\'giantmagnet\').insertBattery()">Insert a <i class="fa fa-battery-full digital digital-glow"></i> battery</div>';
 				}
 			} else {
 				desc = 'The magnet is getting all the nuts and bolts it can find for you.';
@@ -545,9 +545,9 @@
 			let desc = 'It\'s amazing what you can do with batteries these days !';
 			if (this.isBought()) {
 				if (!Shop.has('backyard'))
-					desc += '<br/>You will need a backyard to store batteries';
+					desc += '<br>You will need a backyard to store batteries';
 				else
-					desc += '<br/><div class="btn" onclick="gameObjects.Shop.boost(\'batteries\').craftBattery()"><i class="fa fa-plus digital digital-glow"></i> Craft a battery with 1 <i class="fa fa-cog digital digital-glow"></i></div>';
+					desc += '<br><div class="btn" onclick="gameObjects.Shop.boost(\'batteries\').craftBattery()"><i class="fa fa-plus digital digital-glow"></i> Craft a battery with 1 <i class="fa fa-cog digital digital-glow"></i></div>';
 			}
             return desc;
 		},
@@ -570,11 +570,16 @@
         icon: 'user-astronaut digital',
 		category: 'digital',
 		repairable: true,
-		boltsNeededToRepair: 250,
+		boltsNeededToRepair: 550,
 		getDescription: function() {
-			let desc = 'A broken toy.';
-			if (Shop.has('pewpew') && Shop.has('giantmagnet')) {
-				desc += ' The more you repair it, the more it grows !';
+			let desc;
+			if (!this.isRepaired()) {
+				desc = 'A broken toy.';
+				if (Shop.has('pewpew') && Shop.has('giantmagnet')) {
+					desc += ' The more you repair it, the more it grows !';
+				}
+			} else {
+				desc = 'The repaired shuttle was actually a real life one !';
 			}
             return desc;
 		},
@@ -583,6 +588,44 @@
 			xp: {
 				DWK: 15,
 			}
+		}
+	});
+	Boosts.newBoost({
+		name: 'Toy aliens',
+        icon: 'reddit-alien digital',
+		category: 'digital',
+		hasXP: true,
+		xpNeededToBeFull: 25,
+		saveableState: {
+			observableBoosts: [],
+			observedBoosts: [],
+			observingBoost: ''
+		},
+		getDescription: function() {
+			let desc = 'Little aliens toys have been seen around your shuttle. They kep saying "THE CLAW!" but you have no idea what they\'re on about.';
+			desc += '<br>They can observe you doing stuff and then replicate what you did on their own.';
+			if (this.isBought()) {
+				desc += '<br>Observe activity on this boost:<select>';
+				this.saveableState.observableBoosts.forEach(shortName => {
+					if (Shop.has(shortName)) {
+						let boost = Shop.boost(shortName);
+						desc += '<option value="' + shortName + '"';
+						if (this.saveableState.observingBoost == shortName)
+							desc += ' checked ';
+						desc += '>' + boost.name + '</option>';
+					}
+				});
+				desc += '</select>';
+			}
+			return desc;
+		},
+		shortName: 'aliens',
+		cost: {
+			levels: {
+				DWK: 50,
+				bolts: 100,
+				batteries: 100
+			},
 		}
 	});
 	Boosts.newBoost({
@@ -602,9 +645,9 @@
 			let desc = 'You know so much about the dark web, you could send the police to your competitors and steal what they take from them.';
 			if (this.isBought()) {
 				if (!this.isPhishing()) {
-					desc += '<br/><div class="btn" onclick="gameObjects.Shop.boost(\'deepknowledge\').goPhish()">Go phish a competitor</div><br/>';
+					desc += '<br><div class="btn" onclick="gameObjects.Shop.boost(\'deepknowledge\').goPhish()">Go phish a competitor</div><br>';
 				} else {
-					desc += '<br/><br/>Phishing...';
+					desc += '<br><br>Phishing...';
 				}
 			}
             return desc;

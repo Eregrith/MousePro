@@ -11,8 +11,6 @@
 	Display.tickIntervalValue = 10;
 	Display.ticks = 0;
 	
-	Display.needsRepaintImmediate = false;
-
 	Display.framesPerSecond = function() {
 		return 1000.0 / Display.tickIntervalValue;
 	}
@@ -74,24 +72,63 @@
 
 		return negative + postFixedValue;
 	}
-	
+
+	const markerNameA = "example-marker-a"
+	const markerNameB = "example-marker-b"
+	let loops = 0;
+	let loopTime = 0;
+	let perfs;
+
+	function initPerfs() {
+		perfs = {
+			updateCurrencies: [],
+			updateNotifs: [],
+			refreshDisplayModules: [],
+			refreshShop: [],
+			refreshTabs: [],
+			refreshFriends: [],
+			refreshExistingBoosts: [],
+			refreshCategories: [],
+			refreshAchievements: [],
+			refreshStats: [],
+			GameTick: [],
+		};
+	}
+	initPerfs();
+
+	function measurePerfOf(func) {
+		let start = performance.now();
+		func();
+		let end = performance.now();
+		return end - start;
+	}
+
 	Display.tick = function() {
-		Display.updateCurrencies();
-		Display.updateNotifs();
-		Display.refreshDisplayModules();
+		perfs.updateCurrencies.push(measurePerfOf(Display.updateCurrencies));
+		perfs.updateNotifs.push(measurePerfOf(Display.updateNotifs));
+		perfs.refreshDisplayModules.push(measurePerfOf(Display.refreshDisplayModules));
 		Display.ticks++;
-		if (Display.ticks == 50 || Display.needsRepaintImmediate) {
+		loops++;
+		if (loops == 50) loops = 0;
+		if (Display.ticks == 50) {
 			Display.ticks = 0;
-			Display.needsRepaintImmediate = false;
-			Display.refreshShop();
-			Display.refreshTabs();
-			Display.refreshFriends();
-			Display.refreshBoostsOwned();
-			Display.refreshCategories();
-			Display.refreshAchievements();
-			Stats.refreshStats();
+			if (Tabs.getActiveTab() == 'achievements') {
+				perfs.refreshAchievements.push(measurePerfOf(Display.refreshAchievements));
+			} else if (Tabs.getActiveTab() == 'stats') {
+				perfs.refreshStats.push(measurePerfOf(Stats.refreshStats));
+			} else if (Tabs.getActiveTab() == 'game') {
+				perfs.refreshShop.push(measurePerfOf(Display.refreshShop));
+				perfs.refreshFriends.push(measurePerfOf(Display.refreshFriends));
+				Display.refreshBoostsOwned();
+				perfs.refreshCategories.push(measurePerfOf(Display.refreshCategories));
+			}
+			perfs.refreshTabs.push(measurePerfOf(Display.refreshTabs));
 		}
-		Game.tick();
+		perfs.GameTick.push(measurePerfOf(Game.tick));
+		if (graph != undefined && loops == 0) {
+			Display.refreshPerfGraph();
+			initPerfs();
+		}
 	}
 	
 	Display.startTicking = function() {
@@ -140,8 +177,6 @@
 		}
 		if (boosts.length == 0)
 			ul.parentElement.parentElement.style.display = 'none';
-		else
-			ul.parentElement.parentElement.style.display = '';
 
 		shopBoosts.forEach((shopBoost) => {
 			let boost = boosts.filter(b => 'boost-' + b.shortName == shopBoost.id);
@@ -158,21 +193,29 @@
 			} else {
 				shopBoost = shopBoost[0];
 				let descDiv = shopBoost.getElementsByClassName('boost-desc')[0];
-				descDiv.innerHTML = boost.getDescription();
+				let desc = boost.getDescription();
+				if (desc != descDiv.innerHTML)
+					descDiv.innerHTML = desc;
 				let ephemeralDiv = shopBoost.getElementsByClassName('boost-ephemeral');
 				if (ephemeralDiv.length > 0){
 					ephemeralDiv = ephemeralDiv[0];
-					ephemeralDiv.innerHTML = boost.getEphemeralDescription(Display);
+					let ephemeralDescription = boost.getEphemeralDescription(Display);
+					if (ephemeralDescription != ephemeralDiv.innerHTML)
+						ephemeralDiv.innerHTML = ephemeralDescription;
 				}
 				let lifeDiv = shopBoost.getElementsByClassName('boost-life-in-seconds');
 				if (lifeDiv.length > 0){
 					lifeDiv = lifeDiv[0];
-					lifeDiv.innerHTML = boost.getLifeInSeconds(Display);
+					let lifeInSeconds = boost.getLifeInSeconds(Display);
+					if (lifeInSeconds != lifeDiv.innerHTML)
+						lifeDiv.innerHTML = lifeInSeconds;
 				}
 				let buyButton = shopBoost.getElementsByClassName('boost-buy-btn')[0];
-				if (!Game.hasCurrency(boost.getCost()) || !boost.canBuy())
-					buyButton.classList.add('disabled');
-				else
+				if (!Game.hasCurrency(boost.getCost()) || !boost.canBuy()) {
+					if (!buyButton.classList.contains('disabled'))
+						buyButton.classList.add('disabled');
+				}
+				else if (buyButton.classList.contains('disabled'))
 					buyButton.classList.remove('disabled');
 			}
 		});
@@ -180,16 +223,34 @@
 	
 	Display.refreshAchievements = function() {
 		let ul = document.getElementById('achievements');
-		while (ul.firstChild) {
-			ul.removeChild(ul.firstChild);
-		}
+		let tabAchievements = [...ul.getElementsByClassName('achievement')];
 		
 		let ach = Achievements.achievements;
 		if (ach.length == 0) return;
 
+		tabAchievements.forEach((tabAchievement) => {
+			let achievement = ach.filter(b => 'achievement-' + b.shortName == tabAchievement.id);
+			if (achievement.length == 0) {
+				ul.removeChild(tabAchievement);
+				return;
+			}
+		});
 		ach.forEach((achievement) => {
-			let achievementItem = Display.buildDisplayItemForAchievement(achievement);
-			ul.appendChild(achievementItem);
+			let tabAchievement = tabAchievements.filter(ta => ta.id == 'achievement-' + achievement.shortName);
+			if (tabAchievement.length == 0) {
+				let achievementItem = Display.buildDisplayItemForAchievement(achievement);
+				ul.appendChild(achievementItem);
+			} else {
+				tabAchievement = tabAchievement[0];
+				if (!achievement.acquired) {
+					if (!tabAchievement.classList.contains('locked'))
+						tabAchievement.classList.add('locked');
+				}
+				else {
+					if (tabAchievement.classList.contains('locked'))
+						tabAchievement.classList.remove('locked');
+				}
+			}
 		});
 	}
 
@@ -220,17 +281,16 @@
 		return mainDiv;
 	}
 	
-	let refreshes = 0;
+	let boostsOwned = 0;
 	Display.refreshBoostsOwned = function() {
+		let boosts = Shop.boosts.filter(b => b.isBought() && !b.isUnlocked());
 		let ul = document.getElementById('owned');
-		refreshes++;
-		if (refreshes === 10) {
+		if (boostsOwned != boosts.length) {
 			ul.innerHTML = '';
-			refreshes = 0;
 		}
+		boostsOwned = boosts.length;
 		let ownedBoosts = [...ul.getElementsByClassName('boost')];
 
-		let boosts = Shop.boosts.filter(b => b.isBought() && !b.isUnlocked());
 		if (BoostCategories.getActiveCategory().name !== '*') {
 			boosts = boosts.filter(b => b.category === BoostCategories.getActiveCategory().name);
 		}
@@ -238,63 +298,80 @@
 			ul.parentElement.parentElement.style.display = 'none';
 		else
 			ul.parentElement.parentElement.style.display = '';
+		perfs.refreshExistingBoosts.push(measurePerfOf(() => Display.refreshExistingBoosts(ownedBoosts, boosts)));
+		Display.createNewBoostsDivs(ownedBoosts, boosts, ul);
+	}
 
+	Display.createNewBoostsDivs = function(ownedBoosts, boosts, ul){
+		boosts.sort((a, b) => { if (a.isActivable) return -1; if (b.isActivable) return 1; if (a.hasXP) return -1; if (b.hasXP) return 1; return 0; } ).forEach((boost) => {
+			let ownedBoost = ownedBoosts.filter(sb => sb.id == 'boost-' + boost.shortName);
+			if (ownedBoost.length == 0) {
+				let boostItem = Display.buildDisplayItemForBoost(boost);
+				ul.appendChild(boostItem);
+			}
+		});
+	}
+
+	Display.refreshExistingBoosts = function(ownedBoosts, boosts) {
 		ownedBoosts.forEach((ownedBoost) => {
 			let boost = boosts.filter(b => 'boost-' + b.shortName == ownedBoost.id);
 			if (boost.length == 0) {
-				ul.removeChild(ownedBoost);
+				ownedBoost.style.display = 'none';
 				return;
 			} else {
 				boost = boost[0];
+				if (ownedBoost.style.display != '')
+					ownedBoost.style.display = '';
 				let titleDiv = ownedBoost.getElementsByClassName('boost-title')[0];
-				titleDiv.innerHTML = boost.name;
+				let title = boost.name;
+				if (title != titleDiv.innerHTML)
+					titleDiv.innerHTML = title;
 				let descDiv = ownedBoost.getElementsByClassName('boost-desc')[0];
-				descDiv.innerHTML = boost.getDescription();
-				if (boost.getIcon() !== undefined) {
-					let iconDiv = ownedBoost.getElementsByClassName('boost-icon')[0];
-					if (iconDiv === undefined){
-						iconDiv = document.createElement('div');
-						descDiv.parentNode.insertBefore(iconDiv, descDiv);
-					}
-					iconDiv.className = 'boost-icon fa fa-' + boost.getIcon();
-						
+				let desc = boost.getDescription();
+				if (desc != descDiv.innerHTML) {
+					descDiv.innerHTML = desc;
 				}
 				if (boost.isActive()) {
-					ownedBoost.classList.remove('inactive');
-					ownedBoost.classList.add('active');
+					if (ownedBoost.classList.contains('inactive') >= 0) {
+						ownedBoost.classList.remove('inactive');
+						ownedBoost.classList.add('active');
+					}
 				} else {
-					ownedBoost.classList.add('inactive');
-					ownedBoost.classList.remove('active');
+					if (ownedBoost.classList.contains('active') >= 0) {
+						ownedBoost.classList.add('inactive');
+						ownedBoost.classList.remove('active');
+					}
 				}
 
 				if (boost.hasXP) {
 					let xpDiv = ownedBoost.getElementsByClassName('boost-xp')[0];
-					xpDiv.style.width = boost.getFullnessPercent() + '%';
+					let fullnessPercent = boost.getFullnessPercent();
+					if (xpDiv.style.width != fullnessPercent + '%')
+						xpDiv.style.width = fullnessPercent + '%';
 				}
 
 				if (boost.repairable) {
 					let repairDiv = ownedBoost.getElementsByClassName('boost-repair')[0];
-					repairDiv.innerHTML = boost.getRepairDescription();
+					let repairDesc = boost.getRepairDescription();
+					if (repairDesc != repairDiv.innerHTML)
+						repairDiv.innerHTML = repairDesc;
 				}
 
 				if (boost.batteryPowered) {
 					let batteryLifeDiv = ownedBoost.getElementsByClassName('battery-life')[0];
 					let batteryFullness = Math.round(boost.getBatteryLifePercent(), 0);
 					if (batteryFullness > 0) {
-						batteryLifeDiv.style.height = batteryFullness + '%';
-						batteryLifeDiv.setAttribute('data-percent', batteryFullness + '%');
-						batteryLifeDiv.classList.remove('battery-dead');
+						if (batteryLifeDiv.style.height != batteryFullness + '%') {
+							batteryLifeDiv.style.height = batteryFullness + '%';
+							batteryLifeDiv.parentElement.setAttribute('data-percent', batteryFullness + '%');
+						}
+						if (batteryLifeDiv.parentElement.classList.contains('battery-dead') >= 0)
+							batteryLifeDiv.parentElement.classList.remove('battery-dead');
 					} else {
-						batteryLifeDiv.classList.add('battery-dead');
+						if (batteryLifeDiv.parentElement.classList.contains('battery-dead') < 0)
+							batteryLifeDiv.parentElement.classList.add('battery-dead');
 					}
 				}
-			}
-		});
-		boosts.sort((a, b) => { if (a.isActivable) return -1; if (b.isActivable) return 1; if (a.hasXP) return -1; if (b.hasXP) return 1; return 0; } ).forEach((boost) => {
-			let ownedBoost = ownedBoosts.filter(sb => sb.id == 'boost-' + boost.shortName);
-			if (ownedBoost.length == 0) {
-				let boostItem = Display.buildDisplayItemForBoost(boost);
-				ul.appendChild(boostItem);
 			}
 		});
 	}
@@ -417,6 +494,26 @@
 		return mainDiv;
 	}
 
+	Display.showBloodFull = function(iconDiv, shortName) {
+		if (Shop.has('bloodfull' + shortName)) {
+			iconDiv.classList.add('red');
+			iconDiv.classList.add('red-glow');
+			Display.showBloodFulls[shortName] = () => {};
+		}
+	}
+	Display.showHaxxor = function(iconDiv, shortName) {
+		if (Shop.has('haxxor' + shortName)) {	
+			iconDiv.classList.remove('red');
+			iconDiv.classList.remove('red-glow');
+			iconDiv.classList.add('digital');
+			iconDiv.classList.add('digital-glow');
+			Display.showHaxxors[shortName] = () => {};
+		}
+	}
+	
+	Display.showBloodFulls = [];
+	Display.showHaxxors = [];
+
 	Display.refreshFriends = function() {
 		let friends = Friends.friends.filter(f => f.canBuy());
 		if (friends.length == 0) return;
@@ -428,7 +525,7 @@
 		unlockedFriends.forEach((unlockedFriend) => {
 			let friend = friends.filter(f => 'friend-' + f.shortName == unlockedFriend.id);
 			if (friend.length == 0) {
-				ul.removeChild(unlockedFriend);
+				unlockedFriend.style.display = 'none';
 				return;
 			}
 			friend = friend[0];
@@ -444,33 +541,32 @@
 				ul.appendChild(friendItem);
 			} else {
 				unlockedFriend = unlockedFriend[0];
-
+				unlockedFriend.style.display = '';
 				let title = unlockedFriend.getElementsByClassName('friend-title')[0];
-				title.innerHTML = friend.getName();
+				let name = friend.getName();
+				if (name != title.innerHTML)
+					title.innerHTML = name;
 
-				let iconDiv = unlockedFriend.getElementsByClassName('friend-icon')[0];		
-				if (Shop.has('bloodfull' + friend.shortName)) {
-					iconDiv.classList.add('red');
-					iconDiv.classList.add('red-glow');
-				}
-				if (Shop.has('haxxor' + friend.shortName)) {
-					iconDiv.classList.remove('red');
-					iconDiv.classList.remove('red-glow');
-					iconDiv.classList.add('digital');
-					iconDiv.classList.add('digital-glow');
-				}
+				Display.showBloodFulls[friend.shortName](friend.shortName);
+				Display.showHaxxors[friend.shortName](friend.shortName);
 
-				let desc = unlockedFriend.getElementsByClassName('friend-desc')[0];
-				desc.innerHTML = friend.getDescription();
+				let descDiv = unlockedFriend.getElementsByClassName('friend-desc')[0];
+				let desc = friend.getDescription();
+				if (desc != descDiv.innerHTML)
+					descDiv.innerHTML = desc;
 				
 				let buyButton = unlockedFriend.getElementsByClassName('friend-buy-btn')[0];
-				if (!Game.hasCurrency(friend.getCosts()))
-					buyButton.classList.add('disabled');
-				else 
+				if (!Game.hasCurrency(friend.getCosts())) {
+					if (!buyButton.classList.contains('disabled'))
+						buyButton.classList.add('disabled');
+				}
+				else if (buyButton.classList.contains('disabled'))
 					buyButton.classList.remove('disabled');
 
 				let bloodDiv = unlockedFriend.getElementsByClassName('friend-blood-xp')[0];
-				bloodDiv.style.width = friend.getFullnessPercent() + '%';
+				let fullnessPercent = friend.getFullnessPercent() + '%';
+				if (fullnessPercent != bloodDiv.style.width)
+					bloodDiv.style.width = fullnessPercent;
 			}
 		});
 	}
@@ -488,8 +584,19 @@
 		if (friend.icon != undefined) {
 			let iconDiv = document.createElement('div');
 			iconDiv.className = 'friend-icon fa fa-' + friend.icon;
-			if (Shop.has('bloodfull' + friend.shortName))
+			if (Shop.has('bloodfull' + friend.shortName)) {
 				iconDiv.className += ' red red-glow';
+				Display.showBloodFulls[friend.shortName] = () => {};
+			} else {
+				Display.showBloodFulls[friend.shortName] = (shortName) => Display.showBloodFull(iconDiv, shortName);
+			}
+			if (Shop.has('haxxor' + friend.shortName)) {
+				iconDiv.className = iconDiv.className.replace('red red-glow', '');
+				iconDiv.className += ' digital digital-glow';
+				Display.showHaxxors[friend.shortName] = () => {};
+			} else {
+				Display.showHaxxors[friend.shortName] = (shortName) => Display.showHaxxor(iconDiv, shortName);
+			}
 			mainDiv.appendChild(iconDiv);
 		}
 		
@@ -677,9 +784,6 @@
 	Display.showCategory = function showCategory(categoryName) {
 		if (!BoostCategories.category(categoryName).active) {
 			BoostCategories.activate(categoryName);
-			let ul = document.getElementById('owned');
-			ul.innerHTML = '';
-			Display.needsRepaintImmediate = true;
 		}
 	}
 	
@@ -810,8 +914,68 @@
 		body.setAttribute('gameFont', gameFont);
 	}
 
-	Display.initialize();
+	let graph = undefined;
+	Display.stopGraph = function() {
+		graph = undefined;
+	}
+
+	Display.createGraph = function() {
+		var ctx = document.getElementById('perf-chart').getContext('2d');
+		let options = {
+			scales: {
+				yAxes: [{
+					ticks: {
+						max: 20,
+						min: 0,
+						stepSize: 0.5
+					},
+					stacked: true
+				}]
+			}
+		};
+		graph = new Chart(ctx, {
+			type: 'line',
+			data: {
+				datasets: [
+					{ backgroundColor: 'red', borderColor: 'red', label: 'updateCurrencies', data: [] },
+					{ backgroundColor: 'yellow', borderColor: 'yellow', label: 'updateNotifs', data: [] },
+					{ backgroundColor: 'orange', borderColor: 'orange', label: 'refreshDisplayModules', data: [] },
+					{ backgroundColor: 'green', borderColor: 'green', label: 'refreshShop', data: [] },
+					{ backgroundColor: 'blue', borderColor: 'blue', label: 'refreshTabs', data: [] },
+					{ backgroundColor: 'darkgreen', borderColor: 'darkgreen', label: 'refreshFriends', data: [] },
+					{ backgroundColor: 'purple', borderColor: 'purple', label: 'refreshExistingBoosts', data: [] },
+					{ backgroundColor: 'cyan', borderColor: 'cyan', label: 'refreshCategories', data: [] },
+					{ backgroundColor: 'darkred', borderColor: 'darkred', label: 'refreshAchievements', data: [] },
+					{ backgroundColor: 'white', borderColor: 'white', label: 'refreshStats', data: [] },
+					{ backgroundColor: 'black', borderColor: 'black', label: 'GameTick', data: [] }
+				]
+			},
+			options: options
+		});
+	}
+
+	function pushData(chart, dataset, data) {
+		chart.data.datasets.filter(d => d.label == dataset)[0].data.push(data);
+	}
 	
-	Display.startTicking();
+	function popData(chart) {
+		chart.data.datasets.forEach(ds => ds.data.shift());
+		chart.data.labels.shift();
+	}
+
+	Display.refreshPerfGraph = function() {
+		graph.data.labels.push('');
+		for (let i in perfs) {
+			if (perfs.hasOwnProperty(i)) {
+				const p = perfs[i];
+				const sum = p.reduce((a, b) => a + b, 0);
+				const avg = (sum / p.length) || 0;
+				pushData(graph, i, Math.round(avg * 100, 2) / 100);
+			}
+		}
+		if (graph.data.datasets[0].data.length > 20)
+			popData(graph);
+		graph.update();
+	}
 
 })(gameObjects.Game, gameObjects.Achievements, gameObjects.Shop, gameObjects.Friends, gameObjects.Tabs, gameObjects.Stats, gameObjects.Display, gameObjects.BoostCategories, gameObjects.Log);

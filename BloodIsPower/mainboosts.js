@@ -197,7 +197,7 @@
 		getDescription: function() {
 			let desc = 'It looks like your friend gets high on a viscous red substance.';
 			if (!this.isBought()) {
-				desc += '<br/>When turned on, this boost allows aldo to double its output at the cost of 1 blood per 100 activations.';
+				desc += '<br>When turned on, this boost allows aldo to double its output at the cost of 1 blood per 100 activations.';
 			} else if (this.isActive()) {
 				desc += '<div class="btn" onclick="gameObjects.Game.getModule(\'bip\').toggleBoost(\'bloodthirstyaldo\')">Turn off</div> Allows aldo to double its output at the cost of 1 blood per 100 activations.';
 			} else {
@@ -220,7 +220,7 @@
 		getDescription: function() {
 			let desc = 'It looks like your other friend gets high on a viscous red substance.';
 			if (!this.isBought()) {
-				desc += '<br/>When turned on, this boost allows barnabeus to double its output at the cost of 1 blood per 10 activations.';
+				desc += '<br>When turned on, this boost allows barnabeus to double its output at the cost of 1 blood per 10 activations.';
 			} else if (this.isActive()) {
 				desc += '<div class="btn" onclick="gameObjects.Game.getModule(\'bip\').toggleBoost(\'bloodthirstybarnabeus\')">Turn off</div> Allows barnabeus to double its output at the cost of 1 blood per 10 activations.';
 			} else {
@@ -240,8 +240,8 @@
 		icon: 'user-circle red red-glow',
 		category: 'blood',
 		getDescription: function() {
-			let desc = 'It looks like your friend has eaten well.<br/>'
-				+ 'Aldo gains a multiplicative ' + (this.getPower()*100) + '% bonus to output per MM sacrifice you have committed.<br/>';
+			let desc = 'It looks like your friend has eaten well.<br>'
+				+ 'Aldo gains a multiplicative ' + (this.getPower()*100) + '% bonus to output per MM sacrifice you have committed.<br>';
 			return desc;
 		},
 		power: 0.10,
@@ -257,8 +257,8 @@
 		icon: 'user-circle fa-lighter red red-glow',
 		category: 'blood',
 		getDescription: function() {
-			let desc = 'It looks like your friend has eaten well.<br/>'
-				+ 'Barnabeus gains a multiplicative ' + (this.getPower()*100) + '% bonus to output per MC sacrifice you have committed.<br/>';
+			let desc = 'It looks like your friend has eaten well.<br>'
+				+ 'Barnabeus gains a multiplicative ' + (this.getPower()*100) + '% bonus to output per MC sacrifice you have committed.<br>';
 			return desc;
 		},
 		power: 0.10,
@@ -274,7 +274,7 @@
 		icon: 'fill red',
 		category: 'blood',
 		getDescription: function() {
-			let desc = 'This will help you transporting blood from the sacrifice place to your storage.<br/>You get 1 more blood unit per sacrifice';
+			let desc = 'This will help you transporting blood from the sacrifice place to your storage.<br>You get 1 more blood unit per sacrifice';
 			return desc;
 		},
 		shortName: 'biggerbuckets',
@@ -289,7 +289,7 @@
 		icon: '',
 		category: 'blood',
 		getDescription: function() {
-			let desc = 'These annoying little lambs are using up the space in your warehouse and you don\'t want to sacrifice them ?<br/>'
+			let desc = 'These annoying little lambs are using up the space in your warehouse and you don\'t want to sacrifice them ?<br>'
 					 + 'Why don\'t you just go on simply killing them for their blood ?';
 			return desc;
 		},
@@ -308,7 +308,7 @@
 		getDescription: function() {
 			let desc = 'This gentleman will herd the lambs to the "correct" house.';
 			if (!this.isBought()) {
-				desc += '<br/>When turned on, this boost will trigger sacrifice just before an ephemeral boost dies out.';
+				desc += '<br>When turned on, this boost will trigger sacrifice just before an ephemeral boost dies out.';
 			} else if (this.isActive()) {
 				desc += '<div class="btn" onclick="gameObjects.Game.getModule(\'bip\').toggleBoost(\'ottovonsacrifice\')">Turn off</div> Triggers sacrifice just before an ephemeral boost dies out.';
 			} else {
@@ -359,7 +359,7 @@
 		power: 0,
 		getDescription: function() {
 			let desc = 'You could use these little creatures to get the blood in these lambs after they\'re done for.'
-				+ '<br/>These will scavenge a bit of blood after an ephemeral boost dies.';
+				+ '<br>These will scavenge a bit of blood after an ephemeral boost dies.';
 			return desc;
 		},
 		shortName: 'ratscavengers',
@@ -386,7 +386,7 @@
 		power: 0.10,
 		getDescription: function() {
 			let desc = 'Blood exchange is a good way to improve your efficacy.'
-				+ '<br/>Improves Redundant XP Transfer effect by a multiplicative ' + (this.getPower()*100) + '% bonus per corresponding sacrifice you have committed.';
+				+ '<br>Improves Redundant XP Transfer effect by a multiplicative ' + (this.getPower()*100) + '% bonus per corresponding sacrifice you have committed.';
 			return desc;
 		},
 		shortName: 'rxtbloodinjector',
@@ -416,7 +416,7 @@
 		icon: 'tint red red-glow',
 		category: 'blood',
 		getDescription: function() {
-			let desc = '<span class="red red-glow">Blood is power</span><br/>Each 1% of blood you have adds to the output multiplier of your bloodfull friends';
+			let desc = '<span class="red red-glow">Blood is power</span><br>Each 1% of blood you have adds to the output multiplier of your bloodfull friends';
 			return desc;
 		},
 		shortName: 'somuchblood',
@@ -431,7 +431,7 @@
 		icon: 'download red red-glow',
 		category: 'blood',
 		getDescription: function() {
-			let desc = '<span class="red red-glow">Blood is power</span><br/>Each 1% of blood you have adds to the multiplier of Bootloader';
+			let desc = '<span class="red red-glow">Blood is power</span><br>Each 1% of blood you have adds to the multiplier of Bootloader';
 			return desc;
 		},
 		shortName: 'blutloader',
@@ -456,7 +456,7 @@
 			return 'balance-scale red';
 		},
 		getDescription: function() {
-			let desc = '<span class="red red-glow">Blood is power</span><br/>When MM levels are lower than MC levels, each 1% of blood you have adds to the multiplier of MM XP gained and vice versa.';
+			let desc = '<span class="red red-glow">Blood is power</span><br>When MM levels are lower than MC levels, each 1% of blood you have adds to the multiplier of MM XP gained and vice versa.';
 			return desc;
 		},
 		shortName: 'bloodbalancer',
@@ -475,7 +475,7 @@
 		icon: 'bezier-curve digital red-glow',
 		category: 'blood',
 		getDescription: function() {
-			let desc = '<span class="red red-glow">Blood is power</span><br/>Corresponding sacrifices give a cummulative 10% bonus to Bootloader for same currency';
+			let desc = '<span class="red red-glow">Blood is power</span><br>Corresponding sacrifices give a cummulative 10% bonus to Bootloader for same currency';
 			return desc;
 		},
 		shortName: 'digitalsacrifice',
@@ -494,7 +494,7 @@
 		icon: 'rat red red-glow',
 		category: 'blood',
 		getDescription: function() {
-			let desc = '<span class="red red-glow">Blood is power</span><br/>Rats so big you could sacrifice them... Is that a good idea? Who knows what rat eats nowadays, maybe there are things in them better left unfound.';
+			let desc = '<span class="red red-glow">Blood is power</span><br>Rats so big you could sacrifice them... Is that a good idea? Who knows what rat eats nowadays, maybe there are things in them better left unfound.';
 			return desc;
 		},
 		shortName: 'giantbloodrats',
@@ -539,8 +539,8 @@
 		getDescription: function() {
 			let desc = 'You\'re going to need a weapon if you want to kill those big rats.';
 			if (this.isBought()) {
-				desc += '<br/>You have ' + Game.currency('bloodSpikes').getLevel() + ' <i class="fa fa-bolt red red-glow"></i> blood spikes.';
-				desc += '<br/><div class="btn ' + (!Game.hasCurrency({xp: { blood: 20} }) ? "disabled" : "") + '" onclick="gameObjects.Shop.boost(\'bloodcatalyzer\').makeSpike()">Make 1<i class="fa fa-bolt red red-glow"></i> with 20<i class="fa fa-tint red red-glow"></i></div>'
+				desc += '<br>You have ' + Game.currency('bloodSpikes').getLevel() + ' <i class="fa fa-bolt red red-glow"></i> blood spikes.';
+				desc += '<br><div class="btn ' + (!Game.hasCurrency({xp: { blood: 20} }) ? "disabled" : "") + '" onclick="gameObjects.Shop.boost(\'bloodcatalyzer\').makeSpike()">Make 1<i class="fa fa-bolt red red-glow"></i> with 20<i class="fa fa-tint red red-glow"></i></div>'
 			}
 			return desc;
 		},

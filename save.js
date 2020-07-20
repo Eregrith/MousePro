@@ -5,7 +5,7 @@
 * Save.js
 */
 
-(function(Display, Game, Friends, Shop, Achievements, Tabs, Save) {
+(function(Display, Game, Friends, Shop, Achievements, Tabs, BoostCategories, Save) {
 
     Save.toto = "true";
 
@@ -33,6 +33,10 @@
                 acquiredAchievements.push(achievement.shortName);
             }
         });
+        let activeCategoryName = undefined;
+        let activeCategory = BoostCategories.getActiveCategory();
+        if (activeCategory != undefined)
+            activeCategoryName = activeCategory.name;
 
         let saveGame = {
             Tabs: saveTabs,
@@ -41,7 +45,8 @@
             Friends: saveFriends,
             AcquiredAchievements: acquiredAchievements,
             DisplayMode: document.getElementsByTagName('body')[0].className,
-            GameFont: document.getElementById('gameFont').value
+            GameFont: document.getElementById('gameFont').value,
+            ActiveBoostCategory: activeCategoryName
         };
 
         return saveGame;
@@ -103,6 +108,9 @@
             Display.changeFont();
         }
 
+        if (saveGame.ActiveBoostCategory != undefined)
+            BoostCategories.activate(saveGame.ActiveBoostCategory);
+
         Display.refreshShop();
         Display.refreshTabs();
         Display.displayActiveTab();
@@ -139,4 +147,4 @@
 
     Save.loadGame();
 
-})(gameObjects.Display, gameObjects.Game, gameObjects.Friends, gameObjects.Shop, gameObjects.Achievements, gameObjects.Tabs, gameObjects.Save);
+})(gameObjects.Display, gameObjects.Game, gameObjects.Friends, gameObjects.Shop, gameObjects.Achievements, gameObjects.Tabs, gameObjects.BoostCategories, gameObjects.Save);
