@@ -9,8 +9,7 @@
 
 	Display.tickInterval = null;
 	Display.tickIntervalValue = 10;
-	Display.ticks = 0;
-	
+
 	Display.framesPerSecond = function() {
 		return 1000.0 / Display.tickIntervalValue;
 	}
@@ -76,7 +75,6 @@
 	const markerNameA = "example-marker-a"
 	const markerNameB = "example-marker-b"
 	let loops = 0;
-	let loopTime = 0;
 	let perfs;
 
 	function initPerfs() {
@@ -91,7 +89,7 @@
 			refreshCategories: [],
 			refreshAchievements: [],
 			refreshStats: [],
-			GameTick: [],
+			GameTick: []
 		};
 	}
 	initPerfs();
@@ -103,36 +101,40 @@
 		return end - start;
 	}
 
-	Display.tick = function() {
+	Display.timeStamp = 0;
+	Display.tick = function(timeStamp) {
+		let elapsedMilliseconds = timeStamp - Display.timeStamp;
+		Display.timeStamp = timeStamp;
+		Display.tickIntervalValue = elapsedMilliseconds;
+		
+		perfs.GameTick.push(measurePerfOf(() => Game.tick(elapsedMilliseconds)));
+		
 		perfs.updateCurrencies.push(measurePerfOf(Display.updateCurrencies));
-		perfs.updateNotifs.push(measurePerfOf(Display.updateNotifs));
+		perfs.updateNotifs.push(measurePerfOf(() => Display.updateNotifs(timeStamp)));
 		perfs.refreshDisplayModules.push(measurePerfOf(Display.refreshDisplayModules));
-		Display.ticks++;
-		loops++;
-		if (loops == 50) loops = 0;
-		if (Display.ticks == 50) {
-			Display.ticks = 0;
-			if (Tabs.getActiveTab() == 'achievements') {
-				perfs.refreshAchievements.push(measurePerfOf(Display.refreshAchievements));
-			} else if (Tabs.getActiveTab() == 'stats') {
-				perfs.refreshStats.push(measurePerfOf(Stats.refreshStats));
-			} else if (Tabs.getActiveTab() == 'game') {
-				perfs.refreshShop.push(measurePerfOf(Display.refreshShop));
-				perfs.refreshFriends.push(measurePerfOf(Display.refreshFriends));
-				Display.refreshBoostsOwned();
-				perfs.refreshCategories.push(measurePerfOf(Display.refreshCategories));
-			}
-			perfs.refreshTabs.push(measurePerfOf(Display.refreshTabs));
+		const activeTab = Tabs.getActiveTab();
+		if (activeTab == 'achievements') {
+			perfs.refreshAchievements.push(measurePerfOf(Display.refreshAchievements));
+		} else if (activeTab == 'stats') {
+			perfs.refreshStats.push(measurePerfOf(Stats.refreshStats));
+		} else if (activeTab == 'game') {
+			perfs.refreshShop.push(measurePerfOf(Display.refreshShop));
+			perfs.refreshFriends.push(measurePerfOf(Display.refreshFriends));
+			Display.refreshBoostsOwned();
+			perfs.refreshCategories.push(measurePerfOf(Display.refreshCategories));
 		}
-		perfs.GameTick.push(measurePerfOf(Game.tick));
+		perfs.refreshTabs.push(measurePerfOf(Display.refreshTabs));
+		loops++;
+		if (loops == 10) loops = 0;
 		if (graph != undefined && loops == 0) {
 			Display.refreshPerfGraph();
 			initPerfs();
 		}
+		requestAnimationFrame(Display.tick);
 	}
 	
 	Display.startTicking = function() {
-		this.tickInterval = setInterval(this.tick, Display.tickIntervalValue);
+		requestAnimationFrame(Display.tick);
 	}
 	
 	Display.initialize = function() {
@@ -175,8 +177,8 @@
 		if (Shop.boost('adblock').isActive()) {
 			boosts = boosts.filter(b => b.shortName != 'sacrifice-mm' && b.shortName != 'sacrifice-mc');
 		}
-		if (boosts.length == 0)
-			ul.parentElement.parentElement.style.display = 'none';
+		if (boosts.length != 0 && ul.parentElement.parentElement.style.display == 'none')
+			ul.parentElement.parentElement.style.display = '';
 
 		shopBoosts.forEach((shopBoost) => {
 			let boost = boosts.filter(b => 'boost-' + b.shortName == shopBoost.id);
@@ -259,27 +261,6 @@
 			mod.displayModule.refresh();
 		})
 	}
-
-	Display.buildDisplayItemForAchievement = function(achievement) {
-		let mainDiv = document.createElement('div');
-		mainDiv.classList = ['achievement'];
-		if (!achievement.acquired)
-			mainDiv.classList.add('locked');
-		mainDiv.id = 'achievement-' + achievement.shortName;
-		
-		let titleDiv = document.createElement('div');
-		titleDiv.className = 'achievement-title';
-		titleDiv.innerHTML = achievement.name;
-		
-		let descDiv = document.createElement('div');
-		descDiv.className = 'achievement-desc';
-		descDiv.innerHTML = achievement.description;
-		
-		mainDiv.appendChild(titleDiv);
-		mainDiv.appendChild(descDiv);
-
-		return mainDiv;
-	}
 	
 	let boostsOwned = 0;
 	Display.refreshBoostsOwned = function() {
@@ -332,12 +313,12 @@
 					descDiv.innerHTML = desc;
 				}
 				if (boost.isActive()) {
-					if (ownedBoost.classList.contains('inactive') >= 0) {
+					if (ownedBoost.classList.contains('inactive')) {
 						ownedBoost.classList.remove('inactive');
 						ownedBoost.classList.add('active');
 					}
 				} else {
-					if (ownedBoost.classList.contains('active') >= 0) {
+					if (ownedBoost.classList.contains('active')) {
 						ownedBoost.classList.add('inactive');
 						ownedBoost.classList.remove('active');
 					}
@@ -365,133 +346,15 @@
 							batteryLifeDiv.style.height = batteryFullness + '%';
 							batteryLifeDiv.parentElement.setAttribute('data-percent', batteryFullness + '%');
 						}
-						if (batteryLifeDiv.parentElement.classList.contains('battery-dead') >= 0)
+						if (batteryLifeDiv.parentElement.classList.contains('battery-dead'))
 							batteryLifeDiv.parentElement.classList.remove('battery-dead');
 					} else {
-						if (batteryLifeDiv.parentElement.classList.contains('battery-dead') < 0)
+						if (!batteryLifeDiv.parentElement.classList.contains('battery-dead'))
 							batteryLifeDiv.parentElement.classList.add('battery-dead');
 					}
 				}
 			}
 		});
-	}
-
-	Display.buildDisplayItemForBoost = function(boost) {
-		let mainDiv = document.createElement('div');
-		mainDiv.classList = [ 'boost' ];
-		if (boost.isActivable) {
-			mainDiv.classList.add('activable');
-		}
-		if (boost.ephemeral) {
-			mainDiv.classList.add('ephemeral');
-		}
-		if (boost.isLoot) {
-			mainDiv.classList.add('isLoot');
-		}
-		if (boost.batteryPowered) {
-			mainDiv.classList.add('batteryPowered');
-		}
-		mainDiv.id = 'boost-' + boost.shortName;
-		
-		let titleDiv = document.createElement('div');
-		titleDiv.className = 'boost-title';
-		titleDiv.innerHTML = boost.name;
-		mainDiv.appendChild(titleDiv);
-
-		if (boost.getIcon() != undefined) {
-			let iconDiv = document.createElement('div');
-			iconDiv.className = 'boost-icon fa fa-' + boost.getIcon();
-			mainDiv.appendChild(iconDiv);
-		}
-		
-		let descDiv = document.createElement('div');
-		descDiv.className = 'boost-desc';
-		descDiv.innerHTML = boost.getDescription();
-		mainDiv.appendChild(descDiv);
-
-		if (boost.ephemeral) {
-			let ephemeralDiv = document.createElement('div');
-			ephemeralDiv.className = 'boost-ephemeral';
-			ephemeralDiv.innerHTML = boost.getEphemeralDescription(Display);
-			mainDiv.appendChild(ephemeralDiv);
-		}
-
-		if (boost.isUnlocked()) {
-			let costDiv = document.createElement('div');
-			costDiv.className = 'boost-cost';
-			costDiv.innerHTML = 'Cost:';
-			costDiv.appendChild(Display.buildCostListForCost(boost.cost));
-			mainDiv.appendChild(costDiv);
-
-			let buyButton = document.createElement('div');
-			buyButton.classList = ['boost-buy-btn'];
-			buyButton.innerHTML = boost.buyButtonLabel;
-			if (!Game.hasCurrency(boost.getCost()) || !boost.canBuy())
-				buyButton.classList.add('disabled');
-			buyButton.addEventListener('click', function() { Shop.buy(boost.shortName) });
-
-			mainDiv.appendChild(buyButton);
-		}
-		
-		if (boost.isActive()) {
-			mainDiv.classList.remove('inactive');
-			mainDiv.classList.add('active');
-		} else {
-			mainDiv.classList.add('inactive');
-			mainDiv.classList.remove('active');
-		}
-
-		if (boost.repairable) {
-			repairDiv = document.createElement('div');
-			repairDiv.className = 'boost-repair';
-			repairDiv.innerHTML = boost.getRepairDescription(Display);
-			mainDiv.appendChild(repairDiv);
-		}
-
-		if (boost.ephemeral) {
-			let lifeCounter = document.createElement('div');
-			lifeCounter.className = 'boost-heart';
-			let ephemeralHeartDiv = document.createElement('div');
-			ephemeralHeartDiv.className = 'heart';
-			let secondsDiv = document.createElement('div');
-			secondsDiv.className = 'boost-life-in-seconds';
-			secondsDiv.innerHTML = boost.getLifeInSeconds(Display);
-			lifeCounter.appendChild(secondsDiv);
-			lifeCounter.appendChild(ephemeralHeartDiv);
-			mainDiv.appendChild(lifeCounter);
-		}
-		if (boost.isLoot) {
-			let lootLabel = document.createElement('div');
-			lootLabel.classList = ['boost-loot-label'];
-			lootLabel.innerHTML = '<i class="fa-loot"></i> Loot!';
-			mainDiv.appendChild(lootLabel);
-		}
-
-		if (boost.batteryPowered) {
-			let batteryDiv = document.createElement('div');
-			batteryDiv.classList = [ 'boost-battery' ];
-			let batteryLife = document.createElement('div');
-			batteryLife.className = 'battery-life';
-			let batteryFullness = Math.round(boost.getBatteryLifePercent(), 0);
-			if (batteryFullness > 0) {
-				batteryLife.style.height = batteryFullness + '%';
-				batteryDiv.setAttribute('data-percent', batteryFullness + '%');
-			} else {
-				batteryDiv.classList.add('battery-dead');
-			}
-			batteryDiv.appendChild(batteryLife);
-			mainDiv.appendChild(batteryDiv);
-		}
-
-		if (boost.hasXP) {
-			let xpDiv = document.createElement('div');
-			xpDiv.className = 'boost-xp';
-			xpDiv.style.width = boost.getFullnessPercent() + '%';
-			xpDiv.style.backgroundColor = boost.xpBarColor;
-			mainDiv.appendChild(xpDiv);
-		}
-		
-		return mainDiv;
 	}
 
 	Display.showBloodFull = function(iconDiv, shortName) {
@@ -569,126 +432,6 @@
 					bloodDiv.style.width = fullnessPercent;
 			}
 		});
-	}
-
-	Display.buildDisplayItemForFriend = function(friend) {
-		let mainDiv = document.createElement('div');
-		mainDiv.className = 'friend';
-		mainDiv.id = 'friend-' + friend.shortName;
-
-		let titleDiv = document.createElement('div');
-		titleDiv.className = 'friend-title';
-		titleDiv.innerHTML = friend.getName();
-		mainDiv.appendChild(titleDiv);
-
-		if (friend.icon != undefined) {
-			let iconDiv = document.createElement('div');
-			iconDiv.className = 'friend-icon fa fa-' + friend.icon;
-			if (Shop.has('bloodfull' + friend.shortName)) {
-				iconDiv.className += ' red red-glow';
-				Display.showBloodFulls[friend.shortName] = () => {};
-			} else {
-				Display.showBloodFulls[friend.shortName] = (shortName) => Display.showBloodFull(iconDiv, shortName);
-			}
-			if (Shop.has('haxxor' + friend.shortName)) {
-				iconDiv.className = iconDiv.className.replace('red red-glow', '');
-				iconDiv.className += ' digital digital-glow';
-				Display.showHaxxors[friend.shortName] = () => {};
-			} else {
-				Display.showHaxxors[friend.shortName] = (shortName) => Display.showHaxxor(iconDiv, shortName);
-			}
-			mainDiv.appendChild(iconDiv);
-		}
-		
-		let descDiv = document.createElement('div');
-		descDiv.className = 'friend-desc';
-		descDiv.innerHTML = friend.getDescription();
-		mainDiv.appendChild(descDiv);
-		
-		let costDiv = document.createElement('div');
-		costDiv.className = 'friend-cost';
-		costDiv.innerHTML = 'Cost:';
-		costDiv.appendChild(Display.buildCostListForCost(friend.getCosts()));
-		mainDiv.appendChild(costDiv);
-		
-		let buyButton = document.createElement('div');
-		buyButton.classList = ['friend-buy-btn'];
-		buyButton.innerHTML = 'Buy';
-		if (!Game.hasCurrency(friend.getCosts()))
-			buyButton.classList.add('disabled');
-		buyButton.onclick = function() { Friends.buy(friend.shortName) };
-		mainDiv.appendChild(buyButton);
-
-		let bloodDiv = document.createElement('div');
-		bloodDiv.className = 'friend-blood-xp';
-		bloodDiv.style.width = friend.getFullnessPercent() + '%';
-		mainDiv.appendChild(bloodDiv);
-		
-		return mainDiv;
-	}
-	
-	Display.buildCostListForCost = function(cost) {
-		let ul = document.createElement('ul');
-		ul.className = 'cost-list';
-		
-		if (cost.xp) {
-			for (let part in cost.xp) {
-				if (cost.xp.hasOwnProperty(part)) {
-					let li = document.createElement('li');
-					let currency = Game.currency(part);
-					li.innerHTML = currency.iconTag + '&nbsp;' + part + ': ' + cost.xp[part] + ' ' + currency.xpLabel;
-					ul.appendChild(li);
-				}
-			}
-		}
-		if (cost.levels) {
-			for (let part in cost.levels) {
-				if (cost.levels.hasOwnProperty(part)) {
-					let li = document.createElement('li');
-					let currency = Game.currency(part);
-					li.innerHTML = currency.iconTag + '&nbsp;' +part + ': ' + cost.levels[part] + ' ' + currency.levelsLabel;
-					ul.appendChild(li);
-				}
-			}
-		}
-		
-		return ul;
-	}
-	
-	Display.buildDisplayItemForCurrency = function(currency) {
-		let div = document.createElement('div');
-		div.className = 'currency';
-		div.id = 'currency-' + currency.shortName;
-		
-		let progressBar = document.createElement('div');
-		progressBar.style = 'width: 0%;--currency-color: ' + currency.color;
-		progressBar.className = 'currency-progressBar';
-		progressBar.id = 'currency-' + currency.shortName + '-bar';
-		
-		div.appendChild(progressBar);
-		
-		let currencyData = document.createElement('div');
-		currencyData.className = 'currency-data';
-		
-		let currencyLevel = document.createElement('div');
-		currencyLevel.id = 'currency-'+currency.shortName+'-level';
-		currencyLevel.className = 'currency-level';
-		currencyLevel.innerHTML = '<span>' + currency.shortName + ' (' + currency.getLevel() + ')</span>';
-		
-		currencyData.appendChild(currencyLevel);
-		
-		let xpDiv = document.createElement('div');
-		xpDiv.id = 'currency-'+currency.shortName+'-xp';
-		xpDiv.innerHTML = currency.getXp() + ' / ' + currency.xpRequiredForNextLevel();
-		xpDiv.className = 'currency-xp';
-		
-		currencyData.appendChild(xpDiv);
-		
-		div.appendChild(currencyData);
-		let listItem = document.createElement('li');
-		listItem.appendChild(div);
-		
-		return listItem;
 	}
 
 	Display.refreshTabs = function() {
@@ -815,9 +558,11 @@
 			targetY: y - 750,
 			opacity: 100,
 			x: x,
-			y: y,
-			frame: 0,
-			totalFrames: Display.framesPerSecond() * 4,
+			startY: y,
+			timeStamp: 0,
+			localTimeStamp: function () { return  this.timeStamp - this.startingTimeStamp },
+			startingTimeStamp: 0,
+			totalMilliseconds: 4000,
 			div: document.createElement('div')
 		};
 		
@@ -839,7 +584,7 @@
 			Display.notifQueue.shift();
 	}
 	
-	Display.updateNotifs = function() {
+	Display.updateNotifs = function(timeStamp) {
 		if (Display.notifQueue.length === 0) return;
 		
 		let now = new Date();
@@ -847,6 +592,8 @@
 			|| now.getTime() >= Display.nextNotifAvailableOn)
 		{
 			notif = Display.notifQueue.shift();
+			notif.startingTimeStamp = timeStamp;
+			notif.timeStamp = timeStamp;
 			Display.animatedNotifs.push(notif);
 			Display.animateNotif(notif);
 			Display.nextNotifAvailableOn = now.getTime() + 150;
@@ -860,29 +607,35 @@
 			return;
 		}
 		
-		let xSway = 5;
+		let xSway = 30;
 
-		if (notif.frame === 0) {
-			notif.moveVector = { x: notif.x, y: 0, targetY: notif.y-notif.targetY };
-			notif.moveVector.y = (notif.targetY - notif.y) / notif.totalFrames;
-			notif.opacityVector = -notif.opacity / notif.totalFrames;
+		if (notif.localTimeStamp() === 0) {
+			notif.moveVector = { x: notif.x, y: 0, targetY: notif.startY-notif.targetY };
+			notif.moveVector.y = (notif.targetY - notif.startY) / notif.totalMilliseconds;
+			notif.opacityVector = -notif.opacity / notif.totalMilliseconds;
 			document.getElementsByTagName('body')[0].appendChild(notif.div);
 		}
 		
-		notif.frame++;
+		notif.y = notif.startY + (notif.moveVector.y * notif.localTimeStamp());
 		notif.x = notif.moveVector.x + (xSway * Math.sin((3*(notif.targetY - notif.y)*Math.PI)/notif.moveVector.targetY));
-		notif.y += notif.moveVector.y;
 		notif.opacity += notif.opacityVector;
 		notif.div.style.top = notif.y + 'px';
 		notif.div.style.left = notif.x + 'px';
 		notif.div.style.opacity = notif.opacity / 100.0;
 		
-		if (notif.frame < notif.totalFrames)
-		{
-			setTimeout(function() { Display.animateNotif(notif); }, Display.tickIntervalValue);
+		if (notif.localTimeStamp() < notif.totalMilliseconds) {
+			requestAnimationFrame(Display.privateNotifAnimation(notif));
 		} else {
 			notif.div.remove();
 		}
+	}
+
+	Display.privateNotifAnimation = function(notif) {
+		return function(timeStamp) {
+			elapsed = notif.timeStamp - timeStamp;
+			notif.timeStamp = timeStamp;
+			Display.animateNotif(notif, elapsed);
+		};
 	}
 
     Display.switchMode = function() {

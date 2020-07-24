@@ -383,10 +383,10 @@
 		repairable: true,
 		boltsNeededToRepair: 10,
 		hasXP: true,
-		xpNeededToBeFull: 30,
+		xpNeededToBeFull: 30000,
 		xpBarColor: 'var(--digital-color)',
 		batteryPowered: true,
-		maxBatteryLife: 5 * 60 * Display.framesPerSecond(),
+		maxBatteryLife: 5 * 60 * 1000,
 		getDescription: function() {
 			let desc = 'A broken fan.';
 			if (this.isRepaired()) {
@@ -401,6 +401,21 @@
 				}
 			}
             return desc;
+		},
+		isFullXP: function () {
+			this.saveableState.xpGained = 0;
+			if (Shop.has('police')) {
+				let baseXP = -1;
+				if (Shop.hasRepaired('fan')) {
+					baseXP *= 5;
+					if (Shop.boost('fan').saveableState.power == 1) {
+						baseXP *= 3;
+					}
+					Shop.boost('fan').saveableState.xpGained = 0;
+				}
+				Shop.boost('police').gainXP(baseXP);
+				Display.notify('Heat from the police fades a bit', 'Police');
+			}
 		},
 		shortName: 'fan',
 		cost: {}
@@ -482,7 +497,7 @@
         icon: 'raygun digital',
 		category: 'digital',
 		hasXP: true,
-		maxBatteryLife: 5 * 60 * Display.framesPerSecond(),
+		maxBatteryLife: 5 * 60 * 1000,
 		batteryPowered: true,
 		xpBarColor: 'yellow',
 		getDescription: function() {
@@ -519,7 +534,7 @@
         icon: 'magnet digital digital-glow',
 		category: 'digital',
 		hasXP: true,
-		maxBatteryLife: 5 * 60 * Display.framesPerSecond(),
+		maxBatteryLife: 5 * 60 * 1000,
 		batteryPowered: true,
 		xpBarColor: 'yellow',
 		getDescription: function() {
@@ -596,8 +611,8 @@
 		category: 'digital',
 		hasXP: true,
 		xpNeededToBeFull: 25,
+		observableBoosts: ['deepknowledge'],
 		saveableState: {
-			observableBoosts: [],
 			observedBoosts: [],
 			observingBoost: ''
 		},
@@ -605,8 +620,8 @@
 			let desc = 'Little aliens toys have been seen around your shuttle. They kep saying "THE CLAW!" but you have no idea what they\'re on about.';
 			desc += '<br>They can observe you doing stuff and then replicate what you did on their own.';
 			if (this.isBought()) {
-				desc += '<br>Observe activity on this boost:<select>';
-				this.saveableState.observableBoosts.forEach(shortName => {
+				desc += '<br><br>Observe activity on this boost:<select>';
+				this.observableBoosts.filter(b => this.saveableState.observedBoosts.indexOf(b) < 0).forEach(shortName => {
 					if (Shop.has(shortName)) {
 						let boost = Shop.boost(shortName);
 						desc += '<option value="' + shortName + '"';

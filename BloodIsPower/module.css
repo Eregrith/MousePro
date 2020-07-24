@@ -66,9 +66,6 @@
 }
 .boost-xp {
     height: 5px;
-    transition-property: width;
-    transition-duration: 0.3s;
-    transition-timing-function: linear;
 }
 
 /*

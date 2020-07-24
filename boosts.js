@@ -41,7 +41,7 @@
                     settings.buy(this);
             },
             unlock: function() {
-                this.lifeDurationInTicks = this.originalLifeDuration
+                this.lifeDurationInMilliseconds = this.originalLifeDuration
                 * ((Shop.has('anchor') && Shop.boost('anchor').isActive())
                     ? 2
                     : (Shop.has('noxiousfumes') ? 0.2 : 1));
@@ -92,11 +92,11 @@
             activate: function() {
                 this.saveableState.active = true;
             },
-            originalLifeDuration: settings.lifeDurationInTicks,
-            tick: function() {
+            originalLifeDuration: settings.lifeDurationInMilliseconds,
+            tick: function(elapsedMilliseconds) {
                 if (this.ephemeral == true && this.isUnlocked()) {
-                    this.lifeDurationInTicks--;
-                    if (this.lifeDurationInTicks <= 0) {
+                    this.lifeDurationInMilliseconds -= elapsedMilliseconds;
+                    if (this.lifeDurationInMilliseconds <= 0) {
                         this.die();
                     }
                 }
@@ -105,12 +105,12 @@
                 this.lock();
                 Game.ephemeralDeath(this, manual);
             },
-            getLifeInSeconds: function(Display) {
-                let lifeInSeconds = Math.round(boost.lifeDurationInTicks / Display.framesPerSecond());
-                return lifeInSeconds;
+            getLifeInSeconds: function() {
+                let lifeInSeconds = Math.round(boost.lifeDurationInMilliseconds / 1000);
+                return (lifeInSeconds + 1);
             },
-            getEphemeralDescription: function(Display) {
-                let lifeInSeconds = this.getLifeInSeconds(Display);
+            getEphemeralDescription: function() {
+                let lifeInSeconds = this.getLifeInSeconds();
                 let desc = 'This boost is ephemeral. It will only stay for '
                         + lifeInSeconds
                         + ' sec before being locked again.';

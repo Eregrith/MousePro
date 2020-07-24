@@ -49,7 +49,7 @@
 			Game.getModule('bip').sacrifice(me, 'MC');
 		},
 		ephemeral: true,
-		lifeDurationInTicks: 1000
+		lifeDurationInMilliseconds: 10000
 	});
 	Boosts.newBoost({
 		name: 'MC Sacrifice',
@@ -68,7 +68,7 @@
 			Game.getModule('bip').sacrifice(me, 'MM');
 		},
 		ephemeral: true,
-		lifeDurationInTicks: 1000
+		lifeDurationInMilliseconds: 10000
 	});
 	Boosts.newBoost({
 		name: 'Recruitment posters',

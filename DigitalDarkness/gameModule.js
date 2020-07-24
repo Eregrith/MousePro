@@ -98,8 +98,8 @@
     };
 
     gameModule._ticks = 0;
-    gameModule.tick = function tick() {
-        gameModule._ticks++;
+    gameModule.tick = function tick(elapsedMilliseconds) {
+        gameModule._ticks += elapsedMilliseconds;
         if (Shop.has('oldtv') && Shop.boost('oldtv').isBrowsing()) {
             let baseXP = 1;
             if (Shop.has('adsl')) {
@@ -114,40 +114,23 @@
             let baseXP = 1;
             Shop.boost('deepknowledge').gainXP(baseXP);
         }
-        gameModule.updateBatteryLives();
+        gameModule.updateBatteryLives(elapsedMilliseconds);
         if (Shop.boost('giantrat').isUnlocked() && Shop.boost('pewpew').saveableState.power == 1) {
             Shop.boost('giantrat').buy();
         }
         if (Shop.boost('bolts').isUnlocked() && Shop.boost('giantmagnet').saveableState.power == 1) {
             Shop.boost('bolts').buy();
         }
-        if (Shop.has('newsletter') && gameModule._ticks % (5 * 60 * Display.framesPerSecond()) == 0) {
-            gameModule.receiveNewsletter();
+        if (Shop.has('newsletter')) {
+            Shop.boost('newsletter').gainXP(elapsedMilliseconds);
         }
-        if ((gameModule._ticks % Display.framesPerSecond() == 0) && Shop.hasRepaired('fan')) {
-            Shop.boost('fan').saveableState.xpGained = (gameModule._ticks / Display.framesPerSecond()) % 30;
-        }
-        if (Shop.has('police') && Shop.boost('police').saveableState.xpGained > 0 && gameModule._ticks % (30 * Display.framesPerSecond()) == 0) {
-            let baseXP = -1;
-            if (Shop.hasRepaired('fan')) {
-                baseXP *= 5;
-                if (Shop.boost('fan').saveableState.power == 1) {
-                    baseXP *= 3;
-                }
-                Shop.boost('fan').saveableState.xpGained = 0;
-            }
-            Shop.boost('police').gainXP(baseXP);
-            Display.notify('Heat from the police fades a bit', 'Police');
-        }
-        if (gameModule._ticks >= 60*60*Display.framesPerSecond()) {
-            gameModule._ticks = 0;
-        }
+        Shop.boost('fan').gainXP(elapsedMilliseconds);
     }
 
-    gameModule.updateBatteryLives = function updateBatteryLives() {
+    gameModule.updateBatteryLives = function updateBatteryLives(elapsedMilliseconds) {
         let batteryPoweredBoosts = Shop.boosts.filter(b => b.batteryPowered && b.saveableState.power == 1);
         batteryPoweredBoosts.forEach((boost) => {
-            boost.drainBattery(1);
+            boost.drainBattery(elapsedMilliseconds);
             if (boost.getBatteryLife() == 0) {
                 boost.saveableState.power = 0;
                 Display.notify("The battery is dead in ", boost.name);
@@ -161,6 +144,7 @@
                 Shop.boost('backyard').saveableState.power.nuts--;
                 Shop.unlock('fan');
                 Shop.buy('fan');
+                Display.notify("That dude sold you ... a broken fan ?!");
                 return;
             }
         }
@@ -169,6 +153,7 @@
                 Shop.boost('backyard').saveableState.power.nuts--;
                 Shop.unlock('syringe');
                 Shop.buy('syringe');
+                Display.notify("That dude sold you... a syringe now !? What ?");
                 return;
             }
         }
@@ -177,6 +162,7 @@
                 Shop.boost('backyard').saveableState.power.nuts--;
                 Shop.unlock('giantmagnet');
                 Shop.buy('giantmagnet');
+                Display.notify("Okay. A giant magnet. This is getting ridiculous");
                 return;
             }
         }

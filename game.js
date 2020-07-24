@@ -155,10 +155,10 @@
 		});
 	}
 	
-	Game.tick = function() {
-		Friends.friends.forEach((friend) => Friends.tick(friend));
-		Game.modules.filter(m => typeof(m.gameModule.tick) === typeof(Function)).forEach(m => m.gameModule.tick());
-		Shop.boosts.filter(b => typeof(b.tick) === typeof(Function)).forEach((boost) => boost.tick());
+	Game.tick = function(elapsedMilliseconds) {
+		Friends.friends.forEach((friend) => Friends.tick(friend, elapsedMilliseconds));
+		Game.modules.filter(m => typeof(m.gameModule.tick) === typeof(Function)).forEach(m => m.gameModule.tick(elapsedMilliseconds));
+		Shop.boosts.filter(b => typeof(b.tick) === typeof(Function)).forEach((boost) => boost.tick(elapsedMilliseconds));
 	}
 
 	Game.currency = function(currencyShortName) {

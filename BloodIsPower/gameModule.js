@@ -178,10 +178,10 @@
         }
     }
 
-    gameModule.tick = function() {
+    gameModule.tick = function(elapsedMilliseconds) {
 		if (Shop.has('kriss') && !Shop.boost('sacrifice-mc').isUnlocked() && !Shop.boost('sacrifice-mm').isUnlocked() )
 		{
-			let sacrificeChance = 0.0005;
+			let sacrificeChance = 0.00005 * elapsedMilliseconds;
 			if (Shop.has('posters'))
 				sacrificeChance *= 2;
 			if (Shop.has('pheromones'))
@@ -194,7 +194,7 @@
 			}
 		}
 		if (Shop.has('giantbloodrats') && !Shop.boost('giantrat').isUnlocked()) {
-			let giantRatChance = 0.0005;
+			let giantRatChance = 0.0005 * elapsedMilliseconds;
 			if (Math.random() < giantRatChance) {
 				Shop.unlock('giantrat');
 				if (!Shop.has('bloodcatalyzer')) {

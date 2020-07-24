@@ -40,10 +40,10 @@
                 return this.applyXpBonus(this.saveableState.bought);
             },
             applyXpBonus: settings.applyXpBonus || ((baseXp) => baseXp),
-            getTicksNeededToActivate: function() { return this.baseTicksPerMove; },
+            getTicksNeededToActivate: function() { return this.baseMSPerMove; },
             getName: function() { return this.name + (this.saveableState.bought > 0 ? ' (lvl ' + this.saveableState.bought + ')' : ''); },
             getActivationFrequencyDescription: function() {
-                let activationsPerSecond = Display.framesPerSecond() / this.getTicksNeededToActivate();
+                let activationsPerSecond = 1000 / this.getTicksNeededToActivate();
                 return 'Activates ' + (activationsPerSecond > 1 ? activationsPerSecond + ' times': 'once') + ' per second';
             },
             getCosts: function() {
@@ -75,7 +75,7 @@
             }
             return desc + this.getActivationFrequencyDescription();
         },
-        baseTicksPerMove: 10,
+        baseMSPerMove: 100,
         costsIncrement: 1.6,
         baseCosts: {
             levels: {
@@ -91,8 +91,8 @@
             }
             return baseXp;
         },
-        activate: function() {
-            let xp = this.getXpPerActivation();
+        activate: function(activations) {
+            let xp = this.getXpPerActivation() * activations;
             if (Shop.has('deepcuts')) {
                 let chance = 0.10;
                 if (chance >= Math.random()) {
@@ -108,12 +108,12 @@
             }
             Game.acquireXp('MM', xp);
             if (Shop.has('haxxoraldo')) {
-                let dwkxp = this.getDWKXpPerActivation();
+                let dwkxp = this.getDWKXpPerActivation() * activations;
                 Game.acquireXp('DWK', dwkxp);
             }
         },
         getDWKXpPerActivation: function() {
-            return 1;
+            return 0.1 * this.getLevel();
         },
         bloodNeededToBeFull: 50,
         isFullOfBlood: function() {
@@ -141,9 +141,9 @@
             return desc + this.getActivationFrequencyDescription();;
         },
         getDWKXpPerActivation: function() {
-            return 5;
+            return 0.5 * this.getLevel();
         },
-        baseTicksPerMove: 50,
+        baseMSPerMove: 500,
         costsIncrement: 1.6,
         baseCosts: {
             levels: {
@@ -163,8 +163,8 @@
             return baseXp;
         },
         bloodNeededToBeFull: 50,
-        activate: function() {
-            let xp = this.getXpPerActivation();
+        activate: function(activations) {
+            let xp = this.getXpPerActivation() * activations;
             if (Shop.has('deepcuts')) {
                 let chance = 0.10;
                 if (chance >= Math.random()) {
@@ -180,7 +180,7 @@
             }
             Game.acquireXp('MC', xp);
             if (Shop.has('haxxorbarnabeus')) {
-                let dwkxp = this.getDWKXpPerActivation();
+                let dwkxp = this.getDWKXpPerActivation() * activations;
                 Game.acquireXp('DWK', dwkxp);
             }
         },
@@ -215,13 +215,14 @@
             friend.onBuy();
 	}
     
-    Friends.tick = function(friend) {
+    Friends.tick = function(friend, elapsedMilliseconds) {
         if (!friend.saveableState.bought) return;
-        friend.saveableState.ticks++;
+        friend.saveableState.ticks += elapsedMilliseconds;
 
-        while (friend.saveableState.ticks >= friend.getTicksNeededToActivate()) {
-            friend.saveableState.ticks -= friend.getTicksNeededToActivate();
-            friend.activate();
+        if (friend.saveableState.ticks >= friend.getTicksNeededToActivate()) {
+            let activations = Math.floor(friend.saveableState.ticks / friend.getTicksNeededToActivate());
+            friend.activate(activations);
+            friend.saveableState.ticks -= activations * friend.getTicksNeededToActivate();
         }
     }
 

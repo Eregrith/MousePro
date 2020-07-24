@@ -114,4 +114,6 @@
         return tab.shortName;
     }
 
+    Tabs.toggleActiveTabTo('game');
+
 })(gameObjects.Display, gameObjects.Tabs);
