@@ -41,8 +41,10 @@ ul {
 }
 
 .scroller {
-	height: 94%;
+	height: 90%;
 	overflow-y: auto;
+    display: block;
+    width: auto;
 }
 
 .btn {
@@ -226,10 +228,12 @@ body[gameFont=Helvetica] .boost-ephemeral {
 .shop::before {
 	content: 'SHOP';
 	position: relative;
-	top: -10px;
+	top: -15px;
 	left: 10px;
 	background: var(--background-color);
 	padding: 5px;
+	display: block;
+	width: 80px;
 }
 
 /*
@@ -314,10 +318,12 @@ body[gameFont=Helvetica] .friend-desc {
 .owned::before {
 	content: 'OWNED BOOSTS';
 	position: relative;
-	top: -10px;
+	top: -15px;
 	left: 10px;
 	background: var(--background-color);
 	padding: 5px;
+	width: 150px;
+	display: block;
 }
 
 /*
@@ -393,6 +399,28 @@ body[gameFont=Helvetica] .friend-desc {
 -webkit-transform: translate(-50%,0%);
     -ms-transform: translate(-50%,0%);
         transform: translate(-50%,0%);
+}
+
+#tab-log .scroller {
+	height: 80%;
+}
+
+.log-item {
+	font-size: 8pt;
+}
+
+body[gameFont=Helvetica] .log-item {
+	font-size: 12pt;
+}
+
+.log-time {
+	width: 65px;
+	display:inline-block;
+}
+
+.log-category {
+	width: 100px;
+	display:inline-block;
 }
 
 /*

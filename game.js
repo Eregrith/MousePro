@@ -28,7 +28,8 @@
 					if (Shop.has('bloodbalancer') && Game.currency('MM').getLevel() < Game.currency('MC').getLevel()) {
 						baseXp *= Math.floor(Game.currency('blood').getXp());
 					}
-					Game.acquireXp('MM', baseXp);
+					if (isFinite(me.saveableState.xp))
+						Game.acquireXp('MM', baseXp);
 				}
 				if (Shop.has('rxt')) {
 					let xp = Shop.boost('rxt').bonusXp;
@@ -43,13 +44,15 @@
 						Shop.boost('rxtinjectordown').gainXP(1);
 					}
 					xp *= (Shop.has('addonenhancer') ? Shop.boost('addonenhancer').saveableState.power : 1);
-					Game.acquireXp('MC', xp);
+					if (isFinite(Game.currency('MC').saveableState.xp))
+						Game.acquireXp('MC', xp);
 				}
 			},
 			xpGained: function(currency) {
 				if (Shop.has('rmm') && currency.getXp() % 5 === 0)
 					currency.setXp(currency.getXp() + Shop.boost('rmm').bonusXp * (Shop.has('addonenhancer') ? Shop.boost('addonenhancer').saveableState.power : 1));
-			}
+			},
+			order: 1,
 		});
 	Currencies.newCurrency({
 			name: 'Mouse Clicker',
@@ -70,7 +73,8 @@
 					if (Shop.has('bloodbalancer') && Game.currency('MC').getLevel() < Game.currency('MM').getLevel()) {
 						baseXp *= Math.floor(Game.currency('blood').getXp());
 					}
-					Game.acquireXp('MC', baseXp);
+					if (isFinite(me.saveableState.xp))
+						Game.acquireXp('MC', baseXp);
 				}
 				if (Shop.has('rxt')) {
 					let xp = Shop.boost('rxt').bonusXp;
@@ -85,13 +89,15 @@
 						Shop.boost('rxtinjectorup').gainXP(1);
 					}
 					xp *= (Shop.has('addonenhancer') ? Shop.boost('addonenhancer').saveableState.power : 1);
-					Game.acquireXp('MM', xp);
+					if (isFinite(Game.currency('MM').saveableState.xp))
+						Game.acquireXp('MM', xp);
 				}
 			},
 			xpGained: function(currency) {
 				if (Shop.has('rmc') && currency.getXp() % 5 === 0)
 					currency.setXp(currency.getXp() + Shop.boost('rmc').bonusXp * (Shop.has('addonenhancer') ? Shop.boost('addonenhancer').saveableState.power : 1));
-			}
+			},
+			order: 1
 		});
 
 	Game.checkUnlocks = function() {
@@ -119,6 +125,9 @@
 				}
 			}
 		});
+		if (Shop.has('friends') && !Friends.friend('aldo').canBuy()) {
+			Friends.unlock('aldo');
+		}
 		if (Friends.friend('aldo').saveableState.bought >= 5 && !Shop.has('rxtinjectordown')) {
 			Shop.unlock('rxtinjectordown');
 		}
@@ -146,10 +155,10 @@
 		});
 	}
 	
-	Game.tick = function() {
-		Friends.friends.forEach((friend) => Friends.tick(friend));
-		Game.modules.filter(m => typeof(m.gameModule.tick) === typeof(Function)).forEach(m => m.gameModule.tick());
-		Shop.boosts.filter(b => typeof(b.tick) === typeof(Function)).forEach((boost) => boost.tick());
+	Game.tick = function(elapsedMilliseconds) {
+		Friends.friends.forEach((friend) => Friends.tick(friend, elapsedMilliseconds));
+		Game.modules.filter(m => typeof(m.gameModule.tick) === typeof(Function)).forEach(m => m.gameModule.tick(elapsedMilliseconds));
+		Shop.boosts.filter(b => typeof(b.tick) === typeof(Function)).forEach((boost) => boost.tick(elapsedMilliseconds));
 	}
 
 	Game.currency = function(currencyShortName) {

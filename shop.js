@@ -5,7 +5,7 @@
 * Shop.js
 */
 
-(function (Game, Boosts, Friends, Display, Shop, Loot, Tabs) {
+(function (Game, Shop) {
 
 	Shop.boost = function(shortName) {
 		return Shop.boosts.filter(b => b.shortName == shortName)[0];
@@ -19,27 +19,24 @@
 	
 	Shop.buy = function(shortName) {
 		let boost = Shop.boost(shortName);
-		if (!boost) return;
+		if (!boost) { console.log("no boost with shortname", shortName); return; }
 		
-		if (!Game.hasCurrency(boost.getCost())) return;
+		if (!Game.hasCurrency(boost.getCost())) { console.log("not enough currency for boost", boost); return; }
 		
 		Game.spend(boost.getCost());
 		boost.buy();
-		Display.needsRepaintImmediate = true;
 	}
 	
 	Shop.unlock = function(shortName) {
 		let boost = Shop.boost(shortName);
 		if (!boost) return;
 		boost.unlock();
-		Display.needsRepaintImmediate = true;
 	}
 	
 	Shop.lock = function(shortName) {
 		let boost = Shop.boost(shortName);
 		if (!boost) return;
 		boost.lock();
-		Display.needsRepaintImmediate = true;
 	}
 
 	Shop.isAvailable = function(shortName) {
@@ -57,4 +54,4 @@
 		return boost.saveableState.xpGained >= boost.xpNeededToBeFull;
 	}
 
-})(gameObjects.Game, gameObjects.Boosts, gameObjects.Friends, gameObjects.Display, gameObjects.Shop, gameObjects.Loot, gameObjects.Tabs);
+})(gameObjects.Game, gameObjects.Shop);

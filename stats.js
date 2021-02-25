@@ -18,7 +18,7 @@
         document.getElementById('sacrificed-mm').innerHTML = Shop.boost('sacrifice-mm').getPower();
         document.getElementById('sacrificed-mc').innerHTML = Shop.boost('sacrifice-mc').getPower();
 
-        document.getElementById('ticks-per-second').innerHTML = Display.framesPerSecond();
+        document.getElementById('ticks-per-second').innerHTML = Display.beautify(Display.framesPerSecond());
 
         document.getElementById('ephemeralDeaths').innerHTML = Shop.boost('anchor').getPower();
     }

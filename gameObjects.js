@@ -14,8 +14,10 @@ let gameObjects = {
 		boosts: []
 	},
 	Boosts: {},
+	BoostCategories: {},
 	Achievements: {},
 	Display: {},
+	Log: {},
 	Friends: {
 		friends: []
 	},

@@ -88,8 +88,8 @@
            && !Shop.isAvailable('ratscavengers')) {
             Shop.unlock('ratscavengers');
         }
-        if (Friends.friend('aldo').getLevel() == 10
-            && Friends.friend('barnabeus').getLevel() == 10
+        if (Friends.friend('aldo').getLevel() >= 10
+            && Friends.friend('barnabeus').getLevel() >= 10
             && !Shop.isAvailable('rxtbloodinjector')) {
             Shop.unlock('rxtbloodinjector');
         }
@@ -134,7 +134,8 @@
         });
         sacrificeRatio = sacrificeRatio.toFixed(2);
         Game.acquireXp(currency, Game.currency(currency).xpRequiredForNextLevel() * sacrificeRatio);
-        Display.notify('You won ' + (sacrificeRatio * 100) + '% required ' + currency + ' xp', 'generic');
+        if (!Shop.boost('ottovonsacrifice').isActive())
+            Display.notify('You won ' + (sacrificeRatio * 100) + '% required ' + currency + ' xp', 'generic');
         Shop.lock('sacrifice-mm');
         Shop.lock('sacrifice-mc');
         Loot.tryLootCategory('knifepart');
@@ -159,7 +160,6 @@
         if (boost.ephemeral && boost.isUnlocked()) {
             boost.die(true);
             gameModule.harvestBlood(1);
-            Display.needsRepaintImmediate = true;
         }
     }
 
@@ -167,7 +167,6 @@
         rat.lock();
         gameModule.harvestBlood(1);
         Loot.tryLootCategory('ratstomach');
-        Display.needsRepaintImmediate = true;
     }
 
     gameModule.toggleBoost = function(shortName) {
@@ -177,13 +176,12 @@
         } else {
             boost.activate();
         }
-        Display.needsRepaintImmediate = true;
     }
 
-    gameModule.tick = function() {
+    gameModule.tick = function(elapsedMilliseconds) {
 		if (Shop.has('kriss') && !Shop.boost('sacrifice-mc').isUnlocked() && !Shop.boost('sacrifice-mm').isUnlocked() )
 		{
-			let sacrificeChance = 0.0005;
+			let sacrificeChance = 0.00005 * elapsedMilliseconds;
 			if (Shop.has('posters'))
 				sacrificeChance *= 2;
 			if (Shop.has('pheromones')) {
@@ -198,7 +196,7 @@
 			}
 		}
 		if (Shop.has('giantbloodrats') && !Shop.boost('giantrat').isUnlocked()) {
-			let giantRatChance = 0.0005;
+			let giantRatChance = 0.0005 * elapsedMilliseconds;
 			if (Math.random() < giantRatChance) {
 				Shop.unlock('giantrat');
 				if (!Shop.has('bloodcatalyzer')) {

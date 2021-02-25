@@ -55,9 +55,18 @@
             },
             acquireXp: function(amount) {
                 this.saveableState.xp += amount;
-                this.saveableState.xp = Math.round(this.saveableState.xp * 100) / 100;
-                if (settings.xpGained)
-                    settings.xpGained(this);
+                if (isFinite(this.saveableState.xp)) {
+                    this.saveableState.xp = Math.round(this.saveableState.xp * 100) / 100;
+                    if (isNaN(this.saveableState.xp)) this.saveableState.xp = 0;
+                    if (settings.xpGained)
+                        settings.xpGained(this);
+                    this.checkLevelUps();
+                } else {
+                    this.levelUp();
+                }
+            },
+            acquireLevels: function(amount) {
+                this.saveableState.level += amount;
                 this.checkLevelUps();
             },
             checkLevelUps: function() {

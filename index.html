@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>MousePro</title>
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0-12/css/all.css" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.css" crossorigin="anonymous">
 	<link rel="stylesheet" href="mousePro.css" />
 	<link rel="stylesheet" href="BloodIsPower/module.css" />
 	<link rel="stylesheet" href="DigitalDarkness/module.css" />
@@ -23,6 +23,14 @@
 		<div id="currency-bloodSpikes-icon"><i class="fa fa-bolt red red-glow"></i></div>
 		<div id="currency-bloodSpikes-levels"></div>
 	</div>
+	<div id="bolts" style="display:none">
+		<div id="bolts-icon"><i class="fa fa-cog digital digital-glow"></i></div>
+		<div id="bolts-amount"></div>
+	</div>
+	<div id="batteries" style="display:none">
+		<div id="batteries-icon"><i class="fa fa-battery-full digital digital-glow"></i></div>
+		<div id="batteries-amount"></div>
+	</div>
 	<ul id="tabs"></ul>
 	
 	<div class="tab tab-active" id="tab-game">
@@ -33,10 +41,13 @@
 		</div>
 
 		<div class="friends" style="display:none">
-			<ul id="friends"></ul>
+			<div class="scroller">
+				<ul id="friends"></ul>
+			</div>
 		</div>
 		
 		<div class="owned" style="display:none">
+			<ul id="categories" style="display:none"></ul>
 			<div class="scroller">
 				<ul id="owned"></ul>
 			</div>
@@ -78,15 +89,30 @@
 				<li>&nbsp;</li>
 				<li><span id="ephemeralDeaths"></span> ephemeral boosts have died without being used.</li>
 				<li>&nbsp;</li>
-				<li>Game is running at <span id="ticks-per-second"></span> ticks per second</li>
+				<li>Game is running at <span id="ticks-per-second"></span> frames per second</li>
 			</ul>
 		</div>
+	</div>
+	<div class="tab" id="tab-log">
+		<div class="scroller">
+			<ul id="log"></div>
+		</div>
+	</div>
+	<div class="tab" id="tab-perfs">
+		<div style="position: relative; height:600px; width:1000px;">
+			<canvas id="perf-chart" width="1000" height="600"></canvas>
+		</div>
+		<div class="btn" onclick="gameObjects.Display.createGraph()">Activate</div>
+		<div class="btn" onclick="gameObjects.Display.stopGraph()">Stop</div>
 	</div>
 	<div class="saveExport" id="saveExport" style="display:none">
 		<div class="saveExportCaption">Your save:</div>
 		<div class="saveExportClose" onclick="gameObjects.Display.closeSaveExport()">X</div>
 		<textarea class="saveExportText" id="saveExportText"></textarea>
 	</div>
+
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+
 	<script type="text/javascript" src="lib/color_interpolation.js"></script>
 	<script type="text/javascript" src="gameObjects.js"></script>
 	<script type="text/javascript" src="modules.js"></script>
@@ -97,6 +123,11 @@
 	<script type="text/javascript" src="mainboosts.js"></script>
 	<script type="text/javascript" src="shop.js"></script>
 	<script type="text/javascript" src="loot.js"></script>
+	<script type="text/javascript" src="log.js"></script>
+	<script type="text/javascript" src="friends.js"></script>
+	<script type="text/javascript" src="game.js"></script>
+	<script type="text/javascript" src="display_builditems.js"></script>
+	<script type="text/javascript" src="display.js"></script>
 	<script type="text/javascript" src="BloodIsPower/achievements.js"></script>
 	<script type="text/javascript" src="BloodIsPower/gameModule.js"></script>
 	<script type="text/javascript" src="BloodIsPower/displayModule.js"></script>
@@ -104,11 +135,13 @@
 	<script type="text/javascript" src="BloodIsPower/loot.js"></script>
 	<script type="text/javascript" src="DigitalDarkness/achievements.js"></script>
 	<script type="text/javascript" src="DigitalDarkness/gameModule.js"></script>
+	<script type="text/javascript" src="DigitalDarkness/displayModule.js"></script>
 	<script type="text/javascript" src="DigitalDarkness/mainboosts.js"></script>
-	<script type="text/javascript" src="friends.js"></script>
-	<script type="text/javascript" src="game.js"></script>
-	<script type="text/javascript" src="display.js"></script>
+	<script type="text/javascript" src="DigitalDarkness/loot.js"></script>
+	<script type="text/javascript" src="DigitalDarkness/boostCategories.js"></script>
+	<script type="text/javascript" src="DigitalDarkness/shop.js"></script>
 	<script type="text/javascript" src="save.js"></script>
 	<script type="text/javascript" src="stats.js"></script>
+	<script type="text/javascript" src="start.js"></script>
 </body>
 </html>
