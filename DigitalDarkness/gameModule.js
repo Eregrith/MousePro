@@ -139,7 +139,9 @@
     }
 
     gameModule.buyPackage = function buyPackage() {
-        if (!Shop.has('fan') && Shop.has('backyard')) {
+        if (!Shop.has('backyard')) return;
+
+        if (!Shop.has('fan')) {
             if (Shop.boost('backyard').saveableState.power.nuts >= 1) {
                 Shop.boost('backyard').saveableState.power.nuts--;
                 Shop.unlock('fan');
@@ -148,7 +150,7 @@
                 return;
             }
         }
-        if (!Shop.has('syringe') && Shop.has('backyard')) {
+        if (!Shop.has('syringe')) {
             if (Shop.boost('backyard').saveableState.power.nuts >= 1) {
                 Shop.boost('backyard').saveableState.power.nuts--;
                 Shop.unlock('syringe');
@@ -157,7 +159,7 @@
                 return;
             }
         }
-        if (!Shop.has('giantmagnet') && Shop.has('backyard')) {
+        if (!Shop.has('giantmagnet')) {
             if (Shop.boost('backyard').saveableState.power.nuts >= 1) {
                 Shop.boost('backyard').saveableState.power.nuts--;
                 Shop.unlock('giantmagnet');
@@ -165,6 +167,10 @@
                 Display.notify("Okay. A giant magnet. This is getting ridiculous");
                 return;
             }
+        }
+
+        if (Shop.getDealerBoosts().filter(b => !b.isBought()).length == 0) {
+            Shop.boost('dealer').saveableState.power = 0;
         }
     }
 

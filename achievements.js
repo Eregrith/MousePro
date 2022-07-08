@@ -105,12 +105,6 @@ Achievements = {};
 			shortName: 'ephemeral',
 			description: 'Miss 10 ephemeral boosts by letting them die',
 			acquired: false
-		},
-		{
-			name: 'Where\'s my talent point?',
-			shortName: 'talentpoint',
-			description: 'Reach level 10 with one friend',
-			acquired: false
 		}
 	];
 	
