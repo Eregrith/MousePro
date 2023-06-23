@@ -25,7 +25,7 @@
 			let desc = 'An old TV, maybe you can repair it ?';
 			if (this.isBought())
 			{
-				if (this.saveableState.power === 0) {
+				if (this.isRepaired()) {
 					desc = 'To repair this, you need ' + (this.xpNeededToBeFull - (this.saveableState.xpGained || 0)) + ' nuts and bolts';
 				} else {
 					desc = 'A nice computer screen.';
@@ -392,14 +392,14 @@
 		category: 'digital',
 		repairable: true,
 		boltsNeededToRepair: 10,
-		hasXP: true,
+		hasXP: false,
 		xpNeededToBeFull: 30000,
 		xpBarColor: 'var(--digital-color)',
 		batteryPowered: true,
 		maxBatteryLife: 5 * 60 * 1000,
 		getDescription: function () {
 			let desc = 'A broken fan.';
-			if (this.isRepaired()) {
+			if (this.isBought() && this.isRepaired()) {
 				desc = 'This will help dissipate heat from the police.';
 				if (Shop.has('batteries')) {
 					if (this.saveableState.power == 0) {
@@ -425,6 +425,14 @@
 				}
 				Shop.boost('police').gainXP(baseXP);
 				Display.notify('Heat from the police fades a bit', 'Police');
+			}
+		},
+		buy: function(me) {
+			me.hasXP = true;
+		},
+		onRestoreSave: function(me) {
+			if (me.isBought() && me.isRepaired()) {
+				me.hasXP = true;
 			}
 		},
 		shortName: 'fan',
