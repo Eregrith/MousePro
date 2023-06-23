@@ -366,10 +366,14 @@
 		name: 'Dark Web Newsletter',
 		icon: 'envelope digital',
 		category: 'digital',
+		xpNeededToBeFull: 20000,
+		xpBarColor: 'var(--digital-color)',
+		isFullXP: function (me) {
+			me.saveableState.xpGained = 0;
+			Game.getModule('dd').receiveNewsletter();
+		},
 		getDescription: function () {
 			let desc = 'Subscribe to our newsletter and get some knowledge about the dark web from time to time.';
-			if (this.isBought())
-				desc += '<br>&nbsp;';
 			return desc;
 		},
 		shortName: 'newsletter',
@@ -378,7 +382,8 @@
 				DWK: 15,
 			}
 		},
-		isLoot: true
+		isLoot: true,
+		hasXP: true
 	});
 	Boosts.newBoost({
 		name: 'Broken Fan',
