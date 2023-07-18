@@ -11,4 +11,8 @@
         return Shop.has(shortName) && Shop.boost(shortName).isRepaired();
     }
 
+    Shop.getDealerBoosts = function() {
+        return Shop.boosts.filter(b => b.fromDealer);
+    }
+
 })(gameObjects.Shop);

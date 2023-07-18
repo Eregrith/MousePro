@@ -88,7 +88,7 @@
             let boost = Shop.boost(savedBoost.shortName);
             boost.saveableState = savedBoost.saveableState;
             if (typeof(boost.onRestoreSave) === typeof(Function)) {
-                boost.onRestoreSave();
+                boost.onRestoreSave(boost);
             }
             if (boost.saveableState.bloodEaten)
                 boost.saveableState.xpGained = boost.saveableState.bloodEaten;

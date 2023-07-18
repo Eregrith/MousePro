@@ -58,10 +58,14 @@
             && !Shop.isAvailable('bloodthirstyaldo')) {
                 Shop.unlock('bloodthirstyaldo');
         }
-        if ((sacrificeMC.saveableState.power >= 50
-            || sacrificeMM.saveableState.power >= 50)
+        if ((sacrificeMC.saveableState.power >= 40
+            || sacrificeMM.saveableState.power >= 40)
             && !Shop.isAvailable('ottovonsacrifice')) {
             Shop.unlock('ottovonsacrifice');
+        }
+        if ((sacrificeMC.saveableState.power >= 50
+            || sacrificeMM.saveableState.power >= 50)) {
+            Achievements.gain('fiftyfifty')
         }
         if (Shop.boost('truekriss').getPower() >= 20
             && !Shop.isAvailable('biggerbuckets')) {
@@ -78,6 +82,7 @@
         if (Friends.friend('aldo').getXpPerActivation() > 10000
            && !Shop.isAvailable('bloodthirstybarnabeus')) {
             Shop.unlock('bloodthirstybarnabeus');
+            Achievements.gain('10kjealousy');
         }
         if (Friends.friend('aldo').getXpPerActivation() > 100000
            && !Shop.isAvailable('deepcuts')) {

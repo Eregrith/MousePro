@@ -89,6 +89,9 @@
                     baseXp *= Math.floor(Game.currency('blood').getXp());
                 }
             }
+            if (Shop.has('hackingfordummies')) {
+                baseXp *= Math.pow(1.1337, Shop.boost('hackingfordummies').getPower());
+            }
             return baseXp;
         },
         activate: function(activations) {
